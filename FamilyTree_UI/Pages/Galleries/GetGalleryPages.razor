@@ -1,0 +1,24 @@
+﻿@page "/Getgallery"
+@using FamilyTree_UI.Shared.Component
+@inherits LayoutComponentBase
+
+<link href="css/Getgallery.css" rel="stylesheet" />
+<link href="css/Loader.css" rel="stylesheet" />
+
+<div class="gallery-grid">
+    @if (gallerySetupslist != null && gallerySetupslist.Count > 0)
+    {
+        @foreach (var image in gallerySetupslist)
+        {
+            <div class="image-card">
+                <img src="@image.ImageSrc" alt="@image.PhotoName" class="gallery-image" />
+                <button class="image-overlay-button">
+                    <p>@ConvertNE.ConvertEToNWithSlash(@image.DateofPhoto)</p>
+                    <p>@image.PhotoName</p>
+                    <p>@image.Description</p>
+                </button>
+            </div>
+        }
+    }
+</div>
+

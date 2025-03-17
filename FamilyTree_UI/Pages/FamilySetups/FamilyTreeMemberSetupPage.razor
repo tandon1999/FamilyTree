@@ -1,0 +1,227 @@
+﻿@page "/familysetup"
+@using FamilyTree_UI.Shared.Component
+@using FamilyTree_UI.Shared.Services
+@using Microsoft.AspNetCore.Components.Forms
+@inject IJSRuntime JSRuntime
+@inject ConfirmDialogService dialog
+<div class="family-setup-container">
+    <h3>Tandan Family Setup</h3>
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="image-upload-section">
+                <div class="image-upload-box">
+                    @if (string.IsNullOrEmpty(uploadedImageUrl))
+                    {
+                        <p>No image selected</p>
+                    }
+                    else
+                    {
+                        <img src="@uploadedImageUrl" alt="Profile Picture" class="preview-image" />
+                    }
+                </div>
+                <div class="upload-btn-container">
+                    <label for="ProfilePicture" class="upload-btn">
+                        <i class="bi bi-upload"></i> Upload Image
+                    </label>
+                    <InputFile class="d-none" id="ProfilePicture" OnChange="HandleFileSelected" />
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-8">
+            <EditForm Model="@memberSetupModel" OnValidSubmit="Save">
+                <DataAnnotationsValidator />
+                <ValidationSummary />
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="FirstName">First Name</label>
+                            <InputText class="form-control" id="FirstName" @bind-Value="@memberSetupModel.FirstName" placeholder="Enter First Name" />
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="MiddleName">Middle Name</label>
+                            <InputText class="form-control" id="MiddleName" @bind-Value="@memberSetupModel.MiddleName" placeholder="Enter Middle Name" />
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="LastName">Last Name</label>
+                            <InputText class="form-control" id="LastName" @bind-Value="@memberSetupModel.LastName" />
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="Gender">Gender</label>
+                            <AutoCompleteSelect Type="tblgender" Value="@memberSetupModel.Gender.ToString()" ValueChanged="@((Id)=>memberSetupModel.Gender= int.Parse(Id))"></AutoCompleteSelect>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="MatrialStatus">Marital Status</label>
+                            <AutoCompleteSelect Type="tblMatrialStatus" Value="@memberSetupModel.MatrialStatus.ToString()" ValueChanged="@((Id)=>memberSetupModel.MatrialStatus= int.Parse(Id))"></AutoCompleteSelect>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="Occupation">Occupation</label>
+                            <AutoCompleteSelect Type="tblOccupation" Value="@memberSetupModel.Occupation.ToString()" ValueChanged="@((Id)=>memberSetupModel.Occupation= int.Parse(Id))"></AutoCompleteSelect>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="FatherName">Father Name</label>
+                            <AutoCompleteSelect Type="tblfather" Value="@memberSetupModel.FatherName.ToString()" ValueChanged="@((Id)=>memberSetupModel.FatherName= int.Parse(Id))"></AutoCompleteSelect>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="MotherName">Mother Name</label>
+                            <AutoCompleteSelect Type="tblMother" Value="@memberSetupModel.MotherName.ToString()" ValueChanged="@((Id)=>memberSetupModel.MotherName= int.Parse(Id))"></AutoCompleteSelect>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="HusbandId">Husband Name</label>
+                            <AutoCompleteSelect Type="tblhusband" Value="@memberSetupModel.HusbandId.ToString()" ValueChanged="@((Id)=>memberSetupModel.HusbandId= int.Parse(Id))"></AutoCompleteSelect>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="WIfeId">Wife Name</label>
+                            <AutoCompleteSelect Type="tblwife" Value="@memberSetupModel.WIfeId.ToString()" ValueChanged="@((Id)=>memberSetupModel.WIfeId= int.Parse(Id))"></AutoCompleteSelect>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="DOB">Date of Birth</label>
+                            <InputDate class="form-control" id="DOB" @bind-Value="@memberSetupModel.DOB" @oninput="((ChangeEventArgs e) => CalculateAge(e, 1))" />
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="Age">Age</label>
+                            <InputNumber class="form-control" id="Age" @bind-Value="@memberSetupModel.Age" ReadOnly />
+                        </div>
+                    </div>
+                    <div class="col-md-2 mt-4">
+                        <div class="form-group">
+                            <label for="IsDeath">Is Death?</label>
+                            <InputCheckbox id="IsDeath" @bind-Value="@memberSetupModel.IsDeath" @onclick="ClearDate" />
+                        </div>
+                    </div>
+
+                    @if (memberSetupModel.IsDeath)
+                    {
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="DeathDate">Death Date</label>
+                                <InputDate class="form-control" id="DeathDate" @bind-Value="@memberSetupModel.DeathDate" @oninput="((ChangeEventArgs e) => CalculateAge(e, 2))" />
+                            </div>
+                        </div>
+                    }
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="NoOfChildren">No of Children</label>
+                            <InputNumber class="form-control" id="NoOfChildren" @bind-Value="@memberSetupModel.NumberOfChildren" />
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="Address">Address</label>
+                            <InputTextArea class="form-control" id="Address" @bind-Value="@memberSetupModel.Address" placeholder="Enter address..." />
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="Description">Description</label>
+                            <InputTextArea class="form-control" id="Description" @bind-Value="@memberSetupModel.Description" placeholder="Add more information..." />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-12 mt-3 text-end">
+                    <button type="submit" class="btn @(memberSetupModel.Id != 0 ? "btn-primary" : "btn-primary")">
+                        @(memberSetupModel.Id != 0 ? "Update" : "Save")
+                    </button>
+                </div>
+            </EditForm>
+        </div>
+    </div>
+</div>
+
+<style>
+    .family-setup-container {
+        padding: 40px;
+        background-color: #f8f9fa;
+        border-radius: 15px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+        .family-setup-container h3 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #333;
+            font-size: 28px;
+            font-weight: 600;
+        }
+
+    .image-upload-section {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 30px;
+    }
+
+    .image-upload-box {
+        border: 2px dashed #ccc;
+        padding: 20px;
+        border-radius: 10px;
+        width: 250px;
+        height: 250px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+        background-color: #e9ecef;
+        margin-bottom: 20px;
+    }
+
+    .upload-btn {
+        display: inline-block;
+        background-color: #007bff;
+        color: white;
+        padding: 12px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: background-color 0.3s;
+    }
+
+        .upload-btn:hover {
+            background-color: #0056b3;
+        }
+
+    .preview-image {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: cover;
+        border-radius: 5px;
+    }
+
+    .upload-btn-container {
+        text-align: center;
+    }
+
+    .image-modal {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>

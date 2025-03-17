@@ -1,0 +1,326 @@
+﻿@page "/"
+<PageTitle>Family Tree</PageTitle>
+
+<div class="container mt-5">
+
+    <div class="hero bg-light text-center py-5 mb-5">
+        <h1 class="hero-title">हरेक परिवारको एउटा कथा हुन्छ</h1>
+        <p class="hero-subtitle">यो कथा १८७८ मा सुरु हुन्छ, जुन वर्ष <b>परशुराम टन्डन</b> जन्मेका थिए।</p>
+
+        <div class="d-flex justify-content-center mb-5" id="searchContainer">
+            <div class="col-md-6 col-sm-8 col-10">
+                <div class="search-container">
+                    <input type="text" class="form-control search-input" placeholder="Search" @bind="nameFilter" @bind:event="oninput"  />
+                    <span class="material-symbols-outlined search-icon" @onclick="CheckName">
+                        search
+                    </span>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="row justify-content-center search-results" id="searchResults">
+            <div class="col-md-8">
+                @if (familyTreeMemberlist != null && familyTreeMemberlist.Any())
+                {
+                    <div class="row">
+                        @foreach (var member in familyTreeMemberlist)
+                        {
+                            <div class="col-md-6 mb-4">
+                                <div class="card" @onclick="()=>Redirecttouserprofile(member.Id)" style="cursor:pointer">
+                                    <img src="@member.ImageSrc" class="card-img-top" alt="Member Image" style="max-height: 200px; object-fit: cover;" />
+                                    <div class="card-body">
+                                        <h5 class="card-title">@member.FullName</h5>
+                                        <p class="card-text">
+                                            <strong>Date of Birth:</strong> @ConvertNE.ConvertEToNWithSlash(member.DOB)<br />
+                                            <strong>Age:</strong> @member.Age<br />
+                                            <strong>Occupation:</strong> @member.OccupationType
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                }
+                else if (!string.IsNullOrWhiteSpace(nameFilter))
+                {
+                    <p class="mt-3">No family tree members found for "<strong>@nameFilter</strong>".</p>
+                }
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="row mb-4">
+        <div class="col-md-3 text-center get-to-know-item">
+            <h2 class="get-to-know-title">Get To Know Family Members/ परिवारका सदस्यहरूलाई चिन्नुहोस्</h2>
+            <button class="btn btn-outline-primary" @onclick="()=> Navigate(1)">Open Directory</button>
+        </div>
+        <div class="col-md-3 text-center get-to-know-item">
+            <h2 class="get-to-know-title">Unfold the Roots of Parshuram Tandan/परशुराम टण्डनको जरा उजागर गर्नुहोस्</h2>
+            <button class="btn btn-outline-primary" @onclick="()=> Navigate(2)">Open Family Tree</button>
+        </div>
+        <div class="col-md-3 text-center get-to-know-item">
+            <h2 class="get-to-know-title">Witness the Past Through Events/विगतका घटनाहरू</h2>
+            <button class="btn btn-outline-primary" @onclick="()=> Navigate(3)">Open Timeline</button>
+        </div>
+        <div class="col-md-3 text-center get-to-know-item">
+            <h2 class="get-to-know-title">Enjoy the Photos of Past & Present/विगत र वर्तमानका तस्बिरहरूको आनन्द लिनुहोस्</h2>
+            <button class="btn btn-outline-primary" @onclick="()=> Navigate(4)">Open Galleries</button>
+        </div>
+    </div>
+
+
+    <div class="row mb-5">
+        <div class="col-12">
+            <h2 class="text-left">Upcoming Anniversaries</h2>
+            <div class="text-left mb-3">
+                <span class="text-primary fw-bold" style="cursor: pointer;" @onclick="()=> Navigate(3)">
+                    Open Timeline →
+                </span>
+            </div>
+            <div class="row">
+                @foreach (var item in UpcommingAnniiversarylist)
+                {
+                    <div class="col-md-2 mb-4">
+                        <div class="card h-100" @onclick="()=>Redirecttouserprofile(item.Id)" style="cursor:pointer">
+                            @if (!string.IsNullOrEmpty(item.ImageSrc))
+                            {
+                                <img src="@item.ImageSrc" class="card-img-top" alt="@item.Name" style="object-fit: cover; height: 150px;">
+                            }
+                            <div class="card-body d-flex flex-column">
+                                <h5 class="card-title">@item.Name</h5>
+                                <p class="card-text">@item.AnniversaryType</p>
+                                <p class="card-text"><small class="text-muted">Days Left: @item.DaysLeft</small></p>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <h2 class="text-left mb-4">Latest Blog Posts</h2>
+        <div class="text-left mb-3">
+            <span class="text-primary fw-bold" style="cursor: pointer;" @onclick="()=> Navigate(5)">
+                More Posts →
+            </span>
+        </div>
+        <div class="row">
+            @if (LastestBlogPostlist.Count > 0)
+            {
+                <div class="col-md-6 mb-4">
+                    <div class="card h-100 shadow-lg border-0 rounded-3 position-relative" style="height: 350px;">
+                        <img src="@LastestBlogPostlist[0].ImageSrc" class="card-img w-100 h-100" alt="@LastestBlogPostlist[0].Title" style="object-fit: cover;">
+                        <div class="card-img-overlay d-flex flex-column justify-content-end bg-dark bg-opacity-75 text-white p-4">
+                            <p class="small mb-2">@LastestBlogPostlist[0].CreatedDate.ToString("MMMM d, yyyy")</p>
+                            <h5 class="card-title mb-3" @onclick="() => GotoBlogDetails(LastestBlogPostlist[0].Id)" style="cursor:pointer;color:white">@LastestBlogPostlist[0].Title</h5>
+                            <p class="small">@LastestBlogPostlist[0].TimeAgo</p>
+                        </div>
+                    </div>
+                </div>
+            }
+            @if (LastestBlogPostlist.Count >= 1)
+            {
+                <div class="col-md-6 mb-4">
+                    <div class="row">
+                        @foreach (var post in LastestBlogPostlist.Skip(1).Take(4))
+                        {
+                            <div class="col-md-6 mb-3">
+                                <div class="card shadow-sm border-0 rounded-3 position-relative" style="height: 200px;">
+                                    <img src="@post.ImageSrc" class="card-img w-100 h-100" alt="@post.Title" style="object-fit: cover;">
+                                    <div class="card-img-overlay d-flex flex-column justify-content-end bg-dark bg-opacity-75 text-white p-3">
+                                        <p class="small mb-1">@post.CreatedDate.ToString("MMMM d, yyyy")</p>
+                                        <h6 class="card-title mb-2 text-truncate" @onclick="() => GotoBlogDetails(post.Id)" style="cursor:pointer;color:white">@post.Title</h6>
+                                        <p class="small">@post.TimeAgo</p>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+
+    </div>
+
+
+
+</div>
+
+<style>
+    .search-container {
+        position: relative; /* To keep the icon and input together */
+        width: 100%;
+        max-width: 400px; /* Set a max-width for the search input container */
+        margin: 0 auto; /* Center the container */
+    }
+
+    .search-input {
+        height: 50px;
+        width: 100%;
+        border-radius: 50px;
+        border: 1px solid #ced4da;
+        padding-left: 2.5rem; /* Space for the left-side icon */
+        padding-right: 2.5rem; /* Space for the right-side icon */
+        transition: all 0.3s ease;
+        background-color: #f8f9fa;
+        box-shadow: none; /* Remove the box-shadow */
+    }
+
+        .search-input:focus {
+            border-color: #007bff;
+            background-color: #ffffff;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.25);
+            outline: none; /* Remove the default outline */
+        }
+
+    .search-icon {
+        position: absolute;
+        right: 15px; /* Position the icon on the right side of the search box */
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 20px;
+        color: #6c757d;
+        cursor: pointer;
+        transition: color 0.3s ease;
+    }
+
+    .search-input:focus + .search-icon {
+        color: #007bff; /* Change icon color on focus */
+    }
+
+    .search-icon:hover {
+        color: #007bff; /* Icon color change on hover */
+    }
+
+    .search-container.search-results .search-icon {
+        left: 15px; /* Move the icon to the left side when showing results */
+        right: auto; /* Reset the right position */
+    }
+
+
+/* Card Styling */
+.card {
+    border-radius: 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    overflow: hidden; /* Ensure image fits within the card */
+}
+
+.card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+.card-img-top {
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    max-height: 200px; /* Restrict image height */
+    object-fit: cover; /* Ensure image scales properly */
+}
+
+.card-body {
+    padding: 1.25rem;
+    background-color: #fff;
+}
+
+.card-title {
+    font-weight: bold;
+    font-size: 1.35rem;
+    margin-bottom: 0.5rem;
+    color: #333;
+}
+
+.card-text {
+    font-size: 1rem;
+    color: #555;
+    line-height: 1.4;
+}
+
+/* Add spacing between cards */
+.row .col-md-6 {
+    margin-bottom: 2rem;
+}
+
+/* Add hover effect to card images */
+.card-img-top:hover {
+    filter: brightness(0.9);
+}
+
+/* Responsive design */
+/* media (max-width: 768px) {
+    .card-title {
+        font-size: 1.2rem;
+    }
+
+    .card-text {
+        font-size: 0.9rem;
+    }
+
+    .search-input {
+        height: 45px;
+        border-radius: 40px;
+    }
+} */
+
+
+.get-to-know-item {
+    background-color: #f8f9fa; /* Light background for each item */
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Soft shadow */
+    margin-bottom: 20px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.get-to-know-item:hover {
+    transform: translateY(-10px); /* Slight lift effect */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15); /* Enhanced shadow on hover */
+}
+
+.get-to-know-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: #343a40; /* Darker text for better readability */
+}
+
+.btn-outline-primary {
+    border-radius: 50px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.btn-outline-primary:hover {
+    background-color: #007bff; /* Change to primary color on hover */
+    color: #ffffff;
+    border-color: #007bff;
+}
+
+.row.mb-5 {
+    display: flex;
+    justify-content: space-around; /* Space items evenly */
+    flex-wrap: wrap; /* Ensure it adjusts for smaller screens */
+    gap: 20px; /* Add gap between columns */
+}
+
+/* Responsive design */
+/* media (max-width: 768px) {
+    .get-to-know-item {
+        margin-bottom: 15px;
+    }
+    
+    .get-to-know-title {
+        font-size: 1.25rem;
+    }
+
+    .btn-outline-primary {
+        font-size: 0.9rem;
+    }
+} */
+
+</style>

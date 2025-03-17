@@ -1,0 +1,23 @@
+﻿@page "/blogdetails/{id:int}"
+
+<link href="css/blog.css" rel="stylesheet" />
+@if (blog != null)
+{
+    <div class="blog-details-section">
+        <div class="blog-details-container">
+            <div class="image-container">
+                <img src="@Imagesrc" alt="@blog.Title" class="blog-details-image" />
+            </div>
+            <div class="blog-content">
+                <h1>@blog.Title</h1>
+                <p class="metadata">@ConvertNE.ConvertEToNWithSlash(@blog.CreatedDate) | By Tandan Family</p>
+                <p>@blog.Content</p>
+                <a href="/blog" class="back-link">Back to Blog</a>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <p>Loading blog post...</p>
+}

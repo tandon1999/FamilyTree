@@ -1,0 +1,187 @@
+﻿@page "/Gallery"
+@using FamilyTree_UI.Shared.Component
+@using FamilyTree_UI.Shared.Services
+@inject ConfirmDialogService dialog
+<link href="css/setup.css" rel="stylesheet" />
+<div class="container gallery-container">
+    <div class="row">
+        <div class="col-md-6 upload-section">
+            <div class="image-upload-box">
+                @if (string.IsNullOrEmpty(uploadedImageUrl))
+                {
+                    <p>No image selected</p>
+                }
+                else
+                {
+                    <img src="@uploadedImageUrl" alt="Profile Picture" class="preview-image" />
+                }
+            </div>
+            <div class="upload-btn-container">
+                <label for="ProfilePicture" class="upload-btn">
+                    <i class="bi bi-upload"></i> Upload Image
+                </label>
+                <InputFile class="d-none" id="ProfilePicture" OnChange="HandleFileSelected" />
+            </div>
+        </div>
+
+        <div class="col-md-6 form-inputs-section">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="PayrateName">Photo Name</label>
+                        <InputText class="form-control" id="PayrateName" @bind-Value="@gallerysetupmodel.PhotoName" placeholder="Enter Your Photo Name" />
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="PayrateName">Category</label>
+                        <AutoCompleteSelect Type="tblCategory" Value="@gallerysetupmodel.Category.ToString()" ValueChanged="@((Id)=>gallerysetupmodel.Category= int.Parse(Id))"></AutoCompleteSelect>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="DeathDate">Capture Date</label>
+@*                         <Date ValueChanged="@((id)=>gallerysetupmodel.DateofPhoto =(DateTime)ConvertNE.ConvertENDefault(id))"
+                              InitialValue="@ConvertNE.ConvertNPDefault(gallerysetupmodel.DateofPhoto).ToString()"></Date> *@
+                        <InputDate class="form-control" id="DeathDate" @bind-Value="@gallerysetupmodel.DateofPhoto" />
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="PayrateName">Description</label>
+                        <InputTextArea class="form-control" id="PayrateName" @bind-Value="@gallerysetupmodel.Description" placeholder="Enter a Photo Description" />
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12 mt-3 text-end">
+                @if (gallerysetupmodel.Id == 0)
+                {
+                    <button class="btn btn-primary" @onclick="()=> CreateGallerySetup(1)">Add</button>
+                }
+                else
+                {
+                    <button class="btn btn-primary" @onclick="()=> CreateGallerySetup(1)">Update</button>
+                    <button class="btn btn-secondary" @onclick="()=> Clear()">Clear</button>
+                }
+            </div>
+        </div>
+    </div>
+
+    <div class="table-responsive mt-4 gallery-table">
+        <table class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th>SN</th>
+                    <th>Image Name</th>
+                    <th>Photo Date</th>
+                    <th>Description</th>
+                    <th>View Image</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (gallerysetupmodellist?.Count > 0)
+                {
+                    var sn = 1;
+                    foreach (var photo in gallerysetupmodellist)
+                    {
+                        <tr>
+                            <td>@sn</td>
+                            <td>@photo.PhotoName</td>
+                            <td>@ConvertNE.ConvertEToNWithSlash(@photo.DateofPhoto)</td>
+                            <td>@photo.Description</td>
+                            <td>
+                                <i @onclick="@((Id )=>ViewImage(photo.TempId,1))"
+                                   class="material-icons"
+                                   title="View">
+                                    visibility
+                                </i>
+                            </td>
+                            <td>
+                                <i @onclick="@((Id )=>Edit(photo.TempId,1))"
+                                   class="material-icons edit-icon"
+                                   title="Edit">
+                                    edit
+                                </i>
+                                <i @onclick="@((Id )=>Delete(photo.TempId,1))"
+                                   class="material-icons delete-icon"
+                                   title="Delete">
+                                    delete
+                                </i>
+                            </td>
+                        </tr>
+                        sn++;
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="6" class="text-center">No images added.</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        @if (gallerysetupmodellist?.Count > 0)
+        {
+            <div class="col-md-12 mt-3 text-end">
+                <button class="btn btn-success" @onclick="()=> CreateGallerySetup(2)">Save</button>
+            </div>
+        }
+    </div>
+</div>
+<div class="table-responsive mt-4">
+    <table class="table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th>SN</th>
+                <th>Photo Name</th>
+                <th>Image Capture Date</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (gallerySetupslist?.Count > 0)
+            {
+                var sn = 1;
+                foreach (var member in gallerySetupslist)
+                {
+                    <tr>
+                        <td>@sn</td>
+                        <td>@member.PhotoName</td>
+                        <td>@ConvertNE.ConvertEToNWithSlash(@member.DateofPhoto)</td>
+                        <td>@member.Description</td>
+                        <td>
+                            <button @onclick="@((Id )=>ViewImage(member.Id,2))" class="btn btn-sm btn-outline-info">
+                                <i class="bi bi-eye"></i> View
+                            </button>
+                        </td>
+                        <td>
+                            <button @onclick="@((Id )=>Edit(member.Id,2))" class="btn btn-sm btn-outline-primary">
+                                <i class="bi bi-pencil-square"></i> Edit
+                            </button>
+                            <button @onclick="@((Id )=>Delete(member.Id,2))" class="btn btn-sm btn-outline-danger">
+                                <i class="bi bi-trash"></i> Delete
+                            </button>
+                        </td>
+                    </tr>
+                    sn++;
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="12" class="text-center">No family members available.</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<Modal Title="Uploaded Image" Show="@ShowModal" OnClose="@CloseModal" Size="xl" ShowSaveButton="false">
+    <div class="image-modal">
+        <iframe src="@Imagesrc" style="object-fit:contain; width:50vw; height:50vh;"></iframe>
+    </div>
+</Modal>
+

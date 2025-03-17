@@ -1,0 +1,52 @@
+﻿@page "/login"
+@inject IJSRuntime JSRuntime
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+<link href="css/Login.css" rel="stylesheet" />
+
+<div class="login-container">
+    <div class="family-tree-side">
+        <div class="tree-design">
+            <div class="branch branch-top"></div>
+            <div class="branch branch-middle"></div>
+            <div class="branch branch-bottom"></div>
+            <div class="node node-top"></div>
+            <div class="node node-middle"></div>
+            <div class="node node-bottom"></div>
+        </div>
+        <div class="family-tree-text">
+            <h3>Our Family Legacy</h3>
+            <p>Connect and grow your family tree.</p>
+        </div>
+    </div>
+    <div class="login-box">
+        <h2 class="login-title">Sign In</h2>
+
+        <div class="form-group">
+            <label for="username" class="form-label">Username</label>
+            <input type="text" id="username" @bind="loginModel.UserName" class="form-control form-control-sm" />
+        </div>
+
+        <div class="form-group">
+            <label for="password" class="form-label">Password</label>
+            <div class="password-input">
+                <input type="@(showPassword ? "text" : "password")" id="password" @bind="loginModel.Password" class="form-control form-control-sm" />
+                <button type="button" class="password-toggle" @onclick="TogglePasswordVisibility">
+                    @if (showPassword)
+                    {
+                        <span class="material-symbols-outlined">
+                            visibility
+                        </span>
+                    }
+                    else
+                    {
+                        <span class="material-symbols-outlined">
+                            visibility_lock
+                        </span>
+                    }
+                </button>
+            </div>
+        </div>
+
+        <button type="button" class="btn btn-primary btn-sm" @onclick="HandleLogin">Login</button>
+    </div>
+</div>

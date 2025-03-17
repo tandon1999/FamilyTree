@@ -1,0 +1,119 @@
+﻿@page "/Blogsetup"
+@using FamilyTree_UI.Shared.Component
+@using FamilyTree_UI.Shared.Services
+@inject ConfirmDialogService dialog
+<link href="css/setup.css" rel="stylesheet" />
+
+<div class="container gallery-container">
+    <div class="row">
+        <div class="col-md-6 upload-section">
+            <div class="image-upload-box">
+                @if (string.IsNullOrEmpty(uploadedImageUrl))
+                {
+                    <p>No image selected</p>
+                }
+                else
+                {
+                    <img src="@uploadedImageUrl" alt="Profile Picture" class="preview-image" />
+                }
+            </div>
+            <div class="upload-btn-container">
+                <label for="ProfilePicture" class="upload-btn">
+                    <i class="bi bi-upload"></i> Upload Image
+                </label>
+                <InputFile class="d-none" id="ProfilePicture" OnChange="HandleFileSelected" />
+            </div>
+        </div>
+
+        <div class="col-md-6 form-inputs-section">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="PayrateName">Title</label>
+                        <InputText class="form-control" id="PayrateName" @bind-Value="@blogsPost.Title" placeholder="Enter a Title" />
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label for="PayrateName">Content</label>
+                        <InputTextArea class="form-control" id="PayrateName" @bind-Value="@blogsPost.Content"
+                                       placeholder="Describe your Content here ......." style="height: 400px;" />
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+        </div>
+
+        <div class="col-md-12 mt-3 text-end">
+            @if (blogsPost.Id == 0)
+            {
+                <button class="btn btn-primary" @onclick="()=> Save()">Save</button>
+            }
+            else
+            {
+                <button class="btn btn-primary" @onclick="()=> Save()">Update</button>
+                <button class="btn btn-secondary" @onclick="()=> Clear()">Clear</button>
+            }
+        </div>
+    </div>
+</div>
+<div class="table-responsive mt-4">
+    <table class="table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th>SN</th>
+                <th>Title</th>
+                <th>Content</th>
+                <th>Created Date</th>
+                <th>Image</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (blogsPostlist?.Count > 0)
+            {
+                var sn = 1;
+                foreach (var member in blogsPostlist)
+                {
+                    <tr>
+                        <td>@sn</td>
+                        <td>@member.Title</td>
+                        <td title="@member.Content" style="cursor:pointer">@member.Content.Substring(0, 140)...</td>
+                        <td>@member.CreatedDate.ToString("MM/dd/yyyy")</td>
+                        <td>
+                            <button @onclick="@((Id )=>ViewImage(member.Id))" class="btn btn-sm btn-outline-info">
+                                <i class="bi bi-eye"></i> View
+                            </button>
+                        </td>
+                        <td>
+                            <button @onclick="@((Id )=>Edit(member.Id))" class="btn btn-sm btn-outline-primary">
+                                <i class="bi bi-pencil-square"></i> Edit
+                            </button>
+                            <button @onclick="@((Id )=>Delete(member.Id))" class="btn btn-sm btn-outline-danger">
+                                <i class="bi bi-trash"></i> Delete
+                            </button>
+                        </td>
+                    </tr>
+                    sn++;
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="12" class="text-center">No blogs available.</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<Modal Title="Uploaded Image" Show="@ShowModal" OnClose="@CloseModal" Size="xl" ShowSaveButton="false">
+    <div class="image-modal">
+        <iframe src="@Imagesrc" style="object-fit:contain; width:50vw; height:50vh;"></iframe>
+    </div>
+</Modal>

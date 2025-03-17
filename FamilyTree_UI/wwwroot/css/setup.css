@@ -1,0 +1,87 @@
+﻿
+.gallery-container {
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 10px;
+}
+
+.upload-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-right: 1px solid #dee2e6;
+    padding-right: 20px;
+}
+
+.image-upload-box {
+    border: 2px dashed #ccc;
+    padding: 20px;
+    border-radius: 10px;
+    width: 250px;
+    height: 250px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    background-color: #e9ecef;
+    margin-bottom: 20px;
+}
+
+.preview-image {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+.upload-btn-container {
+    text-align: center;
+}
+
+.upload-btn {
+    display: inline-block;
+    background-color: #007bff;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+    .upload-btn:hover {
+        background-color: #0056b3;
+    }
+
+.form-inputs-section {
+    padding-left: 20px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.gallery-table {
+    margin-top: 20px;
+}
+
+.material-icons {
+    cursor: pointer;
+    margin: 0 5px;
+    font-size: 20px;
+}
+
+.edit-icon {
+    color: #28a745;
+}
+
+.delete-icon {
+    color: #dc3545;
+}
+
+.image-modal {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+

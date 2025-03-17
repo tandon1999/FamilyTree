@@ -1,0 +1,101 @@
+﻿@page "/autocomplete"
+<style>
+    .autocomplete-list {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+        border: 1px solid #ccc;
+        border-top: none;
+        width: 15rem;
+        min-height: 4rem;
+        max-height: 18rem;
+        background-color: #f1f1f1;
+        border-radius: 6px;
+    }
+
+        .autocomplete-list li {
+            padding: 8px 12px;
+            cursor: pointer;
+            background-color: #f9f9f9;
+            width: 100%;
+          /*   min-height: 4rem;
+            max-height: 14rem; */
+            background-color: #f1f1f1;
+            overflow-x: hidden; /* Hide horizontal overflow */
+            overflow-y: auto;
+        }
+
+            .autocomplete-list li:hover {
+                background-color: lightgray; /* Change to the desired hover background color */
+            }
+    /* Style for vertical scrollbar */
+        .autocomplete-list::-webkit-scrollbar {
+        width: 10px; /* Width of the scrollbar */
+    }
+
+    /* Track */
+        .autocomplete-list::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-top-right-radius: 6px;
+        border-bottom-right-radius: 6px;
+    }
+
+    /* Handle */
+        .autocomplete-list::-webkit-scrollbar-thumb {
+        background: #888; /* Color of the scrollbar handle */
+        border-radius: 5px; /* Rounded corners */
+    }
+
+        /* Handle on hover */
+            .autocomplete-list::-webkit-scrollbar-thumb:hover {
+            background: #555; /* Darker background on hover */
+        }
+</style>
+
+
+<div style="position: relative;">
+    <InputText @bind-Value="SearchText" class="form-control searchitem" tabindex="@TabIndex" Placeholder="@Placeholder" @oninput="bindText" disabled="@Disabled" @onfocus="ShowList" @onblur="HideList" autocomplete="off" ></InputText>
+    <ul class="autocomplete-list" style="display: @(ShowItemList ? "block" : "none"); position: absolute; z-index: 999; width:100%;overflow-y:auto;overflow-x: hidden;">
+        @foreach (var item in FilteredItems)
+        {
+            <li class="autocomplete-item" @onclick="() => OnItemClick(item)" style="background-color: @(SearchText == item.Value ? "#D3D3D3" : "transparent"); ">
+                @item.Value
+            </li>
+        }
+    </ul>
+</div>
+<script>
+    $(document).ready(function () {
+        let selectedIndex = -1;
+
+        const input = document.querySelector('.searchitem');
+        input.addEventListener('keydown', (e) => {
+            const items = document.querySelectorAll('.autocomplete-item');
+            if (items.length === 0) return;
+
+            if (e.key === 'ArrowDown') {
+                selectedIndex = (selectedIndex + 1) % items.length;
+                updateSelection(items);
+                e.preventDefault();
+            } else if (e.key === 'ArrowUp') {
+                selectedIndex = (selectedIndex - 1 + items.length) % items.length;
+                updateSelection(items);
+                e.preventDefault();
+            } else if (e.key === 'Enter') {
+                if (selectedIndex >= 0 && selectedIndex < items.length) {
+                    items[selectedIndex].click();
+                    e.preventDefault();
+                }
+            }
+        });
+
+        const updateSelection = (items) => {
+            items.forEach((item, index) => {
+                item.style.backgroundColor = index === selectedIndex ? '#D3D3D3' : 'transparent';
+            });
+            if (selectedIndex >= 0) {
+                items[selectedIndex].scrollIntoView({ block: 'nearest' });
+            }
+        };
+    });
+</script>

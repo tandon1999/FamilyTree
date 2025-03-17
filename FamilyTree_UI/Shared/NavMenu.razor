@@ -1,0 +1,111 @@
+﻿@inject IJSRuntime JSRuntime
+<div class="top-row ps-3 navbar navbar-dark">
+    <div class="container-fluid d-flex align-items-center">
+        <a class="navbar-brand" href="">
+            <img src="/logo.png" alt="Logo" style="height: 50px; width: auto;" class="d-inline-block align-text-top me-2">
+            Family Tree
+        </a>
+        <button title="Navigation menu" class="navbar-toggler ms-auto" @onclick="ToggleNavMenu">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    </div>
+</div>
+
+
+
+<div class="@NavMenuCssClass nav-scrollable" @onclick="ToggleNavMenu">
+    <nav class="flex-column">
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+                <span class="oi oi-home" aria-hidden="true"></span> Home
+            </NavLink>
+        </div>
+
+         <div class="nav-item px-3">
+            <NavLink class="nav-link" href="/familytree" >
+                <span class="oi oi-fork" aria-hidden="true"></span> Family Tree
+            </NavLink>
+        </div>
+
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="/members-dictionary">
+                <span class="oi oi-people" aria-hidden="true"></span> Members Dictionary
+            </NavLink>
+        </div>
+
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="Timeline">
+                <span class="oi oi-timer" aria-hidden="true"></span> Time Line
+            </NavLink>
+        </div>
+
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="Getgallery">
+                <span class="oi oi-image" aria-hidden="true"></span> Galleries
+            </NavLink>
+        </div>
+
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="History">
+                <span class="oi oi-clock" aria-hidden="true"></span> History
+            </NavLink>
+        </div>
+
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="Blog">
+                <span class="oi oi-book" aria-hidden="true"></span> Blogs
+            </NavLink>
+        </div>
+        @if (NavStateService.IsNavVisible)
+        {
+
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="familysetup">
+                    <span class="oi oi-plus" aria-hidden="true"></span> Family Setup
+                </NavLink>
+            </div>
+
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="familylist">
+                    <span class="oi oi-list" aria-hidden="true"></span> Family List
+                </NavLink>
+            </div>
+
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="Gallery">
+                    <span class="oi oi-image" aria-hidden="true"></span> Gallery Setup
+                </NavLink>
+            </div>
+
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="Blogsetup">
+                    <span class="oi oi-video" aria-hidden="true"></span> Blogs Setup
+                </NavLink>
+            </div>
+
+            <div class="nav-item px-3 ">
+                <NavLink class="nav-link" href="admin">
+                    <span class="oi oi-dashboard" aria-hidden="true"></span> Admin DashBoard
+                </NavLink>
+            </div>
+
+            <div class="nav-item px-3 mt-5">
+                <NavLink class="nav-link" @onclick="Logout" style="cursor:pointer">
+                    <span class="oi oi-account-login" aria-hidden="true"></span> Logout
+                </NavLink>
+            </div>
+        }
+        else
+        {
+            <div class="nav-item px-3 mt-5">
+                <NavLink class="nav-link" href="login">
+                    <span class="oi oi-account-login" aria-hidden="true"></span> Login
+                </NavLink>
+            </div>
+        }
+
+
+    </nav>
+</div>
+
+

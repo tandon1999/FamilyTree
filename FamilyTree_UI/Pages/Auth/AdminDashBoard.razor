@@ -1,0 +1,87 @@
+﻿@page "/admin"
+@using FamilyTree_UI.Shared.Services
+@inject NavigationManager NavigationManager
+@inject NavStateService NavStateService
+
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-12 d-flex justify-content-between align-items-center">
+            <h3 class="mb-4">Welcome to the Admin Dashboard!🙏🙏</h3>
+            @* <button class="btn btn-secondary" @onclick="Logout">
+                Logout <span class="oi oi-account-logout" aria-hidden="true"></span>
+            </button> *@
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-md-4">
+            <div class="card bg-primary text-white mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Total Members 👨‍👩‍👧‍👦</h5>
+                    <p class="card-text display-4">@dashboardview.TotalFamilyMember</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card bg-success text-white mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Male  👨</h5>
+                    <p class="card-text display-4">@dashboardview.Male</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card bg-danger text-white mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Female  👩‍🍼</h5>
+                    <p class="card-text display-4">@dashboardview.Female</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-md-3">
+            <div class="card bg-info text-white mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Living </h5>
+                    <p class="card-text display-4">@dashboardview.Living</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card bg-warning text-white mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Death</h5>
+                    <p class="card-text display-4">@dashboardview.Death</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card bg-secondary text-white mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Average Lifespan</h5>
+                    <p class="card-text display-4">@dashboardview.AverageLifespan</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card bg-dark text-white mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Longest Living</h5>
+                    <p class="card-text">@dashboardview.LongestLivingIndividual</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer class="text-center mt-8 text-sm text-gray-500">
+    <p>&copy; 2025 <a href="https://www.sumantandan.com.np" class="text-blue-500 hover:underline" target="_blank">https://www.sumantandan.com.np</a>. All rights reserved.</p>
+</footer>

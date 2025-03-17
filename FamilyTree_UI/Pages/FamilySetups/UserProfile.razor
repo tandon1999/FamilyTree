@@ -1,0 +1,139 @@
+﻿@page "/UserProfile/{Id}"
+
+<div class="profile-container">
+    @if (memberSetupModel != null)
+    {
+        <div class="profile-card">
+            <img class="profile-image" src="@uploadedImageUrl" alt="Profile Picture" onerror="this.onerror=null;this.src='placeholder-image.jpg';" />
+            <h2 class="profile-name">@($"{memberSetupModel.FirstName} {memberSetupModel.MiddleName} {memberSetupModel.LastName}")</h2>
+
+            <div class="profile-info">
+                <div class="info-item">
+                    <strong>Date of Birth:</strong> <span>@ConvertNE.ConvertEToNWithSlash(memberSetupModel.DOB)</span>
+                </div>
+                <div class="info-item">
+                    <strong>Age:</strong> <span>@memberSetupModel.Age</span>
+                </div>
+                <div class="info-item">
+                    <strong>Gender:</strong> <span>@(memberSetupModel.Gender == 1 ? "Male" : memberSetupModel.Gender == 2 ? "Female" : "Other")</span>
+                </div>
+                <div class="info-item">
+                    <strong>Occupation:</strong> <span>@memberSetupModel.Occupation</span>
+                </div>
+                <div class="info-item">
+                    <strong>Father's Name:</strong> <span>@memberSetupModel.FatherName</span>
+                </div>
+                <div class="info-item">
+                    <strong>Mother's Name:</strong> <span>@memberSetupModel.MotherName</span>
+                </div>
+                <div class="info-item">
+                    <strong>Spouse:</strong> <span>@(memberSetupModel.WIfeId != 0 ? memberSetupModel.WIfeId.ToString() : memberSetupModel.HusbandId != 0 ? memberSetupModel.HusbandId.ToString() : "N/A")</span>
+                </div>
+                <div class="info-item">
+                    <strong>Marital Status:</strong> <span>@memberSetupModel.MatrialStatus</span>
+                </div>
+                <div class="info-item">
+                    <strong>Number of Children:</strong> <span>@memberSetupModel.NumberOfChildren</span>
+                </div>
+                <div class="info-item">
+                    <strong>Address:</strong> <span>@(string.IsNullOrEmpty(memberSetupModel.Address) ? "N/A" : memberSetupModel.Address)</span>
+                </div>
+                <div class="info-item">
+                    <strong>Description:</strong> <span>@(string.IsNullOrEmpty(memberSetupModel.Description) ? "N/A" : memberSetupModel.Description)</span>
+                </div>
+                <div class="info-item profile-status">
+                    <strong>Status:</strong> 
+                    <span class="@(memberSetupModel.IsDeath ? "status-deceased" : "status-alive")">
+                        @(memberSetupModel.IsDeath ? "Death" : "Alive")
+                    </span>
+                </div>
+                @if (memberSetupModel.IsDeath)
+                {
+                    <div class="info-item">
+                        <strong>Death Date:</strong> <span>@(memberSetupModel.DeathDate.HasValue ? memberSetupModel.DeathDate.Value.ToShortDateString() : "N/A")</span>
+                    </div>
+                }
+            </div>
+        </div>
+    }
+    else
+    {
+        <p>Loading profile...</p>
+    }
+</div>
+
+<style>
+    .profile-container {
+        display: flex;
+        justify-content: center;
+        padding: 20px;
+    }
+
+    .profile-card {
+        width: 100%;
+        max-width: 800px;
+        background-color: #fff;
+        border-radius: 16px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        text-align: center;
+    }
+
+    .profile-image {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-bottom: 15px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .profile-name {
+        font-size: 2em;
+        font-weight: bold;
+        margin-bottom: 10px;
+        color: #333;
+    }
+
+    .profile-info {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+        margin-top: 20px;
+        padding: 0 10px;
+    }
+
+    .info-item {
+        background-color: #f9f9f9;
+        border-radius: 8px;
+        padding: 15px;
+        text-align: left;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    }
+
+    .info-item strong {
+        display: block;
+        color: #666;
+    }
+
+    .info-item span {
+        font-weight: bold;
+        color: #333;
+    }
+
+    .profile-status .status-alive {
+        color: green;
+        font-weight: bold;
+    }
+
+    .profile-status .status-deceased {
+        color: red;
+        font-weight: bold;
+    }
+
+/*     media (max-width: 768px) {
+        .profile-info {
+            grid-template-columns: 1fr;
+        }
+    } */
+</style>

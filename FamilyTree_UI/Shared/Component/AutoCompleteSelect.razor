@@ -1,0 +1,23 @@
+﻿
+
+<InputSelect @bind-Value="BindingValue" class="form-control" tabindex="@TabIndex" Placeholder="@Placeholder" disabled="@Disabled">
+    @foreach (var item in DropDownModels)
+    {
+        <option value="@item.Id">@item.Value</option>
+    }
+</InputSelect>
+
+@* <Autocomplete TItem="DropDownListModel"
+              TValue="string"
+              Data="@DropDownModels"
+              TextField="@(( item ) => item.Value)"
+              ValueField="@(( item ) => item.Id)"
+              @bind-SelectedValue="@BindingValue"
+              @bind-SelectedText="@SelectedText"
+              Placeholder="@Placeholder"
+              Filter="AutocompleteFilter.Contains"
+              TabIndex="@TabIndex"
+              FreeTyping
+              CustomFilter="@(( item, searchValue ) => item.Value!.IndexOf( searchValue, 0, StringComparison.CurrentCultureIgnoreCase ) >= 0 )">
+     <NotFoundContent> Sorry... @context was not found! :( </NotFoundContent>
+ </Autocomplete> *@

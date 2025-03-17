@@ -1,0 +1,84 @@
+﻿@page "/members-dictionary"
+
+
+<h3>टन्डन -परिवार सदस्य</h3>
+
+<div class="tree">
+    @if (familyTreeMemberlist != null && familyTreeMemberlist.Count > 0)
+    {
+        <div class="family-tree">
+            @foreach (var member in familyTreeMemberlist)
+            {
+                <div class="family-member-card">
+                    <!-- Image -->
+                    @if (!string.IsNullOrEmpty(member.ImageSrc))
+                    {
+                        <img src="@member.ImageSrc" alt="@member.FullName" class="family-member-image" />
+                    }
+                    else
+                    {
+                        <img src="placeholder-image.png" alt="No Image" class="family-member-image" />
+                    }
+
+                    <!-- Member Details -->
+                    <div class="family-member-details">
+                        <h4><strong>@member.FullName</strong></h4>
+                        <p>
+                            <strong>
+                                जन्म मिति
+                                :
+                            </strong> @ConvertNE.ConvertEToNWithSlash(@member.DOB)
+                        </p>
+                        @if (member.DeathDate != default(DateTime))
+                        {
+                            <p>
+                                <strong>
+                                    मृत्यु मिति
+                                    :
+                                </strong> @ConvertNE.ConvertEToNWithSlash(member.DeathDate)
+                            </p>
+                        }
+                        <p><strong>उमेर:</strong> @member.Age</p>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>
+<style>
+    .family-tree {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 20px;
+    }
+
+    .family-member-card {
+        border: 1px solid #ccc;
+        padding: 15px;
+        border-radius: 10px;
+        width: 250px;
+        text-align: center;
+        box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .family-member-image {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-bottom: 15px;
+    }
+
+    .family-member-details {
+        text-align: left;
+    }
+
+        .family-member-details h4 {
+            margin: 0;
+            margin-bottom: 10px;
+        }
+
+</style>
+
+

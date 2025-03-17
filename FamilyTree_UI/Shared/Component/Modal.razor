@@ -1,0 +1,20 @@
+﻿<div class="modal fade @ModalClass" tabindex="-1" role="dialog" style="display:@ModalDisplay" aria-hidden="true">
+    <div class="modal-dialog @ModalSizeClass" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">@Title</h5>
+            </div>
+            <div class="modal-body">
+                @ChildContent
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" @onclick="CloseModal">Close</button>
+
+                @if (ShowSaveButton)
+                {
+                    <button type="button" class="btn btn-primary" @onclick="SaveChanges">@ButtonType</button>
+                }
+            </div>
+        </div>
+    </div>
+</div>

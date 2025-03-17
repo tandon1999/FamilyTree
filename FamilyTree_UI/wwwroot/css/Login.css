@@ -1,0 +1,133 @@
+﻿.login-container {
+    display: flex;
+    height: 100vh;
+    background-color: #f4f4f4;
+}
+
+.family-tree-side {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #e8f5e9;
+    color: #333;
+}
+
+.tree-design {
+    position: relative;
+    width: 150px;
+    height: 250px;
+}
+
+.branch {
+    position: absolute;
+    background-color: #a5d6a7;
+    height: 3px;
+    border-radius: 1.5px;
+}
+
+.branch-top {
+    top: 40px;
+    width: 120px;
+    left: 15px;
+}
+
+.branch-middle {
+    top: 120px;
+    width: 130px;
+    left: 10px;
+}
+
+.branch-bottom {
+    top: 200px;
+    width: 100px;
+    left: 25px;
+}
+
+.node {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background-color: #4caf50;
+    border-radius: 50%;
+}
+
+.node-top {
+    top: 30px;
+    left: 65px;
+}
+
+.node-middle {
+    top: 110px;
+    left: 65px;
+}
+
+.node-bottom {
+    top: 190px;
+    left: 65px;
+}
+
+.family-tree-text {
+    text-align: center;
+    margin-top: 15px;
+    font-size: 0.9em;
+}
+
+
+.login-box {
+    flex: 1;
+    background-color: white;
+    padding: 30px;
+    border-radius: 0 8px 8px 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 250px; 
+    margin: 20px;
+}
+
+
+.login-title {
+    font-size: 1.3em;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-label {
+    display: block;
+    margin-bottom: 3px;
+    font-size: 0.9em;
+}
+
+.form-control-sm {
+    padding: 6px;
+    font-size: 0.875rem;
+    border-radius: 0.2rem;
+}
+
+.btn-sm {
+    padding: 5px 10px;
+    font-size: 0.875rem;
+    border-radius: 0.2rem;
+}
+
+.password-input {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.password-toggle {
+    position: absolute;
+    right: 5px;
+    background:none;
+    border: none;
+    cursor: pointer;
+    color: #777;
+}
