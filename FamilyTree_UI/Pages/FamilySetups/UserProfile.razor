@@ -15,20 +15,30 @@
                     <strong>Age:</strong> <span>@memberSetupModel.Age</span>
                 </div>
                 <div class="info-item">
-                    <strong>Gender:</strong> <span>@(memberSetupModel.Gender == 1 ? "Male" : memberSetupModel.Gender == 2 ? "Female" : "Other")</span>
+                    <strong>Gender:</strong> <span>@memberSetupModel.GenderName</span>
                 </div>
                 <div class="info-item">
-                    <strong>Occupation:</strong> <span>@memberSetupModel.Occupation</span>
+                    <strong>Occupation:</strong> <span>@memberSetupModel.OccupationType</span>
                 </div>
                 <div class="info-item">
-                    <strong>Father's Name:</strong> <span>@memberSetupModel.FatherName</span>
+                    <strong>Father's Name:</strong> <span>@(string.IsNullOrWhiteSpace(memberSetupModel.FatherName) ? "N/A" : memberSetupModel.FatherName)</span>
                 </div>
                 <div class="info-item">
-                    <strong>Mother's Name:</strong> <span>@memberSetupModel.MotherName</span>
+                    <strong>Mother's Name:</strong> <span>@(string.IsNullOrWhiteSpace(memberSetupModel.MotherName) ? "N/A" : memberSetupModel.MotherName)</span>
                 </div>
-                <div class="info-item">
-                    <strong>Spouse:</strong> <span>@(memberSetupModel.WIfeId != 0 ? memberSetupModel.WIfeId.ToString() : memberSetupModel.HusbandId != 0 ? memberSetupModel.HusbandId.ToString() : "N/A")</span>
-                </div>
+                @if (memberSetupModel.GenderId == 1)
+                {
+                    <div class="info-item">
+                        <strong>Wife Name:</strong> <span>@(string.IsNullOrWhiteSpace(memberSetupModel.WifeName) ? "N/A" : memberSetupModel.WifeName)</span>
+                    </div>
+                }
+                else
+                {
+                    <div class="info-item">
+                        <strong>Husband Name:</strong> <span>@(string.IsNullOrWhiteSpace(memberSetupModel.HusbandName) ? "N/A" : memberSetupModel.HusbandName)</span>
+                    </div>
+                }
+
                 <div class="info-item">
                     <strong>Marital Status:</strong> <span>@memberSetupModel.MatrialStatus</span>
                 </div>
@@ -36,21 +46,21 @@
                     <strong>Number of Children:</strong> <span>@memberSetupModel.NumberOfChildren</span>
                 </div>
                 <div class="info-item">
-                    <strong>Address:</strong> <span>@(string.IsNullOrEmpty(memberSetupModel.Address) ? "N/A" : memberSetupModel.Address)</span>
+                    <strong>Address:</strong> <span>@(string.IsNullOrWhiteSpace(memberSetupModel.Address) ? "N/A" : memberSetupModel.Address)</span>
                 </div>
                 <div class="info-item">
-                    <strong>Description:</strong> <span>@(string.IsNullOrEmpty(memberSetupModel.Description) ? "N/A" : memberSetupModel.Description)</span>
+                    <strong>Description:</strong> <span>@(string.IsNullOrWhiteSpace(memberSetupModel.Description) ? "N/A" : memberSetupModel.Description)</span>
                 </div>
                 <div class="info-item profile-status">
-                    <strong>Status:</strong> 
-                    <span class="@(memberSetupModel.IsDeath ? "status-deceased" : "status-alive")">
-                        @(memberSetupModel.IsDeath ? "Death" : "Alive")
+                    <strong>Status:</strong>
+                    <span class="@(memberSetupModel.HasValue == 1 ? "status-deceased" : "status-alive")">
+                        @(memberSetupModel.HasValue == 1 ? "Death" : "Alive")
                     </span>
                 </div>
-                @if (memberSetupModel.IsDeath)
+                @if (memberSetupModel.HasValue == 1)
                 {
                     <div class="info-item">
-                        <strong>Death Date:</strong> <span>@(memberSetupModel.DeathDate.HasValue ? memberSetupModel.DeathDate.Value.ToShortDateString() : "N/A")</span>
+                        <strong>Death Date:</strong> <span>@ConvertNE.ConvertEToNWithSlash(memberSetupModel.DeathDate)</span>
                     </div>
                 }
             </div>
@@ -111,15 +121,15 @@
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
     }
 
-    .info-item strong {
-        display: block;
-        color: #666;
-    }
+        .info-item strong {
+            display: block;
+            color: #666;
+        }
 
-    .info-item span {
-        font-weight: bold;
-        color: #333;
-    }
+        .info-item span {
+            font-weight: bold;
+            color: #333;
+        }
 
     .profile-status .status-alive {
         color: green;
@@ -131,9 +141,9 @@
         font-weight: bold;
     }
 
-/*     media (max-width: 768px) {
-        .profile-info {
-            grid-template-columns: 1fr;
-        }
-    } */
+    /*     media (max-width: 768px) {
+                    .profile-info {
+                        grid-template-columns: 1fr;
+                    }
+                } */
 </style>

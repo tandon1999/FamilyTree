@@ -13,9 +13,12 @@
     <button @onclick="AddNewFamilyMember" class="btn btn-primary">
         <i class="bi bi-plus-circle"></i> Create New Member
     </button>
-    <div style="position:relative;">
-        <input type="search" style="border: 1px solid #123F6B; padding:0 10px 0 40px; border-radius:0 8px 8px 0; font-size: 12px; height: 30px; width: 200px; box-sizing: border-box;" autofocus @bind="nameFilter" @bind:event="oninput" placeholder="Search By Name...">
-        <i style="position:absolute; top:50%; left:10px; transform: translateY(-50%);color:#123F6B;" class="fa fa-search"></i>
+    <div style="position: relative;">
+        <input type="search" style="border: 1px solid #123F6B; padding: 0 10px 0 30px; border-radius: 8px; font-size: 12px; height: 30px; width: 200px; box-sizing: border-box;"
+               autofocus @bind="nameFilter" @bind:event="oninput" placeholder="Search By Name...">
+                <span class="material-symbols-outlined search-icon" style="position: absolute; top: 50%; left: 8px; transform: translateY(-50%); color: #123F6B;">
+                    search
+                </span>
     </div>
 </div>
 

@@ -48,7 +48,6 @@ namespace FamilyTreeApi.Service.Implementation
                 return await Response.FailAsync(ex.Message);
             }
         }
-
         public async Task<IResponse> DeleteFamilyTreeMember(int Id)
         {
             try
@@ -64,7 +63,6 @@ namespace FamilyTreeApi.Service.Implementation
                 return await Response.FailAsync(ex.Message);
             }
         }
-
         public async Task<IResponse<FamilyTreeMemberRequestModel>> GetFamilyTreeMemberByid(int Id)
         {
             try
@@ -88,7 +86,6 @@ namespace FamilyTreeApi.Service.Implementation
                 return await Response<FamilyTreeMemberRequestModel>.FailAsync(ex.Message);
             }
         }
-
         public async Task<IResponse<List<FamilyTreeMemberResponseModel>>> GetFamilyTreeMembers()
         {
             try
@@ -114,7 +111,6 @@ namespace FamilyTreeApi.Service.Implementation
                 return await Response<List<FamilyTreeMemberResponseModel>>.FailAsync(ex.Message);
             }
         }
-
         public async Task<IResponse<List<TimelineResponseModel>>> GetFamilyMemberTimeline()
         {
             try
@@ -141,7 +137,6 @@ namespace FamilyTreeApi.Service.Implementation
                 return await Response<List<TimelineResponseModel>>.FailAsync(ex.Message);
             }
         }
-
         public async Task<IResponse<List<FamilyTreeResponseModel>>> FamilyDetailsByParentId(int Id)
         {
             try
@@ -166,6 +161,30 @@ namespace FamilyTreeApi.Service.Implementation
             catch (Exception ex)
             {
                 return await Response<List<FamilyTreeResponseModel>>.FailAsync(ex.Message);
+            }
+        }
+
+        public async Task<IResponse<FamilyTreeMemberResponseModel>> GetFamilyDetailsById(int Id)
+        {
+            try
+            {
+                FamilyTreeParam param = new();
+                param.Flag = 'A';
+                param.Id = Id;
+                var response = await _genericRepository.GetAsync<FamilyTreeMemberResponseModel>(StoreProc, param);
+                if (response != null)
+                {
+                    if (response.ImagePath != null)
+                    {
+                        if ((System.IO.File.Exists(response.ImagePath)))
+                            response.ImageByte = System.IO.File.ReadAllBytes(response.ImagePath);
+                    }
+                }
+                return await Response<FamilyTreeMemberResponseModel>.SuccessAsync(response);
+            }
+            catch (Exception ex)
+            {
+                return await Response<FamilyTreeMemberResponseModel>.FailAsync(ex.Message);
             }
         }
     }

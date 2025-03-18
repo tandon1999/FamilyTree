@@ -10,6 +10,7 @@
         public DateTime DOB { get; set; }
         public int Age { get; set; }
         public string? GenderName { get; set; }
+        public int GenderId { get; set; }
         public string? OccupationType { get; set; }
         public string? Description { get; set; }
         public DateTime DeathDate { get; set; }
@@ -24,6 +25,10 @@
         public int FatherId { get; set; }
         public int MotherId { get; set; }
         public int NumberOfChildren { get; set; }
-
+        public string? NepDOBYear { get; set; }
+        public string? NepDeathYear { get; set; }
+        public int HasValue { get; set; }
+        public string? HusbandName { get; set; }
+        public string? WifeName { get; set; }
     }
 }

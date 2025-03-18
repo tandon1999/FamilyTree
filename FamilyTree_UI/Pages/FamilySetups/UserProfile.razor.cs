@@ -13,7 +13,7 @@ namespace FamilyTree_UI.Pages.FamilySetups
         [Inject] public NavStateService NavStateService { get; set; }
         [Inject] public IToastService _toastservice { get; set; } = default!;
         [Inject] public IFamilyTreeMemberManager _familyTreeMemberManager { get; set; } = default!;
-        public FamilyMemberSetupModel memberSetupModel { get; set; } = new();
+        public FamilyTreeMemberVModel memberSetupModel { get; set; } = new();
         public string uploadedImageUrl;
         [Parameter] public string Id { get; set; } = "0";
         protected override async Task OnInitializedAsync()
@@ -28,11 +28,10 @@ namespace FamilyTree_UI.Pages.FamilySetups
         {
             try
             {
-                var response = await _familyTreeMemberManager.GetFamilyTreeMemberByid(Id);
+                var response = await _familyTreeMemberManager.GetFamilyDetailsById(Id);
                 memberSetupModel = response;
                 if (response != null)
                 {
-                    memberSetupModel.IsDeath = response.DeathDate.HasValue;
                     if (response.ImageByte != null)
                     {
                         uploadedImageUrl = "data:image/png;base64," + Convert.ToBase64String(response.ImageByte);

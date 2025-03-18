@@ -9,6 +9,7 @@ namespace FamilyTreeApi.Service.Interface
         Task<IResponse> CreateFamilyTreeMember(FamilyTreeMemberRequestModel model);
         Task<IResponse> DeleteFamilyTreeMember(int Id);
         Task<IResponse<List<FamilyTreeMemberResponseModel>>> GetFamilyTreeMembers();
+        Task<IResponse<FamilyTreeMemberResponseModel>> GetFamilyDetailsById(int Id);
         Task<IResponse<List<TimelineResponseModel>>> GetFamilyMemberTimeline();
         Task<IResponse<FamilyTreeMemberRequestModel>> GetFamilyTreeMemberByid(int Id);
         Task<IResponse<List<FamilyTreeResponseModel>>> FamilyDetailsByParentId(int Id);
