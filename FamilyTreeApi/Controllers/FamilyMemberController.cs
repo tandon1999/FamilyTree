@@ -62,5 +62,13 @@ namespace FamilyTreeApi.Controllers
             var response = await _familyMemberService.FamilyDetailsByParentId(Id);
             return Ok(response);
         }
+        
+        //get family details by id
+        [HttpGet("GetFamilyDetailsById")]
+        public async Task<IActionResult> GetFamilyDetailsById(int Id)
+        {
+            var response = await _familyMemberService.GetFamilyDetailsById(Id);
+            return Ok(response);
+        }
     }
 }

@@ -19,10 +19,15 @@
         public string? MotherName { get; set; }
         public string? ImagePath { get; set; }
         public byte[]? ImageByte { get; set; }
+        public int GenderId { get; set; }
 
         public int FatherId { get; set; }
         public int MotherId { get; set; }
         public int NumberOfChildren { get; set; }
-
+        public string? NepDOBYear { get; set; }
+        public string? NepDeathYear { get; set; }
+        public int HasValue { get; set; }
+        public string? HusbandName { get; set; }
+        public string? WifeName { get; set; }
     }
 }

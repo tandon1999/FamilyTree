@@ -24,5 +24,9 @@
         {
             return $"{_baseUrl}FamilyMember/FamilyDetailsByParentId?Id={Id}";
         }
+        public static string GetFamilyDetailsById(int Id)
+        {
+            return $"{_baseUrl}FamilyMember/GetFamilyDetailsById?Id={Id}";
+        }
     }
 }

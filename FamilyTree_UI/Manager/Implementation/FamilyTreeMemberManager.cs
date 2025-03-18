@@ -57,5 +57,12 @@ namespace FamilyTreeUI.Manager.Implementation
             var data = await response.ToResult<List<FamilyTreevmodel>>(); 
             return data;
         }
+
+        public async Task<FamilyTreeMemberVModel> GetFamilyDetailsById(int Id)
+        {
+            var response = await _httpClient.GetAsync(FamilyTreeMemberEndPoints.GetFamilyDetailsById(Id));
+            var data = await response.ToResult<FamilyTreeMemberVModel>();
+            return data.Data;
+        }
     }
 }
