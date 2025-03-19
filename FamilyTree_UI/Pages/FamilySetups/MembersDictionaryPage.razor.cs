@@ -11,6 +11,7 @@ namespace FamilyTree_UI.Pages.FamilySetups
         [Inject] public IToastService _toastservice { get; set; } = default!;
         [Inject] public IFamilyTreeMemberManager _familyTreeMemberManager { get; set; } = default!;
         public FamilyTreeMemberVModel familyTreeMembervmodel { get; set; } = new();
+        [Inject] public NavigationManager _navigatation { get; set; }
 
         public List<FamilyTreeMemberVModel> familyTreeMemberlist { get; set; } = new();
         public string Imagesrc { get; set; }
@@ -59,18 +60,10 @@ namespace FamilyTree_UI.Pages.FamilySetups
                 _toastservice.ShowWarning(ex.Message);
             }
         }
-
-        private HashSet<int> showChildren = new HashSet<int>();
-        private void ToggleNodeVisibility(int nodeId)
+        public async Task Redirecttouserprofile(int Id)
         {
-            if (showChildren.Contains(nodeId))
-            {
-                showChildren.Remove(nodeId);
-            }
-            else
-            {
-                showChildren.Add(nodeId);
-            }
+            _navigatation.NavigateTo($"/UserProfile/{Id}", true);
         }
+
     }
 }

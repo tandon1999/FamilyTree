@@ -21,24 +21,86 @@
                     <strong>Occupation:</strong> <span>@memberSetupModel.OccupationType</span>
                 </div>
                 <div class="info-item">
-                    <strong>Father's Name:</strong> <span>@(string.IsNullOrWhiteSpace(memberSetupModel.FatherName) ? "N/A" : memberSetupModel.FatherName)</span>
+                    <strong>Father's Name:</strong> <span style="cursor:pointer" @onclick="()=>Redirecttouserprofile(memberSetupModel.FatherId)">@(string.IsNullOrWhiteSpace(memberSetupModel.FatherName) ? "N/A" : memberSetupModel.FatherName)</span>
                 </div>
                 <div class="info-item">
-                    <strong>Mother's Name:</strong> <span>@(string.IsNullOrWhiteSpace(memberSetupModel.MotherName) ? "N/A" : memberSetupModel.MotherName)</span>
+                    <strong>Mother's Name:</strong> <span style="cursor:pointer" @onclick="()=>Redirecttouserprofile(memberSetupModel.MotherId)">@(string.IsNullOrWhiteSpace(memberSetupModel.MotherName) ? "N/A" : memberSetupModel.MotherName)</span>
                 </div>
                 @if (memberSetupModel.GenderId == 1)
                 {
                     <div class="info-item">
-                        <strong>Wife Name:</strong> <span>@(string.IsNullOrWhiteSpace(memberSetupModel.WifeName) ? "N/A" : memberSetupModel.WifeName)</span>
+                        <strong>Wife Name:</strong> <span style="cursor:pointer" @onclick="()=>Redirecttouserprofile(memberSetupModel.WifeId)">@(string.IsNullOrWhiteSpace(memberSetupModel.WifeName) ? "N/A" : memberSetupModel.WifeName)</span>
                     </div>
                 }
                 else
                 {
                     <div class="info-item">
-                        <strong>Husband Name:</strong> <span>@(string.IsNullOrWhiteSpace(memberSetupModel.HusbandName) ? "N/A" : memberSetupModel.HusbandName)</span>
+                        <strong>Husband Name:</strong> <span style="cursor:pointer" @onclick="()=>Redirecttouserprofile(memberSetupModel.WifeId)">@(string.IsNullOrWhiteSpace(memberSetupModel.HusbandName) ? "N/A" : memberSetupModel.HusbandName)</span>
                     </div>
                 }
+                <div class="info-item">
+                    <strong>Son's Names:</strong>
+                    @if (string.IsNullOrWhiteSpace(memberSetupModel.SonNames))
+                    {
+                        <span>N/A</span>
+                    }
+                    else
+                    {
 
+                        string[] sonNames = memberSetupModel.SonNames.Split(',');
+                        string[] sonIds = memberSetupModel.SonIds.Split(',');
+
+                        if (sonNames.Length == sonIds.Length)
+                        {
+                            for (int i = 0; i < sonNames.Length; i++)
+                            {
+                                int sonId = int.Parse(sonIds[i].Trim()); // Parse the ID as an integer
+                                string sonName = sonNames[i].Trim();
+
+                                <span style="cursor: pointer;" @onclick="() => Redirecttouserprofile(sonId)">
+                                    @sonName@(i < sonNames.Length - 1 ? ", " : "")
+                                </span>
+                            }
+                        }
+                        else
+                        {
+                            <span>Error: Son names and IDs mismatch.</span>
+                        }
+
+                    }
+                </div>
+
+                <div class="info-item">
+                    <strong>Daughter's Names:</strong>
+                    @if (string.IsNullOrWhiteSpace(memberSetupModel.DaughterNames))
+                    {
+                        <span>N/A</span>
+                    }
+                    else
+                    {
+
+                        string[] daughterNames = memberSetupModel.DaughterNames.Split(',');
+                        string[] daughterIds = memberSetupModel.DaughterIds.Split(',');
+
+                        if (daughterNames.Length == daughterIds.Length)
+                        {
+                            for (int i = 0; i < daughterNames.Length; i++)
+                            {
+                                int daughterId = int.Parse(daughterIds[i].Trim()); // Parse the ID as an integer
+                                string daughterName = daughterNames[i].Trim();
+
+                                <span style="cursor: pointer;" @onclick="() => Redirecttouserprofile(daughterId)">
+                                    @daughterName@(i < daughterNames.Length - 1 ? ", " : "")
+                                </span>
+                            }
+                        }
+                        else
+                        {
+                            <span>Error: Daughter names and IDs mismatch.</span>
+                        }
+
+                    }
+                </div>
                 <div class="info-item">
                     <strong>Marital Status:</strong> <span>@memberSetupModel.MatrialStatus</span>
                 </div>
@@ -142,8 +204,8 @@
     }
 
     /*     media (max-width: 768px) {
-                    .profile-info {
-                        grid-template-columns: 1fr;
-                    }
-                } */
+                                        .profile-info {
+                                            grid-template-columns: 1fr;
+                                        }
+                                    } */
 </style>

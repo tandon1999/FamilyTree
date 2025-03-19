@@ -13,6 +13,8 @@ namespace FamilyTree_UI.Pages.FamilySetups
         [Inject] public IToastService _toastservice { get; set; } = default!;
         [Inject] public IFamilyTreeMemberManager _familyTreeMemberManager { get; set; } = default!;
         [Inject] private LoaderService _loader { get; set; } = default!;
+        [Inject] public NavigationManager _navigatation { get; set; }
+
         protected override async Task OnInitializedAsync()
         {
             _loader.ShowLoader();
@@ -56,6 +58,9 @@ namespace FamilyTree_UI.Pages.FamilySetups
                 _toastservice.ShowWarning(ex.Message);
             }
         }
-
+        public async Task Redirecttouserprofile(int Id)
+        {
+            _navigatation.NavigateTo($"/UserProfile/{Id}", true);
+        }
     }
 }

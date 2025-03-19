@@ -8,6 +8,7 @@
         public byte[]? ImageByte { get; set; }
         public string? ImageSrc { get; set; }
         public int Type { get; set; }
+        public int Id { get; set; }
 
     }
 }

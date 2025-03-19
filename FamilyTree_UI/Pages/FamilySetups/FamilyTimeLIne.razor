@@ -18,7 +18,7 @@
                     <div class="date-section">
                         <span class="date">@ConvertNE.ConvertEToNWithSlash(@member.Date)</span>
                     </div>
-                    <div class="event-content">
+                    <div class="event-content" @onclick="()=>Redirecttouserprofile(member.Id)" style="cursor:pointer">
                         <div class="event-image">
                             <img src="@member.ImageSrc" alt="@member.FullName" />
                         </div>

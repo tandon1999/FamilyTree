@@ -29,5 +29,11 @@
         public int HasValue { get; set; }
         public string? HusbandName { get; set; }
         public string? WifeName { get; set; }
+        public string? SonNames { get; set; }
+        public string? DaughterNames { get; set; }
+        public string? SonIds { get; set; }
+        public string? DaughterIds { get; set; }
+        public int WifeId { get; set; }
+        public int HusbandId { get; set; }
     }
 }

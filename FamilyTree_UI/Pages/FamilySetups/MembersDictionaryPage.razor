@@ -9,7 +9,7 @@
         <div class="family-tree">
             @foreach (var member in familyTreeMemberlist)
             {
-                <div class="family-member-card">
+                <div class="family-member-card" @onclick="()=>Redirecttouserprofile(member.Id)" style="cursor:pointer">
                     <!-- Image -->
                     @if (!string.IsNullOrEmpty(member.ImageSrc))
                     {

@@ -15,6 +15,7 @@ namespace FamilyTree_UI.Pages.FamilySetups
         [Inject] public IFamilyTreeMemberManager _familyTreeMemberManager { get; set; } = default!;
         public FamilyTreeMemberVModel memberSetupModel { get; set; } = new();
         public string uploadedImageUrl;
+        [Inject] public NavigationManager _navigatation { get; set; }
         [Parameter] public string Id { get; set; } = "0";
         protected override async Task OnInitializedAsync()
         {
@@ -47,6 +48,9 @@ namespace FamilyTree_UI.Pages.FamilySetups
                 _toastservice.ShowWarning(ex.Message);
             }
         }
-
+        public async Task Redirecttouserprofile(int Id)
+        {
+            _navigatation.NavigateTo($"/UserProfile/{Id}", true);
+        }
     }
 }
