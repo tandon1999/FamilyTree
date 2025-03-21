@@ -32,9 +32,9 @@ namespace FamilyTreeApi.Controllers
 
         //get all family details in list
         [HttpGet("GetAllFamilyMember")]
-        public async Task<IActionResult> GetAllFamilyMemberAsync()
+        public async Task<IActionResult> GetAllFamilyMemberAsync(int GenId)
         {
-            var response = await _familyMemberService.GetFamilyTreeMembers();
+            var response = await _familyMemberService.GetFamilyTreeMembers(GenId);
             return Ok(response);
         }
 

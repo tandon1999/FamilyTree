@@ -37,9 +37,9 @@ namespace FamilyTreeUI.Manager.Implementation
             return data.Data;
         }
 
-        public async Task<IResponse<List<FamilyTreeMemberVModel>>> GetFamilyTreeMembers()
+        public async Task<IResponse<List<FamilyTreeMemberVModel>>> GetFamilyTreeMembers(int GenId)
         {
-            var response = await _httpClient.GetAsync(FamilyTreeMemberEndPoints.GetFamilyTreeMembers);
+            var response = await _httpClient.GetAsync(FamilyTreeMemberEndPoints.GetFamilyTreeMembers(GenId));
             var data = await response.ToResult<List<FamilyTreeMemberVModel>>();
             return data;
         }

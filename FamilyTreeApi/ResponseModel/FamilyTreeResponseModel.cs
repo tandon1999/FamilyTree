@@ -20,5 +20,9 @@
         public string? DaughterIds { get; set; }
         public string? DaughterNames { get; set; }
         public int HasWife { get; set; }
+        public int GenerationId { get; set; }
+        public string? GenerationType { get; set; }
+        public string? Identification { get; set; }
+        public int IdentificationID { get; set; }
     }
 }

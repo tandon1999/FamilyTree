@@ -20,6 +20,7 @@ namespace FamilyTreeUI.Models
         public DateTime? DeathDate { get; set; }
         public int MatrialStatus { get; set; } 
         public int NumberOfChildren { get; set; }
+        public int GenerationType { get; set; }
         public bool IsDeath { get; set; } = false;
         public string? Address { get; set; }
         public string? ImagePath { get; set; }

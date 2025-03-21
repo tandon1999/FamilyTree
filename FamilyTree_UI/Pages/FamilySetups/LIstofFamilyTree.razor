@@ -16,12 +16,17 @@
     <div style="position: relative;">
         <input type="search" style="border: 1px solid #123F6B; padding: 0 10px 0 30px; border-radius: 8px; font-size: 12px; height: 30px; width: 200px; box-sizing: border-box;"
                autofocus @bind="nameFilter" @bind:event="oninput" placeholder="Search By Name...">
-                <span class="material-symbols-outlined search-icon" style="position: absolute; top: 50%; left: 8px; transform: translateY(-50%); color: #123F6B;">
-                    search
-                </span>
+        <span class="material-symbols-outlined search-icon" style="position: absolute; top: 50%; left: 8px; transform: translateY(-50%); color: #123F6B;">
+            search
+        </span>
     </div>
 </div>
-
+<div class="col-md-3">
+    <div class="form-group custom-input">
+        <label for="tblgeneration" class="label-title">Generation Type</label>
+        <AutoCompleteSelect  Type="tblgeneration" Value="@memberSetupModel.GenerationType.ToString()" ValueChanged="@((Id)=>Filter(Id))"></AutoCompleteSelect>
+    </div>
+</div>
 <div class="table-responsive mt-4">
     <table class="table table-striped table-bordered">
         <thead>
@@ -32,6 +37,7 @@
                 <th>Age</th>
                 <th>Gender</th>
                 <th>Occupation</th>
+                <th>Generation</th>
                 <th>Marital Status</th>
                 <th>Father's Name</th>
                 <th>Mother's Name</th>
@@ -53,6 +59,7 @@
                         <td>@member.Age</td>
                         <td>@member.GenderName</td>
                         <td>@member.OccupationType</td>
+                        <td>@member.GenerationType</td>
                         <td>@member.MatrialStatus</td>
                         <td>@member.FatherName</td>
                         <td>@member.MotherName</td>
@@ -161,6 +168,12 @@
                         </div>
                     </div>
 
+                    <div class="col-md-6">
+                        <div class="form-group custom-input">
+                            <label for="tblgeneration" class="label-title">Generation Type</label>
+                            <AutoCompleteSelect Type="tblgeneration" Value="@memberSetupModel.GenerationType.ToString()" ValueChanged="@((Id)=>memberSetupModel.GenerationType= int.Parse(Id))"></AutoCompleteSelect>
+                        </div>
+                    </div>
                     <div class="col-md-6">
                         <div class="form-group custom-input">
                             <label for="Gender" class="label-title">Gender</label>

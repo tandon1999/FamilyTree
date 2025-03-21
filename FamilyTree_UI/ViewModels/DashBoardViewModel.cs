@@ -2,13 +2,8 @@
 {
     public class DashBoardViewModel
     {
-        public int TotalFamilyMember { get; set; }
-        public int Male { get; set; }
-        public int Female { get; set; }
-        public int Living { get; set; }
-        public int Death { get; set; }
-        public decimal AverageLifespan { get; set; }
-        public string? LongestLivingIndividual { get; set; }
+       public string? DashBoardData { get; set; }
+        public Dictionary<string, object>? Generations { get; set; }
     }
     public class UpcommingAnniVModel
     {

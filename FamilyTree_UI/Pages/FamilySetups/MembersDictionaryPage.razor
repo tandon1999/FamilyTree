@@ -20,26 +20,34 @@
                         <img src="placeholder-image.png" alt="No Image" class="family-member-image" />
                     }
 
-                    <!-- Member Details -->
                     <div class="family-member-details">
                         <h4><strong>@member.FullName</strong></h4>
                         <p>
-                            <strong>
-                                जन्म मिति
-                                :
-                            </strong> @ConvertNE.ConvertEToNWithSlash(@member.DOB)
+                            <strong>(@member.NepDOBYear - @member.NepDeathYear)</strong>
                         </p>
-                        @if (member.DeathDate != default(DateTime))
-                        {
-                            <p>
-                                <strong>
-                                    मृत्यु मिति
-                                    :
-                                </strong> @ConvertNE.ConvertEToNWithSlash(member.DeathDate)
-                            </p>
-                        }
+
                         <p><strong>उमेर:</strong> @member.Age</p>
                     </div>
+
+                    @* <div class="family-member-details">
+            <h4><strong>@member.FullName</strong></h4>
+            <p>
+            <strong>
+            जन्म मिति
+            :
+            </strong> @ConvertNE.ConvertEToNWithSlash(@member.DOB)
+            </p>
+            @if (member.DeathDate != default(DateTime))
+            {
+            <p>
+            <strong>
+            मृत्यु मिति
+            :
+            </strong> @ConvertNE.ConvertEToNWithSlash(member.DeathDate)
+            </p>
+            }
+            <p><strong>उमेर:</strong> @member.Age</p>
+            </div> *@
                 </div>
             }
         </div>

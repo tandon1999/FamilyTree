@@ -18,7 +18,7 @@ namespace FamilyTree_UI.Pages.FamilySetups
         [Inject] public NavStateService NavStateService { get; set; }
         public FamilyMemberSetupModel memberSetupModel { get; set; } = new();
         public FamilyTreeMemberVModel familyTreeMembervmodel { get; set; } = new();
-      //  public List<FamilyTreeMemberVModel> familyTreeMemberlist { get; set; } = new();
+        //  public List<FamilyTreeMemberVModel> familyTreeMemberlist { get; set; } = new();
         public string Imagesrc { get; set; }
         private string uploadedImageUrl;
         private DateTime dob;
@@ -60,7 +60,7 @@ namespace FamilyTree_UI.Pages.FamilySetups
         {
             try
             {
-                var response = await _familyTreeMemberManager.GetFamilyTreeMembers();
+                var response = await _familyTreeMemberManager.GetFamilyTreeMembers(familyTreeMembervmodel.Id);
                 if (response?.Data != null && response.Data.Count > 0)
                 {
                     _gridData = response.Data.AsQueryable();
@@ -70,6 +70,14 @@ namespace FamilyTree_UI.Pages.FamilySetups
             {
                 _toastservice.ShowWarning(ex.Message);
             }
+        }
+        public async Task Filter(string Id)
+        {
+            if (int.Parse(Id) != 0)
+            {
+                familyTreeMembervmodel.Id = int.Parse(Id);
+            }
+            await GetAllFamilyDetails();
         }
         public async Task Delete(int Id)
         {
