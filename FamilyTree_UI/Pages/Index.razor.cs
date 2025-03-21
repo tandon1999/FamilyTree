@@ -127,7 +127,7 @@ namespace FamilyTree_UI.Pages
         {
             try
             {
-                var response = await _familyTreeMemberManager.GetFamilyTreeMembers();
+                var response = await _familyTreeMemberManager.GetFamilyTreeMembers(0);
                 if (response?.Data != null && response.Data.Count > 0)
                 {
                     foreach (var images in response.Data)

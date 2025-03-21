@@ -17,9 +17,7 @@ builder.Services.AddServerSideBlazor();
 builder.Services.AddCustomServices();
 builder.Services.AddHttpClient();
 builder.Services.AddBlazoredToast();
-// Program.cs
 builder.Services.AddScoped<NavStateService>();
-// In Program.cs or Startup.cs
 builder.Services.AddSingleton<LoaderService>();
 builder.Services.AddScoped<ConfirmDialogService>();
 builder.Services.AddLocalization();
@@ -45,6 +43,5 @@ app.UseRouting();
 
 app.MapBlazorHub();
 app.MapFallbackToPage("/_Host");
-// Register the Toast Service
 
 app.Run();

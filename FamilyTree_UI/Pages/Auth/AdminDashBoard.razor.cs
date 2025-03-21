@@ -1,11 +1,13 @@
 using Blazored.Toast.Services;
 using FamilyTree_UI.Manager.Interface;
 using FamilyTree_UI.Shared;
+using FamilyTree_UI.Shared.Models;
 using FamilyTree_UI.Shared.Services;
 using FamilyTree_UI.ViewModels;
 using FamilyTreeUI.Manager.Interface;
 using FamilyTreeUI.ViewModels;
 using Microsoft.AspNetCore.Components;
+using System.Text.Json;
 
 namespace FamilyTree_UI.Pages.Auth
 {
@@ -41,28 +43,28 @@ namespace FamilyTree_UI.Pages.Auth
                 _loader.HideLoader();
             }
         }
-/*        private void Logout()
-        {
-            NavStateService.SetNavVisibility(false);
-            _expiryTime = null;
-            NavigationManager.NavigateTo("/login");
-            _toastservice.ShowSuccess("Successfully Logout!!");
-        }*/
+
         public async Task GetAllFamilyDetails()
         {
             try
             {
                 var response = await _dashboardmanager.GetDashboardData();
-                if(response != null)
+                if (response != null)
                 {
-                    dashboardview = response;
-                }
+                    var data = JsonSerializer.Deserialize<Dictionary<string, object>>(response.DashBoardData);
 
+                    // Set the dashboard view model
+                    dashboardview = new DashBoardViewModel
+                    {
+                        Generations = data
+                    };
+                }
             }
             catch (Exception ex)
             {
                 _toastservice.ShowWarning(ex.Message);
             }
         }
+
     }
 }

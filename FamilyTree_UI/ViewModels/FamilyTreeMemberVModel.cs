@@ -36,5 +36,7 @@
         public string? DaughterIds { get; set; }
         public int WifeId { get; set; }
         public int HusbandId { get; set; }
+        public int GenerationId { get; set; }
+        public string? GenerationType { get; set; }
     }
 }

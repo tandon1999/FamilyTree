@@ -8,7 +8,10 @@
             _baseUrl = baseUrl;
         }
         public static string CreateFamilyTreeMember => $"{_baseUrl}FamilyMember/CreateFamilyMember";
-        public static string GetFamilyTreeMembers => $"{_baseUrl}FamilyMember/GetAllFamilyMember";
+        public static string GetFamilyTreeMembers(int GenId)
+        {
+          return $"{_baseUrl}FamilyMember/GetAllFamilyMember?GenId={GenId}";
+        }
         public static string GetFamilyMemberTimeLine => $"{_baseUrl}FamilyMember/GetFamilyMemberTimeLine";
         public static string DeleteFamilyTreeMember(int Id)
         {

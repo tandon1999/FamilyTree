@@ -53,6 +53,14 @@
                             <InputText class="form-control" id="LastName" @bind-Value="@memberSetupModel.LastName" />
                         </div>
                     </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group custom-input">
+                            <label for="tblgeneration" class="label-title">Generation Type</label>
+                            <AutoCompleteSelect Type="tblgeneration" Value="@memberSetupModel.GenerationType.ToString()" ValueChanged="@((Id)=>memberSetupModel.GenerationType= int.Parse(Id))"></AutoCompleteSelect>
+                        </div>
+                    </div>
+
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="Gender">Gender</label>

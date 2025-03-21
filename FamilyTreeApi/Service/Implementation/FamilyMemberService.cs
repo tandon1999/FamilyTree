@@ -86,12 +86,13 @@ namespace FamilyTreeApi.Service.Implementation
                 return await Response<FamilyTreeMemberRequestModel>.FailAsync(ex.Message);
             }
         }
-        public async Task<IResponse<List<FamilyTreeMemberResponseModel>>> GetFamilyTreeMembers()
+        public async Task<IResponse<List<FamilyTreeMemberResponseModel>>> GetFamilyTreeMembers(int GenId)
         {
             try
             {
                 FamilyTreeParam param = new();
                 param.Flag = 'G';
+                param.GenerationType = GenId;
                 var response = await _genericRepository.GetAllAsync<FamilyTreeMemberResponseModel>(StoreProc, param);
                 foreach (var member in response)
                 {

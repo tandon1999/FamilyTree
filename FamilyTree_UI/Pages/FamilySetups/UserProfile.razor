@@ -21,6 +21,9 @@
                     <strong>Occupation:</strong> <span>@memberSetupModel.OccupationType</span>
                 </div>
                 <div class="info-item">
+                    <strong>Generation Type:</strong> <span>@memberSetupModel.GenerationType</span>
+                </div>
+                <div class="info-item">
                     <strong>Father's Name:</strong> <span style="cursor:pointer" @onclick="()=>Redirecttouserprofile(memberSetupModel.FatherId)">@(string.IsNullOrWhiteSpace(memberSetupModel.FatherName) ? "N/A" : memberSetupModel.FatherName)</span>
                 </div>
                 <div class="info-item">

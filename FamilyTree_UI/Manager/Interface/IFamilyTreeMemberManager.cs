@@ -10,7 +10,7 @@ namespace FamilyTreeUI.Manager.Interface
     {
         Task<IResponse> CreateFamilyTreeMember(FamilyMemberSetupModel model);
         Task<IResponse> DeleteFamilyTreeMember(int Id);
-        Task<IResponse<List<FamilyTreeMemberVModel>>> GetFamilyTreeMembers();
+        Task<IResponse<List<FamilyTreeMemberVModel>>> GetFamilyTreeMembers(int GenId);
         Task<FamilyTreeMemberVModel> GetFamilyDetailsById(int Id);
         Task<IResponse<List<TimeLineViewModels>>> GetFamilyMemberTimeLine();
         Task<FamilyMemberSetupModel> GetFamilyTreeMemberByid(int Id);

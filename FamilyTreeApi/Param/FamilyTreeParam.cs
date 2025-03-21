@@ -15,6 +15,7 @@
         public int MotherName { get; set; }
         public int WIfeId { get; set; }
         public int HusbandId { get; set; }
+        public int GenerationType { get; set; }
         public string? Description { get; set; }
         public DateTime? DeathDate { get; set; }
         public int MatrialStatus { get; set; }

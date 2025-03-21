@@ -76,6 +76,11 @@ namespace FamilyTree_UI.Pages.FamilySetups
                     _toastservice.ShowWarning("Occupation is required");
                     return;
                 }
+                else if (memberSetupModel.GenerationType == 0)
+                {
+                    _toastservice.ShowWarning("Generation Type is required");
+                    return;
+                }
                 else if (string.IsNullOrEmpty(memberSetupModel.Address))
                 {
                     _toastservice.ShowWarning("Address is required");
