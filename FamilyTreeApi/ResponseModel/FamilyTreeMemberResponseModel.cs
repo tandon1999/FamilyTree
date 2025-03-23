@@ -37,6 +37,6 @@
         public int HusbandId { get; set; }
         public int GenerationId { get; set; }
         public string? GenerationType { get; set; }
-
+        public string? PhoneNumber { get; set; }
     }
 }

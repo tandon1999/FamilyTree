@@ -26,5 +26,6 @@ namespace FamilyTreeUI.Models
         public string? ImagePath { get; set; }
         public ImageUpload? imageUpload { get; set; }
         public byte[]? ImageByte { get; set; }
+        public string? PhoneNumber { get; set; }
     }
 }
