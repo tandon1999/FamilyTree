@@ -72,14 +72,14 @@ namespace FamilyTree_UI.Pages.FamilySetups
                 _toastservice.ShowWarning(ex.Message);
             }
         }
-        public async Task Filter(string Id)
+        /*public async Task Filter(string Id)
         {
             if (int.Parse(Id) != 0)
             {
                 familyTreeMembervmodel.Id = int.Parse(Id);
             }
             await GetAllFamilyDetails();
-        }
+        }*/
         public async Task Delete(int Id)
         {
             try

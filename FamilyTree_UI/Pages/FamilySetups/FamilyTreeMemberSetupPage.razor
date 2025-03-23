@@ -103,7 +103,12 @@
                             <AutoCompleteSelect Type="tblwife" Value="@memberSetupModel.WIfeId.ToString()" ValueChanged="@((Id)=>memberSetupModel.WIfeId= int.Parse(Id))"></AutoCompleteSelect>
                         </div>
                     </div>
-
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="LastName">Phone Number</label>
+                            <InputText class="form-control" id="LastName" @bind-Value="@memberSetupModel.PhoneNumber" />
+                        </div>
+                    </div>
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="DOB">Date of Birth</label>

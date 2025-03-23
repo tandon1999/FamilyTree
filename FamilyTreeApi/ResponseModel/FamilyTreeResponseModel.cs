@@ -24,5 +24,6 @@
         public string? GenerationType { get; set; }
         public string? Identification { get; set; }
         public int IdentificationID { get; set; }
+        public string? PhoneNumber { get; set; }
     }
 }
