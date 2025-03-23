@@ -68,3 +68,20 @@ main {
         padding-right: 1.5rem !important;
     }
 }
+
+/* Top bar */
+.top-bar {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 15px;
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #ddd; /* Adds a subtle bottom border */
+}
+
+.right-content {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+}
+

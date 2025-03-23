@@ -15,15 +15,16 @@
     <main>
         <div class="content px-4">
             <div class="top-bar">
-                <select @onchange="ChangeLanguage" value="@selectedLanguage">
-                    <option value="en">English</option>
-                    <option value="ne">Nepali</option>
-                </select>
+                <div class="right-content">
+                    <div id="google_translate_element"></div>
+                </div>
             </div>
-            <DialogBox/>
+            <DialogBox />
             @Body
             <Loader @ref="loader" />
             <BlazoredToasts />
+            <Footer />
         </div>
     </main>
 </div>
+

@@ -1,8 +1,7 @@
 ﻿@page "/"
+@using Microsoft.Extensions.Localization
 <PageTitle>Family Tree</PageTitle>
-
 <div class="container mt-5">
-
     <div class="hero bg-light text-center py-5 mb-5">
         <h1 class="hero-title">हरेक परिवारको एउटा कथा हुन्छ</h1>
         <p class="hero-subtitle">यो कथा १८७८ मा सुरु हुन्छ, जुन वर्ष <b>परशुराम टन्डन</b> जन्मेका थिए।</p>
@@ -54,19 +53,19 @@
 
     <div class="row mb-4">
         <div class="col-md-3 text-center get-to-know-item">
-            <h2 class="get-to-know-title">Get To Know Family Members/ परिवारका सदस्यहरूलाई चिन्नुहोस्</h2>
+            <h2 class="get-to-know-title">Get To Know Family Members</h2>
             <button class="btn btn-outline-primary" @onclick="()=> Navigate(1)">Open Directory</button>
         </div>
         <div class="col-md-3 text-center get-to-know-item">
-            <h2 class="get-to-know-title">Unfold the Roots of Parshuram Tandan/परशुराम टण्डनको जरा उजागर गर्नुहोस्</h2>
+            <h2 class="get-to-know-title">Unfold the Roots of Parshuram Tandan</h2>
             <button class="btn btn-outline-primary" @onclick="()=> Navigate(2)">Open Family Tree</button>
         </div>
         <div class="col-md-3 text-center get-to-know-item">
-            <h2 class="get-to-know-title">Witness the Past Through Events/विगतका घटनाहरू</h2>
+            <h2 class="get-to-know-title">Witness the Past Through Events</h2>
             <button class="btn btn-outline-primary" @onclick="()=> Navigate(3)">Open Timeline</button>
         </div>
         <div class="col-md-3 text-center get-to-know-item">
-            <h2 class="get-to-know-title">Enjoy the Photos of Past & Present/विगत र वर्तमानका तस्बिरहरूको आनन्द लिनुहोस्</h2>
+            <h2 class="get-to-know-title">Enjoy the Photos of Past & Present</h2>
             <button class="btn btn-outline-primary" @onclick="()=> Navigate(4)">Open Galleries</button>
         </div>
     </div>
@@ -143,11 +142,7 @@
                 </div>
             }
         </div>
-
     </div>
-
-
-
 </div>
 
 <style>

@@ -165,5 +165,11 @@ namespace FamilyTree_UI.Pages
         {
             _navigatation.NavigateTo($"/UserProfile/{Id}", true);
         }
+        private void SetLanguage(string culture)
+        {
+            var cultureInfo = new System.Globalization.CultureInfo(culture);
+            System.Globalization.CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
+            System.Globalization.CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
+        }
     }
 }
