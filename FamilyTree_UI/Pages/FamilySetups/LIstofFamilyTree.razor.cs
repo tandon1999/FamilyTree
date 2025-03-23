@@ -60,6 +60,7 @@ namespace FamilyTree_UI.Pages.FamilySetups
         {
             try
             {
+                _gridData = null;
                 var response = await _familyTreeMemberManager.GetFamilyTreeMembers(familyTreeMembervmodel.Id);
                 if (response?.Data != null && response.Data.Count > 0)
                 {

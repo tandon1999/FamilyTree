@@ -17,21 +17,17 @@ namespace FamilyTree_UI.Shared
         [Inject] private LoaderService LoaderService { get; set; }
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
-            if (firstRender && !hasSetLanguage)
+            if (firstRender)
             {
                 await CheckSession();
                 if (loader != null)
                 {
                     LoaderService.RegisterShowAction(loader.ShowLoader);
                     LoaderService.RegisterHideAction(loader.HideLoader);
-
-                    selectedLanguage = await JSRuntime.InvokeAsync<string>("localStorage.getItem", "selectedLanguage") ?? "en";                
                     StateHasChanged();
                 }
             }
         }
-
-
         /* private async Task CheckSession()
          {
              var expiryString = await JSRuntime.InvokeAsync<string>("sessionStorage.getItem", "loginExpiry");
@@ -84,7 +80,6 @@ namespace FamilyTree_UI.Shared
                 _navigationManager.NavigateTo("/");
             }
         }
-
         private async Task Logout()
         {
             await JSRuntime.InvokeVoidAsync("sessionStorage.removeItem", "loginExpiry");
@@ -92,16 +87,5 @@ namespace FamilyTree_UI.Shared
             NavStateService.SetNavVisibility(false);
             _navigationManager.NavigateTo("/");
         }
-
-        private bool hasSetLanguage = false;
-
-        private string selectedLanguage = "en";
-        private async Task ChangeLanguage(ChangeEventArgs e)
-        {
-            selectedLanguage = e.Value.ToString();
-            await JSRuntime.InvokeVoidAsync("localStorage.setItem", "selectedLanguage", selectedLanguage);
-            StateHasChanged();
-        }
-
     }
 }

@@ -7,6 +7,7 @@ using FamilyTree_UI.ViewModels;
 using FamilyTreeUI.Manager.Interface;
 using FamilyTreeUI.ViewModels;
 using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 using System.Text.Json;
 
 namespace FamilyTree_UI.Pages.Auth
@@ -43,6 +44,13 @@ namespace FamilyTree_UI.Pages.Auth
                 _loader.HideLoader();
             }
         }
+        protected override async Task OnAfterRenderAsync(bool firstRender)
+        {
+            if (firstRender)
+            {
+                await RenderChart();
+            }
+        }
 
         public async Task GetAllFamilyDetails()
         {
@@ -52,8 +60,6 @@ namespace FamilyTree_UI.Pages.Auth
                 if (response != null)
                 {
                     var data = JsonSerializer.Deserialize<Dictionary<string, object>>(response.DashBoardData);
-
-                    // Set the dashboard view model
                     dashboardview = new DashBoardViewModel
                     {
                         Generations = data
@@ -65,6 +71,49 @@ namespace FamilyTree_UI.Pages.Auth
                 _toastservice.ShowWarning(ex.Message);
             }
         }
+        private async Task RenderChart()
+        {
+            await Task.Delay(500);
+            if (dashboardview?.Generations != null)
+            {
+                var generations = dashboardview.Generations
+                                .Where(g => g.Key.Contains("Generation"))
+                                .ToDictionary(g => g.Key, g => g.Value);
+                var labels = generations.Keys.ToArray();
+                var data = generations.Values.ToArray();
+                var chartConfig = new
+                {
+                    type = "bar",
+                    data = new
+                    {
+                        labels = labels,
+                        datasets = new[]
+                        {
+                    new
+                    {
+                        label = "Generations",
+                        data = data,
+                        backgroundColor = "rgba(54, 162, 235, 0.2)",
+                        borderColor = "rgba(54, 162, 235, 1)",
+                        borderWidth = 1
+                    }
+                }
+                    },
+                    options = new
+                    {
+                        scales = new
+                        {
+                            y = new
+                            {
+                                beginAtZero = true
+                            }
+                        }
+                    }
+                };
+                await JS.InvokeVoidAsync("renderChart", chartConfig);
+            }
+        }
+
 
     }
 }

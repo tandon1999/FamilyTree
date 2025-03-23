@@ -24,6 +24,7 @@ builder.Services.AddLocalization();
 var baseUrl = builder.Configuration["ApiSettings:BaseUrl"];
 EndPointsManager.InitializeAllEndPoints(baseUrl);
 
+builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
 
 var app = builder.Build();
 
