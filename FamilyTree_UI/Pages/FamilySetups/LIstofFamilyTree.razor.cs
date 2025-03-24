@@ -116,10 +116,10 @@ namespace FamilyTree_UI.Pages.FamilySetups
             try
             {
                 var response = await _familyTreeMemberManager.GetFamilyTreeMemberByid(Id);
-                memberSetupModel = response;
-                memberSetupModel.IsDeath = memberSetupModel.DeathDate.HasValue;
                 if (response != null)
                 {
+                    memberSetupModel = response;
+                    memberSetupModel.IsDeath = memberSetupModel.DeathDate.HasValue;
                     if (response.ImageByte != null)
                     {
                         uploadedImageUrl = "data:image/png;base64," + Convert.ToBase64String(response.ImageByte);
@@ -128,8 +128,8 @@ namespace FamilyTree_UI.Pages.FamilySetups
                     {
                         _toastservice.ShowWarning("No Image Uploaded!!!");
                     }
+                    ShowModal1 = true;
                 }
-                ShowModal1 = true;
             }
             catch (Exception ex)
             {

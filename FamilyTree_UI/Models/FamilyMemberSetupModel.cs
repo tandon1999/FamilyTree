@@ -7,7 +7,7 @@ namespace FamilyTreeUI.Models
         public int Id { get; set; }
         public string? FirstName { get; set; }
         public string? MiddleName { get; set; }
-        public string? LastName { get; set; } = "टन्डन";
+        public string? LastName { get; set; } = "Tandan";
         public DateTime DOB { get; set; } = DateTime.Now;
         public int Age { get; set; }
         public int Gender { get; set; } 
@@ -22,7 +22,7 @@ namespace FamilyTreeUI.Models
         public int NumberOfChildren { get; set; }
         public int GenerationType { get; set; }
         public bool IsDeath { get; set; } = false;
-        public string? Address { get; set; }
+        public string? Address { get; set; } = "Chhatrakot-2, Gwagha, Gulmi";
         public string? ImagePath { get; set; }
         public ImageUpload? imageUpload { get; set; }
         public byte[]? ImageByte { get; set; }
