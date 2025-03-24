@@ -40,10 +40,6 @@ namespace FamilyTree_UI.Shared
                 _loader.HideLoader();
             }
         }
-        public void Dispose()
-        {
-            NavStateService.OnNavStateChanged -= StateHasChanged;
-        }
         private async Task Logout()
         {
             await JSRuntime.InvokeVoidAsync("sessionStorage.removeItem", "loginExpiry");
@@ -52,5 +48,9 @@ namespace FamilyTree_UI.Shared
             _navigationManager.NavigateTo("/login");
         }
 
+        /*public void Dispose()
+        {
+            NavStateService.OnNavStateChanged -= StateHasChanged;
+        }*/
     }
 }

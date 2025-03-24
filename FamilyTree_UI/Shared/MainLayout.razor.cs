@@ -28,29 +28,6 @@ namespace FamilyTree_UI.Shared
                 }
             }
         }
-        /* private async Task CheckSession()
-         {
-             var expiryString = await JSRuntime.InvokeAsync<string>("sessionStorage.getItem", "loginExpiry");
-             if (!string.IsNullOrEmpty(expiryString) && DateTime.TryParse(expiryString, out DateTime expiryTime))
-             {
-                 if (DateTime.Now < expiryTime)
-                 {
-                     _loginExpiryTime = expiryTime;
-                     NavStateService.SetNavVisibility(true);
-                 }
-                 else
-                 {
-                     _toastservice.ShowInfo("Session Expired");
-                     await Logout();
-
-                 }
-             }
-             else
-             {
-                 NavStateService.SetNavVisibility(false);
-                 _navigationManager.NavigateTo("/");
-             }
-         }*/
         private async Task CheckSession()
         {
             var expiryString = await JSRuntime.InvokeAsync<string>("sessionStorage.getItem", "loginExpiry");
@@ -81,11 +58,11 @@ namespace FamilyTree_UI.Shared
             }
         }
         private async Task Logout()
-        {
-            await JSRuntime.InvokeVoidAsync("sessionStorage.removeItem", "loginExpiry");
-            _loginExpiryTime = null;
-            NavStateService.SetNavVisibility(false);
-            _navigationManager.NavigateTo("/");
+            {
+                await JSRuntime.InvokeVoidAsync("sessionStorage.removeItem", "loginExpiry");
+                _loginExpiryTime = null;
+                NavStateService.SetNavVisibility(false);
+                _navigationManager.NavigateTo("/");
+            }
         }
     }
-}
