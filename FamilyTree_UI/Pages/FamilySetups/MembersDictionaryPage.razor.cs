@@ -12,10 +12,13 @@ namespace FamilyTree_UI.Pages.FamilySetups
         [Inject] public IFamilyTreeMemberManager _familyTreeMemberManager { get; set; } = default!;
         public FamilyTreeMemberVModel familyTreeMembervmodel { get; set; } = new();
         [Inject] public NavigationManager _navigatation { get; set; }
-
-        public List<FamilyTreeMemberVModel> familyTreeMemberlist { get; set; } = new();
         public string Imagesrc { get; set; }
         [Inject] private LoaderService _loader { get; set; } = default!;
+        string nameFilter = string.Empty;
+        public IQueryable<FamilyTreeMemberVModel>? _gridData { get; set; }
+
+        IQueryable<FamilyTreeMemberVModel>? familyTreeMemberlist => _gridData?
+            .Where(x => x.FirstName.ToLower().Contains(nameFilter.ToLower()));
         protected override async Task OnInitializedAsync()
         {
             _loader.ShowLoader();
@@ -51,7 +54,7 @@ namespace FamilyTree_UI.Pages.FamilySetups
                             _toastservice.ShowWarning("No Image Uploaded!!!");
                         }
                     }
-                    familyTreeMemberlist = response.Data;
+                    _gridData = response.Data.AsQueryable();
                 }
 
             }
@@ -63,7 +66,6 @@ namespace FamilyTree_UI.Pages.FamilySetups
         public async Task Redirecttouserprofile(int Id)
         {
             _navigatation.NavigateTo($"/UserProfile/{Id}");
-        }
-
+        }    
     }
 }

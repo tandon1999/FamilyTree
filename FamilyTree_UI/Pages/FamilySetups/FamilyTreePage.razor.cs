@@ -41,7 +41,6 @@ namespace FamilyTree_UI.Pages.FamilySetups
                 _loader.HideLoader();
             }
         }
-
         /*        public async Task GetAllFamilyDetails(int Id)
                 {
                     try
@@ -60,18 +59,14 @@ namespace FamilyTree_UI.Pages.FamilySetups
                                     _toastservice.ShowWarning("No Image Uploaded!!!");
                                 }
                             }
+
                             if (familyTreeMemberlist == null)
                             {
                                 familyTreeMemberlist = new List<FamilyTreevmodel>();
                             }
-                            var existingMember = familyTreeMemberlist.FirstOrDefault(m => m.Id == Id);
-                            if (existingMember != null)
-                            {
-                                if (response.Data.Count == 1)
-                                {
-                                    existingMember.IsIconDisabled = false;
-                                }
-                            }
+
+                            familyTreeMemberlist.RemoveAll(m => m.FatherId == Id || m.MotherId == Id || m.WifeId == Id || m.GenerationId  > familyTreeMemberlist.FirstOrDefault(x => x.Id == Id).GenerationId);
+
                             foreach (var member in response.Data)
                             {
                                 if (!familyTreeMemberlist.Any(m => m.Id == member.Id))
@@ -85,24 +80,8 @@ namespace FamilyTree_UI.Pages.FamilySetups
                     {
                         _toastservice.ShowWarning(ex.Message);
                     }
+                    StateHasChanged();
                 }*/
-
-        /*        private async Task OnBranchIconClick(int memberId)
-                {
-                    var member = familyTreeMemberlist.FirstOrDefault(m => m.Id == memberId);
-                    if (member != null && !member.IsIconDisabled)
-                    {
-                        // Disable the icon immediately to prevent multiple clicks
-                        member.IsIconDisabled = true;
-
-                        // Fetch family details for this member
-                        await GetAllFamilyDetails(memberId);
-
-                        // Refresh the UI to reflect changes
-                        StateHasChanged();
-                    }
-                }*/
-
         public async Task GetAllFamilyDetails(int Id)
         {
             try
@@ -127,7 +106,15 @@ namespace FamilyTree_UI.Pages.FamilySetups
                         familyTreeMemberlist = new List<FamilyTreevmodel>();
                     }
 
-                    familyTreeMemberlist.RemoveAll(m => m.FatherId == Id || m.MotherId == Id || m.GenerationId > familyTreeMemberlist.FirstOrDefault(x => x.Id == Id).GenerationId);
+                    // Remove existing members related to the parent ID and higher generations
+                    familyTreeMemberlist.RemoveAll(m => m.FatherId == Id || m.MotherId == Id || m.WifeId == Id || m.GenerationId > familyTreeMemberlist.FirstOrDefault(x => x.Id == Id).GenerationId);
+
+                    // Remove members with the same GenerationId and WifeId to avoid duplicates, only if list contains more than 1 item.
+                    var generationIdOfParent = familyTreeMemberlist.FirstOrDefault(x => x.Id == Id)?.GenerationId ?? 0;
+                    if (response.Data.Count > 1)
+                    {
+                        familyTreeMemberlist.RemoveAll(m => m.GenerationId == generationIdOfParent && m.WifeId != null && response.Data.Any(r => r.Id != m.Id && r.WifeId == m.WifeId));
+                    }
 
                     foreach (var member in response.Data)
                     {
@@ -156,7 +143,7 @@ namespace FamilyTree_UI.Pages.FamilySetups
 
         private string GetGenerationColor(int generationId)
         {
-            switch (generationId % 15) 
+            switch (generationId % 15)
             {
                 case 0: return "background-color: #f0f8ff;"; // AliceBlue
                 case 1: return "background-color: #f5f5dc;"; // Beige
@@ -172,27 +159,14 @@ namespace FamilyTree_UI.Pages.FamilySetups
                 case 11: return "background-color: #faf0e6;"; // Linen
                 case 12: return "background-color: #fffff0;"; // Ivory
                 case 13: return "background-color: #f0e68c;"; // Khaki
-                case 14: return "background-color: #d3d3d3;"; // LightGrey
-                default: return "background-color: #ffffff;"; // White
+                case 14: return "background-color: #ffffff;"; // LightGrey
+                default: return "background-color: #d3d3d3;"; // White
             }
         }
         private string GetGenerationType(int generationId)
         {
             var generationMember = familyTreeMemberlist?.FirstOrDefault(m => m.GenerationId == generationId);
             return generationMember?.GenerationType ?? "Unknown";
-        }
-        private async Task<(int x, int y)> GetElementPosition(string elementId)
-        {
-            var position = await JS.InvokeAsync<object>("getElementPosition", elementId);
-
-            if (position != null)
-            {
-                var x = Convert.ToInt32(position.GetType().GetProperty("x").GetValue(position, null));
-                var y = Convert.ToInt32(position.GetType().GetProperty("y").GetValue(position, null));
-                return (x, y);
-            }
-
-            return (0, 0);
         }
         private string GetMemberAlignment(int identificationId)
         {
@@ -213,7 +187,6 @@ namespace FamilyTree_UI.Pages.FamilySetups
                 _ => "#FFFFFF"  // Default white background for others
             };
         }
-
 
     }
 }

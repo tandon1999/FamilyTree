@@ -1,9 +1,8 @@
 ﻿@page "/Getgallery"
 @using FamilyTree_UI.Shared.Component
 @inherits LayoutComponentBase
-
+<h1 class="text-center">Galleries</h1>
 <link href="css/Getgallery.css" rel="stylesheet" />
-<link href="css/Loader.css" rel="stylesheet" />
 
 <div class="gallery-grid">
     @if (gallerySetupslist != null && gallerySetupslist.Count > 0)
@@ -19,6 +18,10 @@
                 </button>
             </div>
         }
+    }
+    else
+    {
+        <p>No Galleries To Show</p>
     }
 </div>
 
