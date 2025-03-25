@@ -1,10 +1,20 @@
 ﻿@page "/members-dictionary"
 
 
-<h3>Good People Of Tandan Clan</h3>
+<h1 class="text-center mt-2">Good People Of Tandan Clan</h1>
+<div class="d-flex justify-content-center mb-5" id="searchContainer">
+    <div class="col-md-6 col-sm-8 col-10">
+        <div class="search-container">
+            <input type="text" class="form-control search-input" placeholder="Search by name. . ." @bind="nameFilter" @bind:event="oninput" />
+            <span class="material-symbols-outlined search-icon">
+                search
+            </span>
+        </div>
 
+    </div>
+</div>
 <div class="tree">
-    @if (familyTreeMemberlist != null && familyTreeMemberlist.Count > 0)
+    @if (familyTreeMemberlist != null && familyTreeMemberlist.Any())
     {
         <div class="family-tree">
             @foreach (var member in familyTreeMemberlist)
@@ -28,26 +38,6 @@
 
                         <p><strong>Age:</strong> @member.Age</p>
                     </div>
-
-                    @* <div class="family-member-details">
-            <h4><strong>@member.FullName</strong></h4>
-            <p>
-            <strong>
-            जन्म मिति
-            :
-            </strong> @ConvertNE.ConvertEToNWithSlash(@member.DOB)
-            </p>
-            @if (member.DeathDate != default(DateTime))
-            {
-            <p>
-            <strong>
-            मृत्यु मिति
-            :
-            </strong> @ConvertNE.ConvertEToNWithSlash(member.DeathDate)
-            </p>
-            }
-            <p><strong>उमेर:</strong> @member.Age</p>
-            </div> *@
                 </div>
             }
         </div>
@@ -87,6 +77,55 @@
             margin-bottom: 10px;
         }
 
+    .search-container {
+        position: relative; /* To keep the icon and input together */
+        width: 100%;
+        max-width: 400px; /* Set a max-width for the search input container */
+        margin: 0 auto; /* Center the container */
+    }
+
+    .search-input {
+        height: 50px;
+        width: 100%;
+        border-radius: 50px;
+        border: 1px solid #ced4da;
+        padding-left: 2.5rem; /* Space for the left-side icon */
+        padding-right: 2.5rem; /* Space for the right-side icon */
+        transition: all 0.3s ease;
+        background-color: #f8f9fa;
+        box-shadow: none; /* Remove the box-shadow */
+    }
+
+        .search-input:focus {
+            border-color: #007bff;
+            background-color: #ffffff;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.25);
+            outline: none; /* Remove the default outline */
+        }
+
+    .search-icon {
+        position: absolute;
+        right: 15px; /* Position the icon on the right side of the search box */
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 20px;
+        color: #6c757d;
+        cursor: pointer;
+        transition: color 0.3s ease;
+    }
+
+    .search-input:focus + .search-icon {
+        color: #007bff; /* Change icon color on focus */
+    }
+
+    .search-icon:hover {
+        color: #007bff; /* Icon color change on hover */
+    }
+
+    .search-container.search-results .search-icon {
+        left: 15px; /* Move the icon to the left side when showing results */
+        right: auto; /* Reset the right position */
+    }
 </style>
 
 
