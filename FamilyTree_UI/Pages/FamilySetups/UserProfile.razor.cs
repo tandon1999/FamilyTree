@@ -50,7 +50,7 @@ namespace FamilyTree_UI.Pages.FamilySetups
         }
         public async Task Redirecttouserprofile(int Id)
         {
-            _navigatation.NavigateTo($"/UserProfile/{Id}", true);
+            _navigatation.NavigateTo($"/UserProfile/{Id}");
         }
     }
 }
