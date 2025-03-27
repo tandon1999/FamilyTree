@@ -1,0 +1,4 @@
+USE [DB_FamilyTree]
+GO
+CREATE SCHEMA [Auth]
+GO
