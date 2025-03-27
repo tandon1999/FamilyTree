@@ -16,4 +16,12 @@
 		<PackageReference Include="System.Text.Json" Version="7.0.0" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="Database\Functions\" />
+	  <Folder Include="Database\Data\" />
+	  <Folder Include="Database\Schema\" />
+	  <Folder Include="Database\StoreProcedure\" />
+	  <Folder Include="Database\Tables\" />
+	</ItemGroup>
+
 </Project>
