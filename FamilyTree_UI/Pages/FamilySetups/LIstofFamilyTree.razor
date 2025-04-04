@@ -68,17 +68,17 @@
                             }
                         </td>
                         <td>
-                            <button @onclick="@((Id )=>ViewImage(member.Id))" class="btn btn-sm btn-outline-info">
-                                <i class="bi bi-eye"></i> View
-                            </button>
+                            <span class="material-symbols-outlined" @onclick="@((Id )=>ViewImage(member.Id))" style="color:blue;cursor:pointer">
+                                imagesmode
+                            </span>
                         </td>
                         <td>
-                            <button @onclick="@((Id )=>Edit(member.Id))" class="btn btn-sm btn-outline-primary">
-                                <i class="bi bi-pencil-square"></i> Edit
-                            </button>
-                            <button @onclick="@((Id )=>Delete(member.Id))" class="btn btn-sm btn-outline-danger">
-                                <i class="bi bi-trash"></i> Delete
-                            </button>
+                            <span class="material-symbols-outlined" @onclick="@((Id )=>Edit(member.Id))" style="color:forestgreen;cursor:pointer">
+                                edit
+                            </span>
+                            <span class="material-symbols-outlined" @onclick="@((Id )=>Delete(member.Id))" style="color:red;cursor:pointer">
+                                delete
+                            </span>
                         </td>
                     </tr>
                     sn++;

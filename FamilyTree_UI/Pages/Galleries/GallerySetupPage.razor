@@ -18,8 +18,11 @@
                 }
             </div>
             <div class="upload-btn-container">
-                <label for="ProfilePicture" class="upload-btn">
+                <label for="ProfilePicture" class="upload-btn" style="display: flex; align-items: center;">
                     <i class="bi bi-upload"></i> Upload Image
+                    <span class="material-symbols-outlined" style="margin-left: 5px;">
+                        upload
+                    </span>
                 </label>
                 <InputFile class="d-none" id="ProfilePicture" OnChange="HandleFileSelected" />
             </div>
@@ -59,7 +62,13 @@
             <div class="col-md-12 mt-3 text-end">
                 @if (gallerysetupmodel.Id == 0)
                 {
-                    <button class="btn btn-primary" @onclick="()=> CreateGallerySetup(1)">Add</button>
+                    <button class="btn btn-primary" @onclick="() => CreateGallerySetup(1)" style="display: flex; align-items: center;">
+                        Add
+                        <span class="material-symbols-outlined" style="margin-left: 5px;">
+                            add_photo_alternate
+                        </span>
+                    </button>
+
                 }
                 else
                 {
@@ -94,23 +103,17 @@
                             <td>@ConvertNE.ConvertEToNWithSlash(@photo.DateofPhoto)</td>
                             <td>@photo.Description</td>
                             <td>
-                                <i @onclick="@((Id )=>ViewImage(photo.TempId,1))"
-                                   class="material-icons"
-                                   title="View">
-                                    visibility
-                                </i>
+                                <span class="material-symbols-outlined" @onclick="@((Id )=>ViewImage(photo.TempId,1))" style="color:purple;cursor:pointer">
+                                    imagesmode
+                                </span>
                             </td>
                             <td>
-                                <i @onclick="@((Id )=>Edit(photo.TempId,1))"
-                                   class="material-icons edit-icon"
-                                   title="Edit">
+                                <span class="material-symbols-outlined" @onclick="@((Id )=>Edit(photo.TempId,1))" style="color:forestgreen;cursor:pointer">
                                     edit
-                                </i>
-                                <i @onclick="@((Id )=>Delete(photo.TempId,1))"
-                                   class="material-icons delete-icon"
-                                   title="Delete">
+                                </span>
+                                <span class="material-symbols-outlined" @onclick="@((Id )=>Delete(photo.TempId,1))" style="color:red;cursor:pointer">
                                     delete
-                                </i>
+                                </span>
                             </td>
                         </tr>
                         sn++;
@@ -157,17 +160,17 @@
                         <td>@ConvertNE.ConvertEToNWithSlash(@member.DateofPhoto)</td>
                         <td>@member.Description</td>
                         <td>
-                            <button @onclick="@((Id )=>ViewImage(member.Id,2))" class="btn btn-sm btn-outline-info">
-                                <i class="bi bi-eye"></i> View
-                            </button>
+                            <span class="material-symbols-outlined" @onclick="@((Id )=>ViewImage(member.Id,2))" style="color:blue;cursor:pointer">
+                                imagesmode
+                            </span>
                         </td>
                         <td>
-                            <button @onclick="@((Id )=>Edit(member.Id,2))" class="btn btn-sm btn-outline-primary">
-                                <i class="bi bi-pencil-square"></i> Edit
-                            </button>
-                            <button @onclick="@((Id )=>Delete(member.Id,2))" class="btn btn-sm btn-outline-danger">
-                                <i class="bi bi-trash"></i> Delete
-                            </button>
+                            <span class="material-symbols-outlined" @onclick="@((Id )=>Edit(member.Id,2))" style="color:forestgreen;cursor:pointer">
+                                edit
+                            </span>
+                            <span class="material-symbols-outlined" @onclick="@((Id )=>Delete(member.Id,2))" style="color:red;cursor:pointer">
+                                delete
+                            </span>
                         </td>
                     </tr>
                     sn++;

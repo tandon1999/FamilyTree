@@ -21,8 +21,11 @@
                     }
                 </div>
                 <div class="upload-btn-container">
-                    <label for="ProfilePicture" class="upload-btn">
+                    <label for="ProfilePicture" class="upload-btn" style="display: flex; align-items: center;">
                         <i class="bi bi-upload"></i> Upload Image
+                        <span class="material-symbols-outlined" style="margin-left: 5px;">
+                            upload
+                        </span>
                     </label>
                     <InputFile class="d-none" id="ProfilePicture" OnChange="HandleFileSelected" />
                 </div>
