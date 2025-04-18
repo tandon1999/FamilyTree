@@ -1,7 +1,5 @@
 ﻿using FamilyTreeUI.Pages.Shared;
 
-namespace UraCareUI.Shared.UtilityHelpers.Wrapper;
-
 public class PaginatedResponse<T> : Response
 {
     public PaginatedResponse(List<T> data)

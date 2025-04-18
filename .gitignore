@@ -61,3 +61,5 @@ FamilyTreeApi/.vs/FamilyTreeApi/v17/.suo
 FamilyTreeApi/.vs/FamilyTreeApi/v17/DocumentLayout.json
 FamilyTreeApi/.vs/FamilyTreeApi/FileContentIndex/f9da75fc-af31-4753-94c9-843cad36feba.vsidx
 /FamilyTreeApi/.vs
+/.vs
+*.sln
