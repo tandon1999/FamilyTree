@@ -1,8 +1,8 @@
-﻿@page "/admin"
+﻿@using FamilyTree_UI.Pages.Blogs
+@using FamilyTree_UI.Pages.FamilySetups
+@using FamilyTree_UI.Pages.Galleries
+@page "/admin"
 @using FamilyTree_UI.Shared.Services
-@inject NavigationManager NavigationManager
-@inject NavStateService NavStateService
-@inject IJSRuntime JS
 @if (dashboardview?.Generations != null)
 {
     <div class="row">
@@ -59,3 +59,127 @@
     }
 </style>
 
+
+
+@* @page "/admin"
+@inject IJSRuntime JS
+<div class="d-flex" style="height: 100vh;">
+    <div class="sidebar bg-light">
+        <div class="sidebar-heading">Admin Menu</div>
+        <a @onclick="()=>Navigate(1)" class="list-group-item list-group-item-action bg-light">
+            <i class="oi oi-dashboard pr-2"></i> Dashboard
+        </a>
+        <a @onclick="()=>Navigate(2)" class="list-group-item list-group-item-action bg-light">
+            <i class="oi oi-plus pr-2"></i> Family Setup
+        </a>
+        <a @onclick="()=>Navigate(3)" class="list-group-item list-group-item-action bg-light">
+            <i class="oi oi-list pr-2"></i> Family List
+        </a>
+        <a @onclick="()=>Navigate(4)" class="list-group-item list-group-item-action bg-light">
+            <i class="oi oi-image pr-2"></i> Gallery Setup
+        </a>
+        <a @onclick="()=>Navigate(5)" class="list-group-item list-group-item-action bg-light">
+            <i class="oi oi-video pr-2"></i> Blogs Setup
+        </a>
+    </div>
+
+    <div class="content-area flex-grow-1 p-4">
+        @if (SelectedTab == 1)
+        {
+            <div id="page-content-wrapper" style="flex-grow: 1; padding: 15px;">
+                @if (dashboardview?.Generations != null)
+                {
+                    <div class="row">
+                        @foreach (var generation in dashboardview.Generations.Where(g => !g.Key.Contains("Generation")))
+                        {
+                            <div class="col-md-2">
+                                <div class="card shadow-lg rounded-lg mb-4" style="min-height: 100px; background-color: #f0f8ff;">
+                                    <div class="card-body">
+                                        <h5 class="card-title text-primary font-weight-bold">@generation.Key</h5>
+                                        <p class="card-text" style="color: #008080; font-size: @(generation.Value is string ? "small" : "xx-large");">
+                                            @if (generation.Value is string)
+                                            {
+                                                @generation.Value.ToString()
+                                            }
+                                            else if (generation.Value is int)
+                                            {
+                                                @((int)generation.Value)
+                                            }
+                                            else
+                                            {
+                                                @generation.Value.ToString()
+                                            }
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+                        @if (dashboardview?.Generations != null)
+                        {
+                            var generationData = dashboardview.Generations
+                            .Where(g => g.Key.Contains("Generation"))
+                            .ToDictionary(g => g.Key, g => g.Value);
+
+                            if (generationData.Any())
+                            {
+                                <div class="col-md-4">
+                                    <canvas id="myChart" width="50" height="40"></canvas>
+                                </div>
+                            }
+                        }
+                        else
+                        {
+                            <p>Loading...</p>
+                        }
+                    </div>
+                }
+                else
+                {
+                    <p>Loading dashboard data...</p>
+                }
+            </div>
+        }
+        else if (SelectedTab == 2)
+        {
+            <FamilyTreeMemberSetupPage />
+        }
+        else if (SelectedTab == 3)
+        {
+            <LIstofFamilyTree />
+        }
+        else if (SelectedTab == 4)
+        {
+            <GetGalleryPages />
+        }
+        else if (SelectedTab == 5)
+        {
+            <BlogsSetupPage />
+        }
+    </div>
+</div>
+<style>
+    .nav-dash {
+        width: 250px;
+        height: 100vh;
+        background-color: #f8f9fa;
+        border-right: 1px solid #ccc;
+        box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+        padding: 20px 10px;
+    }
+
+    #sidebar-wrapper {
+        width: 220px;
+        min-height: 100vh;
+    }
+
+    .content-area {
+        overflow-y: auto;
+    }
+
+    .d-flex {
+        display: flex;
+        flex-direction: row;
+    }
+
+</style> *@

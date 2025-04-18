@@ -10,7 +10,6 @@ namespace FamilyTree_UI.Pages.Blogs
     public partial class BlogPage
     {
         [Inject] public IBlogsManager _blogsmanager { get; set; } = default!;
-       // [Inject] public IToastService _toastservice { get; set; } = default!;
         public List<BlogsPostVModel> blogsPostlist { get; set; } = new();
         private string uploadedImageUrl;
         protected override async Task OnInitializedAsync()
@@ -62,7 +61,7 @@ namespace FamilyTree_UI.Pages.Blogs
         {
             if (firstRender)
             {
-                await JS.InvokeVoidAsync("googleTranslateElementInit");
+                await _js.InvokeVoidAsync("googleTranslateElementInit");
             }
         }
     }

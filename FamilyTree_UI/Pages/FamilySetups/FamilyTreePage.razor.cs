@@ -40,47 +40,6 @@ namespace FamilyTree_UI.Pages.FamilySetups
                 _loader.HideLoader();
             }
         }
-        /*        public async Task GetAllFamilyDetails(int Id)
-                {
-                    try
-                    {
-                        var response = await _familyTreeMemberManager.FamilyDetailsByParentId(Id);
-                        if (response?.Data != null && response.Data.Count > 0)
-                        {
-                            foreach (var image in response.Data)
-                            {
-                                if (image.ImageByte != null)
-                                {
-                                    image.ImageSrc = "data:image/png;base64," + Convert.ToBase64String(image.ImageByte);
-                                }
-                                else
-                                {
-                                    _toastservice.ShowWarning("No Image Uploaded!!!");
-                                }
-                            }
-
-                            if (familyTreeMemberlist == null)
-                            {
-                                familyTreeMemberlist = new List<FamilyTreevmodel>();
-                            }
-
-                            familyTreeMemberlist.RemoveAll(m => m.FatherId == Id || m.MotherId == Id || m.WifeId == Id || m.GenerationId  > familyTreeMemberlist.FirstOrDefault(x => x.Id == Id).GenerationId);
-
-                            foreach (var member in response.Data)
-                            {
-                                if (!familyTreeMemberlist.Any(m => m.Id == member.Id))
-                                {
-                                    familyTreeMemberlist.Add(member);
-                                }
-                            }
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        _toastservice.ShowWarning(ex.Message);
-                    }
-                    StateHasChanged();
-                }*/
         public async Task GetAllFamilyDetails(int Id)
         {
             try

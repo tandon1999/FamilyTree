@@ -110,10 +110,33 @@ namespace FamilyTree_UI.Pages.Auth
                         }
                     }
                 };
-                await JS.InvokeVoidAsync("renderChart", chartConfig);
+                await _js.InvokeVoidAsync("renderChart", chartConfig);
             }
         }
-
-
+        public int SelectedTab { get; set; } = 1;
+        private async Task Navigate(int type)
+        {
+            SelectedTab = type;
+            if (type == 1)
+            {
+                _navigationManager.NavigateTo("/admin");
+            }
+            else if (type == 2)
+            {
+                _navigationManager.NavigateTo("/familysetup");
+            }
+            else if (type == 3)
+            {
+                _navigationManager.NavigateTo("/familylist");
+            }
+            else if (type == 4)
+            {
+                _navigationManager.NavigateTo("/Gallery");
+            }
+            else if (type == 5)
+            {
+                _navigationManager.NavigateTo("/Blogsetup");
+            }
+        }
     }
 }

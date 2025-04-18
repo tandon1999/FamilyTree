@@ -11,7 +11,6 @@ namespace FamilyTree_UI.Pages.Auth
     public partial class LoginPage
     {
         public LoginModel loginModel { get; set; } = new();
-       // [Inject] public IToastService _toastservice { get; set; } = default!;
         [Inject] public ILoginManager _loginManager { get; set; } = default!;
         private bool showPassword = false;
         public bool IsNavVisible = false;
