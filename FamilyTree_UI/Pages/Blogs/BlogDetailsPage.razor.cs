@@ -13,9 +13,8 @@ namespace FamilyTree_UI.Pages.Blogs
         [Parameter] public int Id { get; set; }
         public BlogsPostModel blog { get; set; } = new();
         [Inject] public IBlogsManager _blogsmanager { get; set; } = default!;
-        [Inject] public IToastService _toastservice { get; set; } = default!;
+      //  [Inject] public IToastService _toastservice { get; set; } = default!;
         public string Imagesrc;
-        [Inject] private LoaderService _loader { get; set; } = default!;
         protected override async Task OnInitializedAsync()
         {
             _loader.ShowLoader();

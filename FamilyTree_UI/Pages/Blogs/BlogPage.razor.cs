@@ -10,17 +10,14 @@ namespace FamilyTree_UI.Pages.Blogs
     public partial class BlogPage
     {
         [Inject] public IBlogsManager _blogsmanager { get; set; } = default!;
-        [Inject] public IToastService _toastservice { get; set; } = default!;
+       // [Inject] public IToastService _toastservice { get; set; } = default!;
         public List<BlogsPostVModel> blogsPostlist { get; set; } = new();
-        [Inject] public NavigationManager _navigationManager { get; set; } = default!;
-
         private string uploadedImageUrl;
-            [Inject] private LoaderService _loader { get; set; } = default!;
         protected override async Task OnInitializedAsync()
         {
             _loader.ShowLoader();
             try
-            {             
+            {
                 await GetAll();
             }
             catch (Exception ex)

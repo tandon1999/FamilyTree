@@ -1,4 +1,5 @@
 using Blazored.Toast.Services;
+using FamilyTree_UI.Configuration.Extension;
 using FamilyTree_UI.Manager.Interface;
 using FamilyTree_UI.Shared;
 using FamilyTree_UI.Shared.Models;
@@ -15,25 +16,24 @@ namespace FamilyTree_UI.Pages.Auth
     public partial class AdminDashBoard
     {
         [Inject] public IDashBoardManager _dashboardmanager { get; set; } = default!;
-        [Inject] public IToastService _toastservice { get; set; } = default!;
-        [Inject] public NavigationManager _navigationManager { get; set; } = default!;
+       // [Inject] public IToastService _toastservice { get; set; } = default!;
         public DashBoardViewModel dashboardview { get; set; } = new();
-        [Inject] private LoaderService _loader { get; set; } = default!;
+        private int RoleId = 0;
         protected override async Task OnInitializedAsync()
         {
             _loader.ShowLoader();
             try
             {
-                if (!NavStateService.IsNavVisible)
+                var currentuser = await _customAuthStateProvider.CurrentUser();
+                RoleId = ClaimsPrincipalExtensions.GetRoleId(currentuser);
+                if (RoleId != 1)
                 {
                     _toastservice.ShowWarning("You are not authorized for this page!!!");
                     _navigationManager.NavigateTo("/");
                     return;
                 }
-                else
-                {
-                    await GetAllFamilyDetails();
-                }
+                await GetAllFamilyDetails();
+
             }
             catch (Exception ex)
             {

@@ -1,4 +1,5 @@
 using Blazored.Toast.Services;
+using FamilyTree_UI.Configuration.Extension;
 using FamilyTree_UI.Manager.Implementation;
 using FamilyTree_UI.Manager.Interface;
 using FamilyTree_UI.Models;
@@ -14,21 +15,21 @@ namespace FamilyTree_UI.Pages.Blogs
     public partial class BlogsSetupPage
     {
         [Inject] public IBlogsManager _blogsmanager { get; set; } = default!;
-        [Inject] public IToastService _toastservice { get; set; } = default!;
-        [Inject] public NavStateService NavStateService { get; set; }
-        [Inject] public NavigationManager _navigationManager { get; set; } = default!;
+      //  [Inject] public IToastService _toastservice { get; set; } = default!;
         public BlogsPostModel blogsPost { get; set; } = new();
         public List<BlogsPostVModel> blogsPostlist { get; set; } = new();
         private string uploadedImageUrl;
         public string? Imagesrc;
         private bool ShowModal = false;
-        [Inject] private LoaderService _loader { get; set; } = default!;
+        private int RoleId = 0;
         protected override async Task OnInitializedAsync()
         {
             _loader.ShowLoader();
             try
             {
-                if (!NavStateService.IsNavVisible)
+                var currentuser = await _customAuthStateProvider.CurrentUser();
+                RoleId = ClaimsPrincipalExtensions.GetRoleId(currentuser);
+                if (RoleId != 1)
                 {
                     _toastservice.ShowWarning("You are not authorized for this page!!!");
                     _navigationManager.NavigateTo("/");

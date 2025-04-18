@@ -10,31 +10,32 @@ using FamilyTree_UI.Shared;
 using FamilyTree_UI.Models;
 using FamilyTree_UI.Shared.Services;
 using FamilyTree_UI.Shared.Models;
+using FamilyTree_UI.Configuration.Extension;
 
 namespace FamilyTree_UI.Pages.FamilySetups
 {
     public partial class FamilyTreeMemberSetupPage
     {
         [Inject] public IFamilyTreeMemberManager _familyTreeMemberManager { get; set; } = default!;
-        [Inject] public IToastService _toastservice { get; set; } = default!;
-        [Inject] public NavStateService NavStateService { get; set; }
-        [Inject] public NavigationManager _navigationManager { get; set; } = default!;
+        
         public FamilyMemberSetupModel memberSetupModel { get; set; } = new();
         public FamilyTreeMemberVModel familyTreeMembervmodel { get; set; } = new();
         public List<FamilyTreeMemberVModel> familyTreeMemberlist { get; set; } = new();
         private int age;
         private DateTime dob;
         private string uploadedImageUrl;
-        [Inject] private LoaderService _loader { get; set; } = default!;
+        private int RoleId = 0;
         protected override async Task OnInitializedAsync()
         {
             _loader.ShowLoader();
             try
             {
-                if (!NavStateService.IsNavVisible)
+                var currentuser = await _customAuthStateProvider.CurrentUser();
+                RoleId = ClaimsPrincipalExtensions.GetRoleId(currentuser);
+                if (RoleId != 1)
                 {
-                    _navigationManager.NavigateTo("/", true);
                     _toastservice.ShowWarning("You are not authorized for this page!!!");
+                    _navigationManager.NavigateTo("/");
                     return;
                 }
             }

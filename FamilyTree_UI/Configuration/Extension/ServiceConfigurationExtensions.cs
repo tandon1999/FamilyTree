@@ -8,6 +8,7 @@ using FamilyTree_UI.Shared.Managers.Implementation;
 using FamilyTree_UI.Shared.Managers.Interface;
 using FamilyTreeUI.Manager.Implementation;
 using FamilyTreeUI.Manager.Interface;
+using Microsoft.AspNetCore.Components.Authorization;
 
 namespace FamilyTree_UI.Configuration.Extension
 {
@@ -15,7 +16,9 @@ namespace FamilyTree_UI.Configuration.Extension
     {
         internal static IServiceCollection AddCustomServices(this IServiceCollection services)
         {
-           // services.AddApiHandlers(_configuration);
+            // services.AddApiHandlers(_configuration);
+            services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
+            services.AddScoped<CustomAuthenticationStateProvider>();
             services.AddTransient<IFamilyTreeMemberManager, FamilyTreeMemberManager>();
             services.AddTransient<IAuthUtilityManager, AuthUtilityManager>();
             services.AddTransient<ICacheService, CacheService>();

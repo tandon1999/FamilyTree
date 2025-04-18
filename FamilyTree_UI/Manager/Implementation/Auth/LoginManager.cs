@@ -2,6 +2,7 @@
 using FamilyTree_UI.Manager.EndPoints.Auth;
 using FamilyTree_UI.Manager.Interface.Auth;
 using FamilyTree_UI.Models.AuthModel;
+using FamilyTree_UI.ViewModels;
 using FamilyTreeUI.Pages.Shared;
 
 namespace FamilyTree_UI.Manager.Implementation.Auth
@@ -15,10 +16,10 @@ namespace FamilyTree_UI.Manager.Implementation.Auth
             _httpClientFactory = httpClientFactory;
             _httpClient = _httpClientFactory.CreateClient("ApiGateway");
         }
-        public async Task<IResponse> GetLoginDetails(LoginModel login)
+        public async Task<IResponse<LoginViewModel>> GetLoginDetails(LoginModel login)
         {
             var response = await _httpClient.PostAsJsonAsync(LoginEndPoints.GetLoginDetails, login);
-            var data = await response.ToResult<IResponse>();
+            var data = await response.ToResult<LoginViewModel>();
             return data;   
         }
     }

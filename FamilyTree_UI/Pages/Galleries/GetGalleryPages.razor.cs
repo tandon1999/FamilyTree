@@ -10,8 +10,7 @@ namespace FamilyTree_UI.Pages.Galleries
     {
         [Inject] public ISetupPagesManager _setuppagesmanager { get; set; } = default!;
         public List<GallerySetupVModel> gallerySetupslist { get; set; } = new();
-        [Inject] public IToastService _toastservice { get; set; } = default!;
-        [Inject] private LoaderService _loader { get; set; }= default!;
+        
         protected override async Task OnInitializedAsync()
         {
             _loader.ShowLoader();

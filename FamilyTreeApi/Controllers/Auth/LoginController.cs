@@ -15,10 +15,10 @@ namespace FamilyTreeApi.Controllers.Auth
             _loginservice = loginservice;
         }
 
-        [HttpPost("GetLoginDetails")]
+        [HttpPost("CreateToken")]
         public async Task<IActionResult> GetLoginDetails(LoginRequestModel model)
         {
-            var response = await _loginservice.GetLoginDetails(model);
+            var response = await _loginservice.CreateToken(model);
             return Ok(response);
         }
     }

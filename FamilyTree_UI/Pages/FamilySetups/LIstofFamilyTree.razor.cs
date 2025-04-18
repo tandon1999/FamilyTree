@@ -1,4 +1,5 @@
 using Blazored.Toast.Services;
+using FamilyTree_UI.Configuration.Extension;
 using FamilyTree_UI.Shared;
 using FamilyTree_UI.Shared.Models;
 using FamilyTree_UI.Shared.Services;
@@ -13,9 +14,7 @@ namespace FamilyTree_UI.Pages.FamilySetups
     public partial class LIstofFamilyTree
     {
         [Inject] public IFamilyTreeMemberManager _familyTreeMemberManager { get; set; } = default!;
-        [Inject] public IToastService _toastservice { get; set; } = default!;
-        [Inject] public NavigationManager _navigationManager { get; set; } = default!;
-        [Inject] public NavStateService NavStateService { get; set; }
+        
         public FamilyMemberSetupModel memberSetupModel { get; set; } = new();
         public FamilyTreeMemberVModel familyTreeMembervmodel { get; set; } = new();
         //  public List<FamilyTreeMemberVModel> familyTreeMemberlist { get; set; } = new();
@@ -30,13 +29,15 @@ namespace FamilyTree_UI.Pages.FamilySetups
         IQueryable<FamilyTreeMemberVModel>? familyTreeMemberlist => _gridData?
             .Where(x => x.FirstName.ToLower().Contains(nameFilter.ToLower()));
 
-        [Inject] private LoaderService _loader { get; set; } = default!;
+        private int RoleId = 0;
         protected override async Task OnInitializedAsync()
         {
             _loader.ShowLoader();
             try
             {
-                if (!NavStateService.IsNavVisible)
+                var currentuser = await _customAuthStateProvider.CurrentUser();
+                RoleId = ClaimsPrincipalExtensions.GetRoleId(currentuser);
+                if (RoleId != 1)
                 {
                     _toastservice.ShowWarning("You are not authorized for this page!!!");
                     _navigationManager.NavigateTo("/");

@@ -7,6 +7,6 @@
         {
             _baseUrl = baseUrl;
         }
-        public static string GetLoginDetails => $"{_baseUrl}Login/GetLoginDetails";
+        public static string GetLoginDetails => $"{_baseUrl}Login/CreateToken";
     }
 }

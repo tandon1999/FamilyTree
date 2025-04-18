@@ -1,10 +1,22 @@
 ﻿@using System.Net.Http
+@using Blazored.Toast.Services
+@using FamilyTree_UI.Configuration.Extension
+@using FamilyTree_UI.Shared.Services
 @using Microsoft.AspNetCore.Authorization
 @using Microsoft.AspNetCore.Components.Authorization
 @using Microsoft.AspNetCore.Components.Forms
 @using Microsoft.AspNetCore.Components.Routing
+@using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
 @using Microsoft.AspNetCore.Components.Web
 @using Microsoft.AspNetCore.Components.Web.Virtualization
 @using Microsoft.JSInterop
 @using FamilyTree_UI
 @using FamilyTree_UI.Shared
+
+
+@inject CustomAuthenticationStateProvider _customAuthStateProvider
+@inject ProtectedLocalStorage _protectedLocalStorage
+@inject AuthenticationStateProvider _authStateProvider
+@inject NavigationManager _navigationManager
+@inject LoaderService _loader
+@inject IToastService _toastservice

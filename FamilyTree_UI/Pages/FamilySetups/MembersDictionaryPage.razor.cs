@@ -8,12 +8,10 @@ namespace FamilyTree_UI.Pages.FamilySetups
 {
     public partial class MembersDictionaryPage
     {
-        [Inject] public IToastService _toastservice { get; set; } = default!;
+        
         [Inject] public IFamilyTreeMemberManager _familyTreeMemberManager { get; set; } = default!;
         public FamilyTreeMemberVModel familyTreeMembervmodel { get; set; } = new();
-        [Inject] public NavigationManager _navigatation { get; set; }
         public string Imagesrc { get; set; }
-        [Inject] private LoaderService _loader { get; set; } = default!;
         string nameFilter = string.Empty;
         public IQueryable<FamilyTreeMemberVModel>? _gridData { get; set; }
 
@@ -65,7 +63,7 @@ namespace FamilyTree_UI.Pages.FamilySetups
         }
         public async Task Redirecttouserprofile(int Id)
         {
-            _navigatation.NavigateTo($"/UserProfile/{Id}");
+            _navigationManager.NavigateTo($"/UserProfile/{Id}");
         }    
     }
 }

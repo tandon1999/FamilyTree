@@ -10,16 +10,13 @@ namespace FamilyTree_UI.Pages.FamilySetups
 {
     public partial class UserProfile
     {
-        [Inject] public NavStateService NavStateService { get; set; }
-        [Inject] public IToastService _toastservice { get; set; } = default!;
+        
         [Inject] public IFamilyTreeMemberManager _familyTreeMemberManager { get; set; } = default!;
         public FamilyTreeMemberVModel memberSetupModel { get; set; } = new();
         public string uploadedImageUrl;
-        [Inject] public NavigationManager _navigatation { get; set; }
         [Parameter] public string Id { get; set; } = "0";
         protected override async Task OnInitializedAsync()
         {
-            NavStateService.SetNavVisibility(true);
             if (!string.IsNullOrEmpty(Id))
             {
                 await GetById(int.Parse(Id));
@@ -50,7 +47,7 @@ namespace FamilyTree_UI.Pages.FamilySetups
         }
         public async Task Redirecttouserprofile(int Id)
         {
-            _navigatation.NavigateTo($"/UserProfile/{Id}", true);
+            _navigationManager.NavigateTo($"/UserProfile/{Id}", true);
         }
     }
 }

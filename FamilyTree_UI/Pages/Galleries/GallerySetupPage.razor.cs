@@ -1,4 +1,5 @@
 using Blazored.Toast.Services;
+using FamilyTree_UI.Configuration.Extension;
 using FamilyTree_UI.Manager.Interface;
 using FamilyTree_UI.Models;
 using FamilyTree_UI.Shared;
@@ -15,10 +16,8 @@ namespace FamilyTree_UI.Pages.Galleries
 {
     public partial class GallerySetupPage
     {
-        [Inject] public IToastService _toastservice { get; set; } = default!;
+        
         [Inject] public ISetupPagesManager _setuppagesmanager { get; set; } = default!;
-        [Inject] public NavStateService NavStateService { get; set; }
-        [Inject] public NavigationManager _navigationManager { get; set; } = default!;
         public GallerySetupModel gallerysetupmodel { get; set; } = new();
         public List<GallerySetupModel> gallerysetupmodellist { get; set; } = new();
         public List<GallerySetupVModel> gallerySetupslist { get; set; } = new();
@@ -26,13 +25,15 @@ namespace FamilyTree_UI.Pages.Galleries
         private int count;
         public string Imagesrc { get; set; }
         private bool ShowModal = false; 
-        [Inject] private LoaderService _loader { get; set; } = default!;
+        private int RoleId = 0;
         protected override async Task OnInitializedAsync()
         {
             _loader.ShowLoader();
             try
             {
-                if (!NavStateService.IsNavVisible)
+                var currentuser = await _customAuthStateProvider.CurrentUser();
+                RoleId = ClaimsPrincipalExtensions.GetRoleId(currentuser);
+                if (RoleId != 1)
                 {
                     _toastservice.ShowWarning("You are not authorized for this page!!!");
                     _navigationManager.NavigateTo("/");

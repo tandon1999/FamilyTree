@@ -1,6 +1,5 @@
 using Blazored.Toast.Services;
 using FamilyTree_UI.Manager.Interface;
-using FamilyTree_UI.Shared.Services;
 using FamilyTree_UI.ViewModels;
 using FamilyTreeUI.Manager.Interface;
 using FamilyTreeUI.ViewModels;
@@ -11,13 +10,11 @@ namespace FamilyTree_UI.Pages
     public partial class Index
     {
         private string searchQuery = "";
-        [Inject] public IToastService _toastservice { get; set; } = default!;
+        
         [Inject] public IFamilyTreeMemberManager _familyTreeMemberManager { get; set; } = default!;
-        [Inject] public NavigationManager _navigatation { get; set; }
         [Inject] public IDashBoardManager _dashManager { get; set; } = default!;
         public List<UpcommingAnniVModel> UpcommingAnniiversarylist { get; set; } = new();
         public List<LastestBlogPostVModel> LastestBlogPostlist { get; set; } = new();
-        [Inject] private LoaderService _loader { get; set; } = default!;
         string nameFilter = string.Empty;
         public IQueryable<FamilyTreeMemberVModel>? _gridData { get; set; }
 
@@ -27,28 +24,28 @@ namespace FamilyTree_UI.Pages
         {
             if (type == 1)
             {
-                _navigatation.NavigateTo("/members-dictionary");
+                _navigationManager.NavigateTo("/members-dictionary");
             }
             else if (type == 2)
             {
-                _navigatation.NavigateTo("/familytree");
+                _navigationManager.NavigateTo("/familytree");
             }
             else if (type == 3)
             {
-                _navigatation.NavigateTo("/Timeline");
+                _navigationManager.NavigateTo("/Timeline");
             }
             else if (type == 4)
             {
-                _navigatation.NavigateTo("/Getgallery");
+                _navigationManager.NavigateTo("/Getgallery");
             }
             else if (type == 5)
             {
-                _navigatation.NavigateTo("/blog");
+                _navigationManager.NavigateTo("/blog");
             }
         }
         public async Task GotoBlogDetails(int Id)
         {
-            _navigatation.NavigateTo($"blogdetails/{Id}");
+            _navigationManager.NavigateTo($"blogdetails/{Id}");
         }
         protected override async Task OnInitializedAsync()
         {
@@ -163,7 +160,7 @@ namespace FamilyTree_UI.Pages
         }
         public async Task Redirecttouserprofile(int Id)
         {
-            _navigatation.NavigateTo($"/UserProfile/{Id}");
+            _navigationManager.NavigateTo($"/UserProfile/{Id}");
         }
         private void SetLanguage(string culture)
         {

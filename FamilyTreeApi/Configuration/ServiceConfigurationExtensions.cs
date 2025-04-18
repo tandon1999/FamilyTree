@@ -6,6 +6,7 @@ using FamilyTreeApi.Shared.DataBaseAccess.Dapper.Implementation;
 using FamilyTreeApi.Shared.DataBaseAccess.Dapper.Interface;
 using FamilyTreeApi.Shared.DataBaseAccess.GenericRepository.Implementation;
 using FamilyTreeApi.Shared.DataBaseAccess.GenericRepository.Interface;
+using FamilyTreeApi.Shared.Encryptions;
 using FamilyTreeApi.Shared.Service;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
@@ -29,6 +30,7 @@ namespace FamilyTreeApi.Configuration
             services.AddTransient<IFileUploadService, FileUploadService>();
             services.AddTransient<ICommonRepository, CommonRepository>();
             services.AddTransient<ICommonService, CommonService>();
+            services.AddTransient<IEncryptionService, EncryptionService>();
 
 
 

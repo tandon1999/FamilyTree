@@ -13,13 +13,12 @@ namespace FamilyTree_UI.Pages.FamilySetups
 {
     public partial class FamilyTreePage
     {
-        [Inject] public IToastService _toastservice { get; set; } = default!;
+        
         [Inject] public IFamilyTreeMemberManager _familyTreeMemberManager { get; set; } = default!;
         public FamilyTreevmodel familyTreeMembervmodel { get; set; } = new();
 
         public List<FamilyTreevmodel> familyTreeMemberlist { get; set; } = new();
         public string Imagesrc { get; set; }
-        [Inject] private LoaderService _loader { get; set; } = default!;
         protected override async Task OnInitializedAsync()
         {
             _loader.ShowLoader();

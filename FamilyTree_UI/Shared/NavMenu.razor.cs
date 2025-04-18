@@ -1,4 +1,5 @@
 using Blazored.Toast.Services;
+using FamilyTree_UI.Configuration.Extension;
 using FamilyTree_UI.Manager.Interface.Auth;
 using FamilyTree_UI.Models.AuthModel;
 using FamilyTree_UI.Shared.Services;
@@ -11,24 +12,26 @@ namespace FamilyTree_UI.Shared
     {
         private bool collapseNavMenu = true;
         private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
-        [Inject] public NavStateService NavStateService { get; set; }
-        [Inject] public IToastService _toastservice { get; set; } = default!;
-        [Inject] public NavigationManager _navigationManager { get; set; } = default!;
+        
         private DateTime? _loginExpiryTime;
         private readonly TimeSpan _sessionDuration = TimeSpan.FromMinutes(1);
         [Parameter] public DateTime? LoginExpiry { get; set; }
-        [Inject] private LoaderService _loader { get; set; } = default!;
-
-        private void ToggleNavMenu()
+        private bool IsLoggedIn = false;
+        private int RoleId = 0;
+        private async Task ToggleNavMenu()
         {
             collapseNavMenu = !collapseNavMenu;
         }
-        protected override void OnInitialized()
+        protected async override Task OnInitializedAsync()
         {
             _loader.ShowLoader();
             try
             {
-                NavStateService.OnNavStateChanged += StateHasChanged;
+                var session = await _protectedLocalStorage.GetAsync<LoginTokenModel>("Token");
+                IsLoggedIn = session.Success && session.Value != null;
+                var currentuser = await _customAuthStateProvider.CurrentUser();
+                RoleId = ClaimsPrincipalExtensions.GetRoleId(currentuser);
+                StateHasChanged();
             }
             catch (Exception)
             {
@@ -42,15 +45,13 @@ namespace FamilyTree_UI.Shared
         }
         private async Task Logout()
         {
-            await JSRuntime.InvokeVoidAsync("sessionStorage.removeItem", "loginExpiry");
-            _loginExpiryTime = null;
-            NavStateService.SetNavVisibility(false);
-            _navigationManager.NavigateTo("/login");
+            var session = await _protectedLocalStorage.GetAsync<LoginTokenModel>("Token");
+            var customAuthenticationStateProvider = (CustomAuthenticationStateProvider)_authStateProvider;
+            await customAuthenticationStateProvider.UpadteAuthenticationState(null);
+            customAuthenticationStateProvider.MarkUserAsLoggedOut();
+            await _protectedLocalStorage.DeleteAsync("Token");
+            IsLoggedIn = false;
+            _navigationManager.NavigateTo("/login", forceLoad: true);
         }
-
-        /*public void Dispose()
-        {
-            NavStateService.OnNavStateChanged -= StateHasChanged;
-        }*/
     }
 }

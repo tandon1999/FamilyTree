@@ -10,11 +10,8 @@ namespace FamilyTree_UI.Pages.FamilySetups
     public partial class FamilyTimeLIne
     {
         public List<TimeLineViewModels> familyTreeMemberlist = new List<TimeLineViewModels>();
-        [Inject] public IToastService _toastservice { get; set; } = default!;
+       // [Inject] public IToastService _toastservice { get; set; } = default!;
         [Inject] public IFamilyTreeMemberManager _familyTreeMemberManager { get; set; } = default!;
-        [Inject] private LoaderService _loader { get; set; } = default!;
-        [Inject] public NavigationManager _navigatation { get; set; }
-
         protected override async Task OnInitializedAsync()
         {
             _loader.ShowLoader();
@@ -60,7 +57,7 @@ namespace FamilyTree_UI.Pages.FamilySetups
         }
         public async Task Redirecttouserprofile(int Id)
         {
-            _navigatation.NavigateTo($"/UserProfile/{Id}");
+            _navigationManager.NavigateTo($"/UserProfile/{Id}");
         }
     }
 }
