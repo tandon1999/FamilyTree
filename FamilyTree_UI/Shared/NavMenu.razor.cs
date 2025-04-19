@@ -20,7 +20,14 @@ namespace FamilyTree_UI.Shared
         private int RoleId = 0;
         private async Task ToggleNavMenu()
         {
-            collapseNavMenu = !collapseNavMenu;
+            try
+            {
+                collapseNavMenu = !collapseNavMenu;
+            }
+            catch (Exception ex)
+            {
+                _toastservice.ShowError(ex.Message);
+            }
         }
         protected async override Task OnInitializedAsync()
         {
@@ -33,10 +40,9 @@ namespace FamilyTree_UI.Shared
                 RoleId = ClaimsPrincipalExtensions.GetRoleId(currentuser);
                 StateHasChanged();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
-                throw;
+               _toastservice.ShowError(ex.Message);
             }
             finally
             {

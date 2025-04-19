@@ -8,19 +8,26 @@ namespace FamilyTree_UI.Shared
 {
     public partial class MainLayout
     {
-        
+
         private Loader loader;
         [Inject] private LoaderService LoaderService { get; set; }
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
-            if (firstRender)
+            try
             {
-                if (loader != null)
+                if (firstRender)
                 {
-                    LoaderService.RegisterShowAction(loader.ShowLoader);
-                    LoaderService.RegisterHideAction(loader.HideLoader);
-                    StateHasChanged();
+                    if (loader != null)
+                    {
+                        LoaderService.RegisterShowAction(loader.ShowLoader);
+                        LoaderService.RegisterHideAction(loader.HideLoader);
+                        StateHasChanged();
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                _toastservice.ShowError(ex.Message);
             }
         }
     }

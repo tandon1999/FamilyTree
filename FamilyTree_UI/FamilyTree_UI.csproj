@@ -7,15 +7,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\js\custom.js" />
     <Content Remove="wwwroot\js\site.js" />
   </ItemGroup>
 
   <ItemGroup>
     <_ContentIncludedByDefault Remove="wwwroot\css\blogpost.css" />
+    <_ContentIncludedByDefault Remove="wwwroot\js\custom.js" />
     <_ContentIncludedByDefault Remove="wwwroot\js\site.js" />
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="wwwroot\js\custom.js" />
     <None Include="wwwroot\js\site.js" />
   </ItemGroup>
 

@@ -85,3 +85,9 @@ main {
     align-items: center;
 }
 
+.custom-toast-wrapper {
+    z-index: 9999;
+    position: fixed;
+    top: 20px;
+    right: 20px;
+}

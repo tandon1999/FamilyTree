@@ -16,9 +16,11 @@ namespace FamilyTree_UI.Pages.Auth
     public partial class AdminDashBoard
     {
         [Inject] public IDashBoardManager _dashboardmanager { get; set; } = default!;
-        // [Inject] public IToastService _toastservice { get; set; } = default!;
         public DashBoardViewModel dashboardview { get; set; } = new();
         private int RoleId = 0;
+        public int selectedTab { get; set; } = 1;
+        [Parameter] public EventCallback<string> SelectedTabChanged { get; set; }
+        [Parameter] public int tabId { get; set; }
         protected override async Task OnInitializedAsync()
         {
             _loader.ShowLoader();
@@ -28,8 +30,8 @@ namespace FamilyTree_UI.Pages.Auth
                 RoleId = ClaimsPrincipalExtensions.GetRoleId(currentuser);
                 if (RoleId != 1)
                 {
-                    _toastservice.ShowWarning("You are not authorized for this page!!!");
                     _navigationManager.NavigateTo("/");
+                    _toastservice.ShowWarning("You are not authorized for this page!!!");
                     return;
                 }
                 await GetAllFamilyDetails();
@@ -43,6 +45,12 @@ namespace FamilyTree_UI.Pages.Auth
             {
                 _loader.HideLoader();
             }
+        }
+        private void NavigateToTab(int TabId)
+        {
+            selectedTab = TabId;
+            _navigationManager.NavigateTo($"/admin/{TabId}");
+            SelectedTabChanged.InvokeAsync(TabId.ToString()); 
         }
         public async Task GetAllFamilyDetails()
         {
@@ -63,29 +71,51 @@ namespace FamilyTree_UI.Pages.Auth
                 _toastservice.ShowWarning(ex.Message);
             }
         }
-
-        /*        protected override async Task OnAfterRenderAsync(bool firstRender)
+        protected override async Task OnAfterRenderAsync(bool firstRender)
         {
-            if (firstRender)
+            try
             {
-                await RenderChart();
+                if (selectedTab == 1 && firstRender == false)
+                {
+                    await GetAllFamilyDetails();
+                    firstRender = true;
+                }
+                if (firstRender)
+                {
+                    if (dashboardview?.Generations != null)
+                    {
+                        var generationData = dashboardview.Generations
+                            .Where(g => g.Key.Contains("Generation"))
+                            .ToDictionary(g => g.Key, g => g.Value);
+
+                        var maritalData = dashboardview.Generations
+                            .Where(g => g.Key.Contains("Marital"))
+                            .ToDictionary(g => g.Key, g => g.Value);
+
+                        if (generationData.Any())
+                            await RenderChart("generationChart", generationData, "Family Generations Distribution");
+
+                        if (maritalData.Any())
+                            await RenderChart("maritalChart", maritalData, "Marital Status Distribution");
+                    }
+                }
             }
-        }*/
-
-
-        /*private async Task RenderChart()
-        {
-            await Task.Delay(500); // optional delay for smoother UX
-
-            if (dashboardview?.Generations != null)
+            catch (Exception ex)
             {
-                var generations = dashboardview.Generations
-                    .Where(g => g.Key.Contains("Generation"))
-                    .ToDictionary(g => g.Key, g => g.Value);
-
-                var labels = generations.Keys.ToArray();
-                var data = generations.Values.ToArray();
-                var backgroundColors = GenerateColors(data.Length); // Dynamically generate colors
+                _toastservice.ShowWarning(ex.Message);
+            }
+        }
+        private async Task RenderChart(string canvasId, Dictionary<string, object> dataDict, string chartTitle)
+        {
+            try
+            {
+                var labels = dataDict.Keys.Select(key =>
+                    {
+                        string prefixToRemove = canvasId.Contains("marital", StringComparison.OrdinalIgnoreCase) ? "Marital" : string.Empty;
+                        return key.StartsWith(prefixToRemove) ? key.Substring(prefixToRemove.Length) : key;
+                    }).ToArray();
+                var data = dataDict.Values.ToArray();
+                var backgroundColors = GenerateColors(data.Length);
 
                 var chartConfig = new
                 {
@@ -95,15 +125,15 @@ namespace FamilyTree_UI.Pages.Auth
                         labels = labels,
                         datasets = new[]
                         {
-                    new
-                    {
-                        label = "Generations",
-                        data = data,
-                        backgroundColor = backgroundColors,
-                        borderColor = "rgba(255,255,255,1)",
-                        borderWidth = 1,
-                        hoverOffset = 10
-                    }
+                new
+                {
+                    label = chartTitle,
+                    data = data,
+                    backgroundColor = backgroundColors,
+                    borderColor = "rgba(255,255,255,1)",
+                    borderWidth = 1,
+                    hoverOffset = 10
+                }
                 }
                     },
                     options = new
@@ -119,89 +149,18 @@ namespace FamilyTree_UI.Pages.Auth
                             title = new
                             {
                                 display = true,
-                                text = "Family Generations Distribution"
+                                text = chartTitle
                             }
                         }
                     }
                 };
 
-                await _js.InvokeVoidAsync("renderChart", chartConfig);
+                await _js.InvokeVoidAsync("renderChart", canvasId, chartConfig);
             }
-        }*/
-        protected override async Task OnAfterRenderAsync(bool firstRender)
-        {
-            await GetAllFamilyDetails();
-            if (firstRender)
+            catch (Exception ex)
             {
-                if (dashboardview?.Generations != null)
-                {
-                    var generationData = dashboardview.Generations
-                        .Where(g => g.Key.Contains("Generation"))
-                        .ToDictionary(g => g.Key, g => g.Value);
-
-                    var maritalData = dashboardview.Generations
-                        .Where(g => g.Key.Contains("Marital"))
-                        .ToDictionary(g => g.Key, g => g.Value);
-
-                    if (generationData.Any())
-                        await RenderChart("generationChart", generationData, "Family Generations Distribution");
-
-                    if (maritalData.Any())
-                        await RenderChart("maritalChart", maritalData, "Marital Status Distribution");
-                }
+                _toastservice.ShowWarning(ex.Message);
             }
-        }
-
-
-        private async Task RenderChart(string canvasId, Dictionary<string, object> dataDict, string chartTitle)
-        {
-            var labels = dataDict.Keys.Select(key =>
-            {
-                string prefixToRemove = canvasId.Contains("marital", StringComparison.OrdinalIgnoreCase) ? "Marital" : string.Empty;
-                return key.StartsWith(prefixToRemove) ? key.Substring(prefixToRemove.Length) : key;
-            }).ToArray();
-            var data = dataDict.Values.ToArray();
-            var backgroundColors = GenerateColors(data.Length);
-
-            var chartConfig = new
-            {
-                type = "pie",
-                data = new
-                {
-                    labels = labels,
-                    datasets = new[]
-                    {
-                new
-                {
-                    label = chartTitle,
-                    data = data,
-                    backgroundColor = backgroundColors,
-                    borderColor = "rgba(255,255,255,1)",
-                    borderWidth = 1,
-                    hoverOffset = 10
-                }
-            }
-                },
-                options = new
-                {
-                    responsive = true,
-                    maintainAspectRatio = false,
-                    plugins = new
-                    {
-                        legend = new
-                        {
-                            position = "bottom"
-                        },
-                        title = new
-                        {
-                            display = true,
-                            text = chartTitle
-                        }
-                    }
-                }
-            };
-
-            await _js.InvokeVoidAsync("renderChart", canvasId, chartConfig);
         }
 
         private string[] GenerateColors(int count)
@@ -230,7 +189,6 @@ namespace FamilyTree_UI.Pages.Auth
                              .Select(i => baseColors[i % baseColors.Length])
                              .ToArray();
         }
-
         private string GetCardColor(string key)
         {
             return key switch
@@ -245,30 +203,10 @@ namespace FamilyTree_UI.Pages.Auth
                 _ => "#E6E6FA" // Lavender (a soft, light purple)
             };
         }
-        public int SelectedTab { get; set; } = 1;
-        private async Task Navigate(int type)
+        private async Task Navigate()
         {
-            SelectedTab = type;
-            if (type == 1)
-            {
-                _navigationManager.NavigateTo("/admin");
-            }
-            else if (type == 2)
-            {
-                _navigationManager.NavigateTo("/familysetup");
-            }
-            else if (type == 3)
-            {
-                _navigationManager.NavigateTo("/familylist");
-            }
-            else if (type == 4)
-            {
-                _navigationManager.NavigateTo("/Gallery");
-            }
-            else if (type == 5)
-            {
-                _navigationManager.NavigateTo("/Blogsetup");
-            }
+            _navigationManager.NavigateTo("/familylist");
+
         }
     }
 }
