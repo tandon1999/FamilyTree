@@ -1,14 +1,20 @@
-﻿CREATE PROCEDURE [dbo].[spDashboard] 
+﻿
+ALTER PROCEDURE [dbo].[spDashboard] 
 @Flag char = null
 AS
 BEGIN
 	IF @Flag = 'D' -- admin dashboard counts
 	BEGIN
-		DECLARE @cols NVARCHAR(MAX), @pivotCols NVARCHAR(MAX), @query NVARCHAR(MAX);
+		DECLARE @cols NVARCHAR(MAX),
+        @pivotCols NVARCHAR(MAX),
+        @query NVARCHAR(MAX);
+
+		-- Get columns for GenerationType
 		SELECT
-			@cols = STRING_AGG('SUM(' + QUOTENAME(GenerationType) + ') AS ' + QUOTENAME('Generation' + CAST(GenerationType as varchar(20))), ','),
+			@cols = STRING_AGG('SUM(' + QUOTENAME(GenerationType) + ') AS ' + QUOTENAME('Generation' + CAST(GenerationType AS varchar(20))), ','),
 			@pivotCols = STRING_AGG(QUOTENAME(GenerationType), ',')
 		FROM (SELECT DISTINCT GenerationType FROM tblFamilyTreeSetup) AS Generations;
+
 		SET @query = N'
 		SELECT
 			(SELECT
@@ -24,15 +30,26 @@ BEGIN
 					WHERE deathdate IS NOT NULL
 					ORDER BY DATEDIFF(year, dob, deathdate) DESC
 				) AS LongestLivingIndividual,
-				' + @cols + '
+				' + ISNULL(@cols, '') + ',
+				SUM(CASE WHEN MatrialStatus = 1 THEN 1 ELSE 0 END) AS MaritalSingle,
+				SUM(CASE WHEN MatrialStatus = 2 THEN 1 ELSE 0 END) AS MaritalMarried,
+				SUM(CASE WHEN MatrialStatus = 3 THEN 1 ELSE 0 END) AS MaritalDivorced,
+				SUM(CASE WHEN MatrialStatus = 4 THEN 1 ELSE 0 END) AS MaritalWidowed,
+				SUM(CASE WHEN MatrialStatus = 5 THEN 1 ELSE 0 END) AS MaritalIsolated
 			FROM
 				tblFamilyTreeSetup
-			PIVOT (
+			' + (CASE WHEN @pivotCols IS NOT NULL THEN
+			N'PIVOT (
 				COUNT(Id)
 				FOR GenerationType IN (' + @pivotCols + ')
-			) AS PivotTable
-			FOR JSON PATH, WITHOUT_ARRAY_WRAPPER) as DashBoardData;';
+			) AS PivotTable' ELSE '' END) + '
+			FOR JSON PATH, WITHOUT_ARRAY_WRAPPER) AS DashBoardData;';
+
 		EXEC sp_executesql @query;
+
+
+
+
 	END
 
 	IF @Flag = 'A' -- for upcomming birth or death anniversary
@@ -79,4 +96,3 @@ BEGIN
 		select N'टन्डन - वंशावली' as FamilyTree ,N'टन्डन -परिवार सदस्य' as FamilyDictionary, N'महत्वपूर्ण घटनाहरू' as FamilyTimeLine, N'टण्डनको इतिहास' as FamilyHistory
 	END
 END
-GO

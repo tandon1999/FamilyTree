@@ -20,7 +20,6 @@
 	  <Folder Include="Database\Functions\" />
 	  <Folder Include="Database\Data\" />
 	  <Folder Include="Database\Schema\" />
-	  <Folder Include="Database\StoreProcedure\" />
 	  <Folder Include="Database\Tables\" />
 	</ItemGroup>
 
