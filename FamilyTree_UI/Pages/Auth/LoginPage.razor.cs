@@ -25,34 +25,42 @@ namespace FamilyTree_UI.Pages.Auth
         }
         private async Task HandleLogin()
         {
-            if (string.IsNullOrEmpty(loginModel.UserName))
+            try
             {
-                _toastservice.ShowWarning("Please Enter a Username");
-            }
-            else if (string.IsNullOrEmpty(loginModel.Password))
-            {
-                _toastservice.ShowWarning("Please Enter a Password");
-            }
-            else
-            {
-                var response = await _loginManager.GetLoginDetails(loginModel);
-                if (response.Succeeded)
+                if (string.IsNullOrEmpty(loginModel.UserName))
                 {
-                    await _customAuthStateProvider.UpadteAuthenticationState(response.Data);
-                    if (response.Data.RoleId == 1)
-                    {
-                        _navigationManager.NavigateTo("/admin",true);
-                    }
-                    else if (response.Data.RoleId != 1)
-                    {
-                        _navigationManager.NavigateTo("/");
-                    }
-                    _toastservice.ShowSuccess("Successfully Login!!");
+                    _toastservice.ShowWarning("Please Enter a Username");
+                }
+                else if (string.IsNullOrEmpty(loginModel.Password))
+                {
+                    _toastservice.ShowWarning("Please Enter a Password");
                 }
                 else
                 {
-                    _toastservice.ShowWarning(response.Messages);
+                    var response = await _loginManager.GetLoginDetails(loginModel);
+                    if (response.Succeeded)
+                    {
+                        await _customAuthStateProvider.UpadteAuthenticationState(response.Data);
+                        if (response.Data.RoleId == 1)
+                        {
+                            _navigationManager.NavigateTo("/admin", true);
+                        }
+                        else if (response.Data.RoleId != 1)
+                        {
+                            _navigationManager.NavigateTo("/");
+                        }
+                        _toastservice.ShowSuccess("Successfully Login!!");
+                    }
+                    else
+                    {
+                        _toastservice.ShowWarning(response.Messages);
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+
+                _toastservice.ShowWarning(ex.Message);
             }
         }
         private void TogglePasswordVisibility()

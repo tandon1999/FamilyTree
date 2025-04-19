@@ -1,4 +1,4 @@
-﻿
+﻿@*
 <div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid d-flex align-items-center">
         <a class="navbar-brand" href="">
@@ -105,4 +105,113 @@
     </nav>
 </div>
 
+
+ *@
+
+
+@* <link rel="stylesheet" href="/css/home.css">
+
+<nav class="custom-navbar">
+    <div class="nav-container">
+        <a class="nav-brand" href="/">
+            <img src="/logo.png" alt="Logo" style="height: 70px;">
+        </a>
+
+        <button class="nav-toggle" @onclick="ToggleNavMenu">
+            <span class="hamburger-icon">&#9776;</span>
+        </button>
+
+        <div class="nav-menu @NavMenuCssClass d-flex align-items-center justify-content-between">
+            <ul class="nav-links d-flex align-items-center mb-0">
+                <li><NavLink href="" Match="NavLinkMatch.All">Home</NavLink></li>
+                <li><NavLink href="familytree">Family Tree</NavLink></li>
+                <li><NavLink href="Timeline">TimeLine</NavLink></li>
+                <li><NavLink href="members-dictionary">Family Dictionary</NavLink></li>
+                <li><NavLink href="History">History</NavLink></li>
+                <li><NavLink href="Getgallery">Galleries</NavLink></li>
+                <li><NavLink href="Blog">Blogs</NavLink></li>
+                @if (RoleId == 1)
+                {
+                    <li><NavLink href="admin">Dashboard</NavLink></li>
+                }
+                @if (!IsLoggedIn)
+                {
+                    <li>
+                        <NavLink href="login" class="d-inline-flex align-items-center text-white">
+                            <span class="me-1">Login</span>
+                            <span class="material-symbols-outlined">login</span>
+                        </NavLink>
+                    </li>
+                }
+                else
+                {
+                    <li>
+                        <NavLink @onclick="Logout" class="d-inline-flex align-items-center text-white">
+                            <span class="me-1">Logout</span>
+                            <span class="material-symbols-outlined">Logout</span>
+                        </NavLink>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+</nav> *@
+
+<link rel="stylesheet" href="/css/home.css">
+
+<nav class="custom-navbar">
+    <div class="nav-container d-flex align-items-center justify-content-between w-100">
+
+        <!-- Logo -->
+        <a class="nav-brand" href="/">
+            <img src="/logo.png" alt="Logo" style="height: 70px;">
+        </a>
+
+        <!-- Toggle for mobile -->
+        <button class="nav-toggle" @onclick="ToggleNavMenu">
+            <span class="hamburger-icon">&#9776;</span>
+        </button>
+
+        <!-- Main nav content and google translate -->
+        <div class="d-flex align-items-center justify-content-between flex-grow-1">
+
+            <!-- Navigation Menu -->
+            <div class="nav-menu @NavMenuCssClass">
+                <ul class="nav-links d-flex align-items-center mb-0 flex-wrap">
+                    <li><NavLink href="" Match="NavLinkMatch.All">Home</NavLink></li>
+                    <li><NavLink href="familytree">Family Tree</NavLink></li>
+                    <li><NavLink href="Timeline">TimeLine</NavLink></li>
+                    <li><NavLink href="members-dictionary">Family Dictionary</NavLink></li>
+                    <li><NavLink href="History">History</NavLink></li>
+                    <li><NavLink href="Getgallery">Galleries</NavLink></li>
+                    <li><NavLink href="Blog">Blogs</NavLink></li>
+                    @if (RoleId == 1)
+                    {
+                        <li><NavLink href="admin">Dashboard</NavLink></li>
+                    }
+                    @if (!IsLoggedIn)
+                    {
+                        <li>
+                            <NavLink href="login" class="d-inline-flex align-items-center text-white">
+                                <span class="me-1">Login</span>
+                                <span class="material-symbols-outlined">login</span>
+                            </NavLink>
+                        </li>
+                    }
+                    else
+                    {
+                        <li>
+                            <NavLink @onclick="Logout" class="d-inline-flex align-items-center text-white" style="cursor:pointer">
+                                <span class="me-1">Logout</span>
+                                <span class="material-symbols-outlined">Logout</span>
+                            </NavLink>
+                        </li>
+                    }
+                </ul>
+@*                     <div id="google_translate_element" class="ms-4"></div>
+ *@            </div>
+
+        </div>
+    </div>
+</nav>
 

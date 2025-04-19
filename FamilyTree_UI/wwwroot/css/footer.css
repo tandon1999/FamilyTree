@@ -26,7 +26,8 @@ ul {
 }
 
 .footer {
-    background-color: #24262b;
+    background-color: #494D5F;
+    color: #EAE6F2;
     padding: 70px 0;
 }
 
@@ -62,16 +63,15 @@ ul {
     .footer-col ul li a {
         font-size: 16px;
         text-transform: capitalize;
-        color: #ffffff;
+        color: #C97B63;
         text-decoration: none;
         font-weight: 300;
-        color: #bbbbbb;
         display: block;
         transition: all 0.3s ease;
     }
 
         .footer-col ul li a:hover {
-            color: #ffffff;
+            color: #C4C4C4;
             padding-left: 8px;
         }
 

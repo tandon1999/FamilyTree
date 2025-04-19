@@ -11,7 +11,7 @@ namespace FamilyTree_UI.Shared
     public partial class NavMenu
     {
         private bool collapseNavMenu = true;
-        private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+        private string? NavMenuCssClass => collapseNavMenu ? "collapse" : "show";
         
         private DateTime? _loginExpiryTime;
         private readonly TimeSpan _sessionDuration = TimeSpan.FromMinutes(1);

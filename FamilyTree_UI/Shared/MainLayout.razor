@@ -8,7 +8,7 @@
 @inherits LayoutComponentBase
 <PageTitle>Family Tree - Tandan</PageTitle>
 
-<div class="page">
+@* <div class="page">
     <div class="sidebar">
         <NavMenu/>
     </div>
@@ -26,5 +26,15 @@
             <Footer />
         </div>
     </main>
-</div>
+</div> *@
 
+<div>
+    <NavMenu></NavMenu>
+</div>
+<div class="p-4">
+    <DialogBox />
+    @Body
+</div>
+<Loader @ref="loader" />
+<BlazoredToasts />
+<Footer />

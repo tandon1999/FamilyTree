@@ -5,52 +5,105 @@
 @using FamilyTree_UI.Shared.Services
 @if (dashboardview?.Generations != null)
 {
-    <div class="row">
-        @foreach (var generation in dashboardview.Generations.Where(g => !g.Key.Contains("Generation")))
-        {
-            <div class="col-md-2">
-                <div class="card shadow-lg rounded-lg mb-4" style="min-height: 100px; background-color: #f0f8ff;">
-                    <div class="card-body">
-                        <h5 class="card-title text-primary font-weight-bold">@generation.Key</h5>
-                        <p class="card-text" style="color: #008080; font-size: @(generation.Value is string ? "small" : "xx-large");">
-                            @if (generation.Value is string)
-                            {
-                                @generation.Value.ToString()
-                            }
-                            else if (generation.Value is int)
-                            {
-                                @((int)generation.Value)
-                            }
-                            else
-                            {
-                                @generation.Value.ToString()
-                            }
-                        </p>
+    <div style="display: flex; justify-content: center; gap: 24px; padding: 0 40px; min-width: 0;">
+        <!-- Left Side: Count Cards -->
+        <div style="flex: 1; display: flex; flex-wrap: wrap; gap: 16px; justify-content: center;">
+            @foreach (var generation in dashboardview.Generations.Where(g => !g.Key.Contains("Generation") && !g.Key.Contains("Marital")))
+            {
+                <div class="col-md-3" style="cursor:pointer">
+                    <div class="card shadow-lg mb-4" style="min-height: 100px; background-color: @(GetCardColor(generation.Key)); border-radius: 10px; margin-left: 5px; margin-right: 5px;">
+                        <div class="card-body">
+                            <h5 class="card-title text-primary font-weight-bold">
+                                @if (generation.Key == "TotalFamilyMember")
+                                {
+                                    <span @onclick="()=>Navigate(3)">Total Family Member</span>
+                                }
+                                else if (generation.Key == "AverageLifespan")
+                                {
+                                    <span>Average Lifespan</span>
+                                }
+                                else if (generation.Key == "LongestLivingIndividual")
+                                {
+                                    <span>Longest Living Individual</span>
+                                }
+                                else
+                                {
+                                    @generation.Key
+                                }
+                            </h5>
+                            <p class="card-text" style="color: #008080; font-size: @(generation.Value is string ? "small" : "xx-large");">
+                                @if (generation.Value is string)
+                                {
+                                    @generation.Value
+                                }
+                                else if (generation.Value is int)
+                                {
+                                    @((int)generation.Value)
+                                }
+                                else if (generation.Key == "LongestLivingIndividual")
+                                {
+                                    <div>
+                                        <span style="font-size: 20px; color: #555;">@generation.Value</span>
+                                    </div>
+                                }
+
+                                else
+                                {
+                                    @generation.Value.ToString()
+                                }
+                            </p>
+                        </div>
                     </div>
                 </div>
-            </div>
-        }
+            }
+        </div>
 
+        <!-- Right Side: Chart -->
         @if (dashboardview?.Generations != null)
         {
-            // Filter the dictionary for keys containing "Generation" and show chart for those entries
             var generationData = dashboardview.Generations
             .Where(g => g.Key.Contains("Generation"))
             .ToDictionary(g => g.Key, g => g.Value);
 
             if (generationData.Any())
             {
-                    <div class="col-md-4">
-                        <canvas id="myChart" width="50" height="40"></canvas>
-                    </div>
+                <div style="width: 400px; height: 400px; background: white; padding: 24px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                    <canvas id="generationChart" width="200" height="200"></canvas>
+                </div>
             }
         }
-        else
+
+        @if (dashboardview?.Generations != null)
         {
-            <p>Loading...</p>
+            var labelMap = new Dictionary<string, string>
+                {
+                { "MaritalSingle", "Single" },
+                { "MaritalMarried", "Married" },
+                { "MaritalDivorced", "Divorced" },
+                { "MaritalWidowed", "Widowed" },
+                { "MaritalIsolated", "Isolated" }
+                };
+
+            var maritalData = dashboardview.Generations
+            .Where(g => g.Key.Contains("Marital"))
+            .ToDictionary(
+            g => labelMap.ContainsKey(g.Key) ? labelMap[g.Key] : g.Key,
+            g => g.Value
+            );
+
+
+
+            if (maritalData.Any())
+            {
+                <div style="width: 400px; height: 400px; background: white; padding: 24px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                    <canvas id="maritalChart" width="200" height="200"></canvas>
+                </div>
+            }
         }
 
+
     </div>
+
 }
 
 <style>
