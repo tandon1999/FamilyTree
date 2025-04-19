@@ -41,6 +41,7 @@ namespace FamilyTree_UI.Pages.Auth
                     if (response.Succeeded)
                     {
                         await _customAuthStateProvider.UpadteAuthenticationState(response.Data);
+                        _toastservice.ShowSuccess("Successfully Login!!");
                         if (response.Data.RoleId == 1)
                         {
                             _navigationManager.NavigateTo("/admin", true);
@@ -49,7 +50,6 @@ namespace FamilyTree_UI.Pages.Auth
                         {
                             _navigationManager.NavigateTo("/");
                         }
-                        _toastservice.ShowSuccess("Successfully Login!!");
                     }
                     else
                     {

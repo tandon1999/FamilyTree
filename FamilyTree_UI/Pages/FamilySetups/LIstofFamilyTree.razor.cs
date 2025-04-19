@@ -14,7 +14,7 @@ namespace FamilyTree_UI.Pages.FamilySetups
     public partial class LIstofFamilyTree
     {
         [Inject] public IFamilyTreeMemberManager _familyTreeMemberManager { get; set; } = default!;
-        
+
         public FamilyMemberSetupModel memberSetupModel { get; set; } = new();
         public FamilyTreeMemberVModel familyTreeMembervmodel { get; set; } = new();
         //  public List<FamilyTreeMemberVModel> familyTreeMemberlist { get; set; } = new();
@@ -25,7 +25,8 @@ namespace FamilyTree_UI.Pages.FamilySetups
         private bool ShowModal1 = false;
         string nameFilter = string.Empty;
         public IQueryable<FamilyTreeMemberVModel>? _gridData { get; set; }
-
+        [Parameter]
+        public int tabId { get; set; }
         IQueryable<FamilyTreeMemberVModel>? familyTreeMemberlist => _gridData?
             .Where(x => x.FirstName.ToLower().Contains(nameFilter.ToLower()));
 
@@ -163,7 +164,8 @@ namespace FamilyTree_UI.Pages.FamilySetups
         }
         public async Task AddNewFamilyMember()
         {
-            _navigationManager.NavigateTo("/familysetup");
+            tabId = 2;
+            _navigationManager.NavigateTo($"/admin/2");
             StateHasChanged();
         }
         private void CloseModal()

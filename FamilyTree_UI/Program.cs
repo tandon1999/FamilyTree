@@ -23,6 +23,10 @@ builder.Services.AddScoped<ConfirmDialogService>();
 builder.Services.AddLocalization();
 var baseUrl = builder.Configuration["ApiSettings:BaseUrl"];
 EndPointsManager.InitializeAllEndPoints(baseUrl);
+builder.Services.AddServerSideBlazor().AddCircuitOptions(options =>
+{
+    options.DetailedErrors = true;
+});
 
 builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
 

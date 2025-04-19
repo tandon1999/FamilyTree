@@ -30,58 +30,52 @@
         {
             @if (dashboardview?.Generations != null)
             {
-                <div style="display: flex; justify-content: center; gap: 24px; padding: 0 40px; min-width: 0;">
+                <div style="display: flex; justify-content: center; gap: 24px; padding: 0 40px; min-width: 0; ">
                     <!-- Left Side: Count Cards -->
-                    <div style="flex: 1; display: flex; flex-wrap: wrap; gap: 16px; justify-content: center;">
+                    <div style="flex: 1; display: flex; flex-wrap: wrap; gap: 16px; justify-content: center; ">
                         @foreach (var generation in dashboardview.Generations.Where(g => !g.Key.Contains("Generation") && !g.Key.Contains("Marital")))
                         {
-                            <div class="col-md-3" style="cursor:pointer">
-                                <div class="card shadow-lg mb-4" style="min-height: 100px; background-color: @(GetCardColor(generation.Key)); border-radius: 10px; margin-left: 5px; margin-right: 5px;">
-                                    <div class="card-body">
-                                        <h5 class="card-title text-primary font-weight-bold">
-                                            @if (generation.Key == "TotalFamilyMember")
-                                            {
-                                                <span @onclick="()=>Navigate()">Total Family Member</span>
-                                            }
-                                            else if (generation.Key == "AverageLifespan")
-                                            {
-                                                <span>Average Lifespan</span>
-                                            }
-                                            else if (generation.Key == "LongestLivingIndividual")
-                                            {
-                                                <span>Longest Living Individual</span>
-                                            }
-                                            else
-                                            {
-                                                @generation.Key
-                                            }
-                                        </h5>
-                                        <p class="card-text" style="color: #008080; font-size: @(generation.Value is string ? "small" : "xx-large");">
-                                            @if (generation.Value is string)
-                                            {
-                                                @generation.Value
-                                            }
-                                            else if (generation.Value is int)
-                                            {
-                                                @((int)generation.Value)
-                                            }
-                                            else if (generation.Key == "LongestLivingIndividual")
-                                            {
-                                                <div>
-                                                    <span style="font-size: 20px; color: #555;">@generation.Value</span>
-                                                </div>
-                                            }
-
-                                            else
-                                            {
-                                                @generation.Value.ToString()
-                                            }
-                                        </p>
-                                    </div>
+                            <div style="background-color: @(GetCardColor(generation.Key)); color: #3E000B; padding: 24px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); text-align: center; width: 192px; cursor: pointer;">
+                                <div style="font-size: 14px; font-weight: 600; margin-bottom: 8px;">
+                                    @if (generation.Key == "TotalFamilyMember")
+                                    {
+                                        <span @onclick="()=>Navigate()">Total Family Member</span>
+                                    }
+                                    else if (generation.Key == "AverageLifespan")
+                                    {
+                                        <span>Average Lifespan</span>
+                                    }
+                                    else if (generation.Key == "LongestLivingIndividual")
+                                    {
+                                        <span>Longest Living Individual</span>
+                                    }
+                                    else
+                                    {
+                                        @generation.Key
+                                    }
+                                </div>
+                                <div style="font-size: @(generation.Value is string ? "16px" : "32px"); font-weight: 700; color: #008080;">
+                                    @if (generation.Value is string)
+                                    {
+                                        @generation.Value
+                                    }
+                                    else if (generation.Value is int)
+                                    {
+                                        @((int)generation.Value)
+                                    }
+                                    else if (generation.Key == "LongestLivingIndividual")
+                                    {
+                                        <span style="font-size: 13px; color: #555;">@generation.Value</span>
+                                    }
+                                    else
+                                    {
+                                        @generation.Value.ToString()
+                                    }
                                 </div>
                             </div>
                         }
                     </div>
+
                     @if (dashboardview?.Generations != null)
                     {
                         var generationData = dashboardview.Generations
@@ -128,7 +122,7 @@
         }
         else if (selectedTab == 3)
         {
-            <LIstofFamilyTree />
+            <LIstofFamilyTree tabId="@tabId" />
         }
         else if (selectedTab == 4)
         {
@@ -146,13 +140,17 @@
     }
 
     .nav-dash {
-        width: 250px;
-        height: 100vh;
+        width: 250px; /* fixed width */
+        min-width: 250px; /* prevent shrinking */
+        max-width: 250px; /* prevent expanding */
+        height: 80vh;
         background-color: #f8f9fa;
         border-right: 1px solid #ccc;
         box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
         padding: 20px 10px;
+        flex-shrink: 0; /* stops the nav from shrinking on small screens */
     }
+
 
 
     .admin-nav-bar-vertical {

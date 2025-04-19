@@ -52,6 +52,13 @@ namespace FamilyTree_UI.Pages.Auth
             _navigationManager.NavigateTo($"/admin/{TabId}");
             SelectedTabChanged.InvokeAsync(TabId.ToString()); 
         }
+        protected override void OnParametersSet()
+        {
+            if (tabId != 0)
+            {
+                selectedTab = tabId;
+            }
+        }
         public async Task GetAllFamilyDetails()
         {
             try
@@ -205,8 +212,7 @@ namespace FamilyTree_UI.Pages.Auth
         }
         private async Task Navigate()
         {
-            _navigationManager.NavigateTo("/familylist");
-
+            NavigateToTab(3);
         }
     }
 }
