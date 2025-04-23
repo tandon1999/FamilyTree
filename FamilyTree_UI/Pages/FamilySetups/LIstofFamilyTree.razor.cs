@@ -178,6 +178,7 @@ namespace FamilyTree_UI.Pages.FamilySetups
             {
                 ShowModal1 = false;
             }
+            Imagesrc = null;
         }
         public async Task Save()
         {

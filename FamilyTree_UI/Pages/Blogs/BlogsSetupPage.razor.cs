@@ -220,6 +220,7 @@ namespace FamilyTree_UI.Pages.Blogs
         public async Task CloseModal()
         {
             ShowModal = false;
+            Imagesrc = null;
         }
     }
 }

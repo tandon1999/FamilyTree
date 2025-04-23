@@ -2,6 +2,7 @@ using Blazored.Toast.Services;
 using FamilyTree_UI.Configuration.Extension;
 using FamilyTree_UI.Manager.Interface.Auth;
 using FamilyTree_UI.Models.AuthModel;
+using FamilyTree_UI.Shared.Models;
 using FamilyTree_UI.Shared.Services;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
@@ -51,13 +52,28 @@ namespace FamilyTree_UI.Shared
         }
         private async Task Logout()
         {
-            var session = await _protectedLocalStorage.GetAsync<LoginTokenModel>("Token");
-            var customAuthenticationStateProvider = (CustomAuthenticationStateProvider)_authStateProvider;
-            await customAuthenticationStateProvider.UpadteAuthenticationState(null);
-            customAuthenticationStateProvider.MarkUserAsLoggedOut();
-            await _protectedLocalStorage.DeleteAsync("Token");
-            IsLoggedIn = false;
-            _navigationManager.NavigateTo("/login", forceLoad: true);
+            var options = new ConfirmDialogOptions
+            {
+                IsVerticallyCentered = true,
+                YesButtonText = "Confirm",
+                YesButtonColor = ButtonColor.Success,
+                NoButtonText = "CANCEL",
+                NoButtonColor = ButtonColor.Danger
+            };
+            var confirmation = await dialog.ShowAsync(
+                title: "Logout",
+                message1: "Are you sure want to logout?",
+                options);
+            if (confirmation)
+            {
+                var session = await _protectedLocalStorage.GetAsync<LoginTokenModel>("Token");
+                var customAuthenticationStateProvider = (CustomAuthenticationStateProvider)_authStateProvider;
+                await customAuthenticationStateProvider.UpadteAuthenticationState(null);
+                customAuthenticationStateProvider.MarkUserAsLoggedOut();
+                await _protectedLocalStorage.DeleteAsync("Token");
+                IsLoggedIn = false;
+                _navigationManager.NavigateTo("/login", forceLoad: true);
+            }
         }
     }
 }

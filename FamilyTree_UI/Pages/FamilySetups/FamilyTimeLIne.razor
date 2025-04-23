@@ -1,34 +1,42 @@
 ﻿@page "/timeline"
+<PageTitle>Family TimeLine</PageTitle>
 
 <h1 class="text-center">Family Timeline</h1>
 
 <div class="timeline">
-    @foreach (var member in familyTreeMemberlist)
+    @if (familyTreeMemberlist != null && familyTreeMemberlist.Any())
     {
-        <div class="timeline-event">
-            <div class="timeline-event-content" @onclick="()=>Redirecttouserprofile(member.Id)" style="cursor:pointer">
-                <div class="event-image">
-                    <img src="@member.ImageSrc" alt="@member.FullName" />
-                </div>
-                <strong>
-                    @if (member.Type == 1)
-                    {
-                        <span style="color: #388e3c;">@member.FullName</span>
-                    }
-                    else if (member.Type == 2)
-                    {
-                        <span style="color: #d32f2f;">@member.FullName</span>
-                    }
-                    else
-                    {
-                        @member.FullName
-                    }
-                </strong>
-                <div>
-                    <strong><small>@ConvertNE.ConvertEToNWithSlash(member.Date)</small></strong>
+        @foreach (var member in familyTreeMemberlist)
+        {
+            <div class="timeline-event">
+                <div class="timeline-event-content" @onclick="()=>Redirecttouserprofile(member.Id)" style="cursor:pointer">
+                    <div class="event-image">
+                        <img src="@member.ImageSrc" alt="@member.FullName" />
+                    </div>
+                    <strong>
+                        @if (member.Type == 1)
+                        {
+                            <span style="color: #388e3c;">@member.FullName</span>
+                        }
+                        else if (member.Type == 2)
+                        {
+                            <span style="color: #d32f2f;">@member.FullName</span>
+                        }
+                        else
+                        {
+                            @member.FullName
+                        }
+                    </strong>
+                    <div>
+                        <strong><small>@ConvertNE.ConvertEToNWithSlash(member.Date)</small></strong>
+                    </div>
                 </div>
             </div>
-        </div>
+        }
+    }
+    else
+    {
+        <p>Loading Family Timeline . . .</p>
     }
 </div>
 

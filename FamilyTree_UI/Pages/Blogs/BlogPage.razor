@@ -1,4 +1,6 @@
 ﻿@page "/blog"
+<PageTitle>Blogs</PageTitle>
+
 @using Microsoft.Extensions.Localization
 <link href="css/blogpost.css" rel="stylesheet" />
 <div class="blog-section">
@@ -37,7 +39,8 @@
         else
         {
             <div class="no-posts text-center">
-                <p>No blog posts available.</p>
+                <p>Loading Blogs . . .</p>
+
             </div>
         }
     </div>

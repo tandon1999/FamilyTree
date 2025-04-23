@@ -259,6 +259,7 @@ namespace FamilyTree_UI.Pages.Galleries
         private void CloseModal()
         {
             ShowModal = false;
+            Imagesrc = null;
         }
         private async Task HandleFileSelected(InputFileChangeEventArgs e)
         {
