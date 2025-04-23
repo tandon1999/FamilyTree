@@ -9,6 +9,7 @@
 };*/
 
 // Global chart instance store
+
 window.chartInstances = window.chartInstances || {};
 
 window.renderChart = (canvasId, config) => {

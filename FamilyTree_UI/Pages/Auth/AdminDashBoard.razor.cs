@@ -99,11 +99,19 @@ namespace FamilyTree_UI.Pages.Auth
                             .Where(g => g.Key.Contains("Marital"))
                             .ToDictionary(g => g.Key, g => g.Value);
 
+                        var AgeCount = dashboardview.Generations
+                            .Where(g => g.Key.Contains("'s"))
+                            .ToDictionary(g => g.Key, g => g.Value);
+
+
                         if (generationData.Any())
                             await RenderChart("generationChart", generationData, "Family Generations Distribution");
 
                         if (maritalData.Any())
                             await RenderChart("maritalChart", maritalData, "Marital Status Distribution");
+                        
+                        if (AgeCount.Any())
+                            await AgeGroupBarGhaph("AgeGroupChart", AgeCount, "Age Range Distribution");
                     }
                 }
             }
@@ -112,6 +120,73 @@ namespace FamilyTree_UI.Pages.Auth
                 _toastservice.ShowWarning(ex.Message);
             }
         }
+        private async Task AgeGroupBarGhaph(string canvasId, Dictionary<string, object> dataDict, string chartTitle)
+        {
+            try
+            {
+                var labels = dataDict.Keys.ToArray();
+                var data = dataDict.Values.Select(x =>
+                {
+                    if (x is JsonElement je && je.ValueKind == JsonValueKind.Number)
+                        return je.GetInt32();
+                    else
+                        return 0;
+                }).ToArray();
+
+                var backgroundColors = GenerateColors(labels.Length);
+
+                var chartConfig = new
+                {
+                    type = "bar", 
+                    data = new
+                    {
+                        labels = labels,
+                        datasets = new[]
+                        {
+                    new
+                    {
+                        label = chartTitle,
+                        data = data,
+                        backgroundColor = backgroundColors,
+                        borderColor = "rgba(255,255,255,1)",
+                        borderWidth = 1
+                    }
+                        }
+                    },
+                    options = new
+                    {
+                        responsive = true,
+                        maintainAspectRatio = false,
+                        plugins = new
+                        {
+                            legend = new
+                            {
+                                display = false,
+                                position = "top"
+                            },
+                            title = new
+                            {
+                                display = true,
+                                text = chartTitle
+                            }
+                        },
+                        scales = new
+                        {
+                            y = new
+                            {
+                                beginAtZero = true
+                            }
+                        }
+                    }
+                };
+                await _js.InvokeVoidAsync("renderChart", canvasId, chartConfig);
+            }
+            catch (Exception ex)
+            {
+                _toastservice.ShowWarning(ex.Message);
+            }
+        }
+
         private async Task RenderChart(string canvasId, Dictionary<string, object> dataDict, string chartTitle)
         {
             try

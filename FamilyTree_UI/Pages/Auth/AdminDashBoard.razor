@@ -7,14 +7,14 @@
 @page "/admin/{tabId:int}"
 
 <div class="d-flex">
-@*     <div class="nav-dash">
-        <nav class="admin-nav-bar-vertical d-flex flex-column">
-            <span class="nav-link-item @(selectedTab == "dashboardhome" ? "active-nav" : "")" @onclick='() => NavigateToTab("dashboardhome")'>Dashboard Home</span>
-            <span class="nav-link-item @(selectedTab == "Family-setup" ? "active-nav" : "")" @onclick='() => NavigateToTab("Family-setup")'>Family Setup</span>
-            <span class="nav-link-item @(selectedTab == "Family-list" ? "active-nav" : "")" @onclick='() => NavigateToTab("Family-list")'>Family List</span>
-            <span class="nav-link-item @(selectedTab == "gallery-setup" ? "active-nav" : "")" @onclick='() => NavigateToTab("gallery-setup")'>Galleries Setup</span>
-            <span class="nav-link-item @(selectedTab == "blogs-setup" ? "active-nav" : "")" @onclick='() => NavigateToTab("blogs-setup")'>Blogs Setup</span>
-        </nav>
+    @*     <div class="nav-dash">
+    <nav class="admin-nav-bar-vertical d-flex flex-column">
+    <span class="nav-link-item @(selectedTab == "dashboardhome" ? "active-nav" : "")" @onclick='() => NavigateToTab("dashboardhome")'>Dashboard Home</span>
+    <span class="nav-link-item @(selectedTab == "Family-setup" ? "active-nav" : "")" @onclick='() => NavigateToTab("Family-setup")'>Family Setup</span>
+    <span class="nav-link-item @(selectedTab == "Family-list" ? "active-nav" : "")" @onclick='() => NavigateToTab("Family-list")'>Family List</span>
+    <span class="nav-link-item @(selectedTab == "gallery-setup" ? "active-nav" : "")" @onclick='() => NavigateToTab("gallery-setup")'>Galleries Setup</span>
+    <span class="nav-link-item @(selectedTab == "blogs-setup" ? "active-nav" : "")" @onclick='() => NavigateToTab("blogs-setup")'>Blogs Setup</span>
+    </nav>
     </div> *@
     <div class="nav-dash">
         <nav class="admin-nav-bar-vertical d-flex flex-column">
@@ -30,90 +30,139 @@
         {
             @if (dashboardview?.Generations != null)
             {
-                <div style="display: flex; justify-content: center; gap: 24px; padding: 0 40px; min-width: 0; ">
-                    <!-- Left Side: Count Cards -->
-                    <div style="flex: 1; display: flex; flex-wrap: wrap; gap: 16px; justify-content: center; ">
-                        @foreach (var generation in dashboardview.Generations.Where(g => !g.Key.Contains("Generation") && !g.Key.Contains("Marital")))
-                        {
-                            <div style="background-color: @(GetCardColor(generation.Key)); color: #3E000B; padding: 24px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); text-align: center; width: 192px; cursor: pointer;">
-                                <div style="font-size: 14px; font-weight: 600; margin-bottom: 8px;">
-                                    @if (generation.Key == "TotalFamilyMember")
+                <div class="container-fluid px-4">
+                    <div class="row gx-4 gy-4">
+                        <!-- Left Side: Count Cards -->
+                        <div class="col-12 col-md-6 d-flex flex-column gap-3">
+                            @{
+                                var leftSideGenerations = dashboardview.Generations
+                                .Where(g => !g.Key.Contains("Generation") && !g.Key.Contains("Marital") && !g.Key.Contains("'s"))
+                                .ToList();
+
+                                int groupCount = (int)Math.Ceiling((double)leftSideGenerations.Count / 3);
+                            }
+
+                            @for (int i = 0; i < groupCount; i++)
+                            {
+                                <div class="row g-3">
+                                    @foreach (var generation in leftSideGenerations.Skip(i * 3).Take(3))
                                     {
-                                        <span @onclick="()=>Navigate()">Total Family Member</span>
-                                    }
-                                    else if (generation.Key == "AverageLifespan")
-                                    {
-                                        <span>Average Lifespan</span>
-                                    }
-                                    else if (generation.Key == "LongestLivingIndividual")
-                                    {
-                                        <span>Longest Living Individual</span>
-                                    }
-                                    else
-                                    {
-                                        @generation.Key
+                                        <div class="col-12 col-sm-6 col-md-4 d-flex">
+                                            <div class="w-100 d-flex flex-column justify-content-center text-center p-4" style="background-color: @(GetCardColor(generation.Key)); color: #3E000B; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); height: 200px; cursor: pointer;">
+                                                <div style="font-size: 14px; font-weight: 600; margin-bottom: 8px;">
+                                                    @if (generation.Key == "TotalFamilyMember")
+                                                    {
+                                                        <span @onclick="()=>Navigate()">Total Family Members</span>
+                                                    }
+                                                    else if (generation.Key == "AverageLifespan")
+                                                    {
+                                                        <span>Average Lifespan</span>
+                                                    }
+                                                    else if (generation.Key == "LongestLivingIndividual")
+                                                    {
+                                                        <span>Longest Living Individual</span>
+                                                    }
+                                                    else
+                                                    {
+                                                        @generation.Key
+                                                    }
+                                                </div>
+                                                <div style="font-size: @(generation.Value is string ? "16px" : "32px"); font-weight: 700; color: #008080;">
+                                                    @if (generation.Value is string)
+                                                    {
+                                                        @generation.Value
+                                                    }
+                                                    else if (generation.Value is int)
+                                                    {
+                                                        @((int)generation.Value)
+                                                    }
+                                                    else if (generation.Key == "LongestLivingIndividual")
+                                                    {
+                                                        <span style="font-size: 13px; color: #555;">@generation.Value</span>
+                                                    }
+                                                    else
+                                                    {
+                                                        @generation.Value.ToString()
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
                                     }
                                 </div>
-                                <div style="font-size: @(generation.Value is string ? "16px" : "32px"); font-weight: 700; color: #008080;">
-                                    @if (generation.Value is string)
+                            }
+                        </div>
+
+                        <!-- Right Side: Charts -->
+                        <div class="col-12 col-md-6">
+                            <div class="row gx-3 gy-4">
+                                <!-- Chart 1: Generation Chart -->
+                                <div class="col-12 col-sm-6">
+                                    @if (dashboardview?.Generations != null)
                                     {
-                                        @generation.Value
+                                        var generationData = dashboardview.Generations
+                                        .Where(g => g.Key.Contains("Generation"))
+                                        .ToDictionary(g => g.Key, g => g.Value);
+
+                                        if (generationData.Any())
+                                        {
+                                            <div class="w-100" style="aspect-ratio: 1; background: white; padding: 24px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                                                <canvas id="generationChart" style="width: 100%; height: 100%;"></canvas>
+                                            </div>
+                                        }
                                     }
-                                    else if (generation.Value is int)
+                                </div>
+
+                                <!-- Chart 2: Marital Chart -->
+                                <div class="col-12 col-sm-6">
+                                    @if (dashboardview?.Generations != null)
                                     {
-                                        @((int)generation.Value)
+                                        var labelMap = new Dictionary<string, string>
+                            {
+                            { "MaritalSingle", "Single" },
+                            { "MaritalMarried", "Married" },
+                            { "MaritalDivorced", "Divorced" },
+                            { "MaritalWidowed", "Widowed" },
+                            { "MaritalIsolated", "Isolated" }
+                            };
+
+                                        var maritalData = dashboardview.Generations
+                                        .Where(g => g.Key.Contains("Marital"))
+                                        .ToDictionary(
+                                        g => labelMap.ContainsKey(g.Key) ? labelMap[g.Key] : g.Key,
+                                        g => g.Value
+                                        );
+
+                                        if (maritalData.Any())
+                                        {
+                                            <div class="w-100" style="aspect-ratio: 1; background: white; padding: 24px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                                                <canvas id="maritalChart" style="width: 100%; height: 100%;"></canvas>
+                                            </div>
+                                        }
                                     }
-                                    else if (generation.Key == "LongestLivingIndividual")
+                                </div>
+
+                                <!-- Chart 3: Age Group Chart -->
+                                <div class="col-12">
+                                    @if (dashboardview?.Generations != null)
                                     {
-                                        <span style="font-size: 13px; color: #555;">@generation.Value</span>
-                                    }
-                                    else
-                                    {
-                                        @generation.Value.ToString()
+                                        var generationData = dashboardview.Generations
+                                        .Where(g => g.Key.Contains("'s"))
+                                        .ToDictionary(g => g.Key, g => g.Value);
+
+                                        if (generationData.Any())
+                                        {
+                                            <div class="w-100" style="aspect-ratio: 2 / 1; background: white; padding: 24px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                                                <canvas id="AgeGroupChart" style="width: 100%; height: 100%;"></canvas>
+                                            </div>
+                                        }
                                     }
                                 </div>
                             </div>
-                        }
+                        </div>
                     </div>
-
-                    @if (dashboardview?.Generations != null)
-                    {
-                        var generationData = dashboardview.Generations
-                        .Where(g => g.Key.Contains("Generation"))
-                        .ToDictionary(g => g.Key, g => g.Value);
-
-                        if (generationData.Any())
-                        {
-                            <div style="width: 400px; height: 400px; background: white; padding: 24px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
-                                <canvas id="generationChart" width="200" height="200"></canvas>
-                            </div>
-                        }
-                    }
-                    @if (dashboardview?.Generations != null)
-                    {
-                        var labelMap = new Dictionary<string, string>
-            {
-            { "MaritalSingle", "Single" },
-            { "MaritalMarried", "Married" },
-            { "MaritalDivorced", "Divorced" },
-            { "MaritalWidowed", "Widowed" },
-            { "MaritalIsolated", "Isolated" }
-            };
-
-                        var maritalData = dashboardview.Generations
-                        .Where(g => g.Key.Contains("Marital"))
-                        .ToDictionary(
-                        g => labelMap.ContainsKey(g.Key) ? labelMap[g.Key] : g.Key,
-                        g => g.Value
-                        );
-                        if (maritalData.Any())
-                        {
-                            <div style="width: 400px; height: 400px; background: white; padding: 24px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
-                                <canvas id="maritalChart" width="200" height="200"></canvas>
-                            </div>
-                        }
-                    }
                 </div>
+
+
             }
         }
         else if (selectedTab == 2)
