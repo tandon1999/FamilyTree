@@ -33,15 +33,49 @@
 }
 
 .member-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    position: relative;
     padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
+    border: 2px solid #ccc;
+    border-radius: 12px;
+    margin: 10px;
     text-align: center;
-    min-width: 150px;
 }
+
+.member-identification {
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: coral;
+    padding: 2px 8px;
+    font-weight: bold;
+    font-size: 0.85rem;
+    border: 1px solid #999;
+    border-radius: 12px;
+    z-index: 1;
+}
+
+.branch-icon {
+    position: absolute;
+    bottom: -16px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: orange;
+    color: orangered;
+    padding: 5px;
+    border-radius: 20px;
+    border: 2px solid #EA3323;
+    cursor: pointer;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
+    z-index: 1;
+}
+
 
 .member-image img {
     width: 100px;
@@ -57,19 +91,7 @@
     align-items: center;
 }
 
-.branch-icon {
-    background-color: #4CAF50; /* Green */
-    border: none;
-    color: white;
-    padding: 8px 16px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin-top: 5px;
-    cursor: pointer;
-    border-radius: 4px;
-}
+
 
 .connector {
     width: 2px;

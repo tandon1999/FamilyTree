@@ -14,7 +14,7 @@
                 <div class="members">
                     @foreach (var member in generation)
                     {
-                        <div class="member-container @GetMemberAlignment(member.GenerationId)" style="background-color: @GetMemberColor(member.GenerationId);">
+                        @* <div class="member-container @GetMemberAlignment(member.GenerationId)" style="background-color: @GetMemberColor(member.GenerationId);">
                             <div class="member-image">
                                 @if (!string.IsNullOrEmpty(member.ImageSrc))
                                 {
@@ -27,20 +27,50 @@
                                     </div>
                                 }
                             </div>
+                            <div class="member-identification">@member.Identification</div>
                             <div class="member-details">
                                 <div>@member.FullName</div>
-                                <div>@member.Identification</div>
                                 @if (member.HasWife == 1)
-                                {                          
-                                  <span class="material-symbols-outlined"
+                                {
+                                    <span class="material-symbols-outlined branch-icon"
                                           @onclick="() => OnBranchIconClick(member.Id)"
-                                          style="cursor:pointer;color:#EA3323"
                                           title="branch">
                                         graph_2
                                     </span>
                                 }
                             </div>
+
+                        </div> *@
+                        <div class="member-container" style="background-color: @GetMemberColor(member.GenerationId);">
+                            <div class="member-identification">@member.Identification</div>
+
+                            <div class="member-image">
+                                @if (!string.IsNullOrEmpty(member.ImageSrc))
+                                {
+                                    <img src="@member.ImageSrc" alt="@member.FullName" style="width: 100px; height: 100px; border-radius: 50%;" />
+                                }
+                                else
+                                {
+                                    <div style="width: 100px; height: 100px; border-radius: 50%; background-color: lightgray; display: flex; align-items: center; justify-content: center;">
+                                        <span>No Image</span>
+                                    </div>
+                                }
+                            </div>
+
+                            <div class="member-details">
+                                <div>@member.FullName</div>
+                            </div>
+
+                            @if (member.HasWife == 1)
+                            {
+                                <span class="material-symbols-outlined branch-icon"
+                                      @onclick="() => OnBranchIconClick(member.Id)"
+                                      title="branch">
+                                    graph_2
+                                </span>
+                            }
                         </div>
+
                     }
                 </div>
                 @if (generations.IndexOf(generation) < generations.Count - 1)
