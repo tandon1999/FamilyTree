@@ -2,26 +2,24 @@
 
 <PageTitle>Members Dictionary</PageTitle>
 
-<h1 class="text-center mt-2">Good People Of Tandan Clan</h1>
-<div class="d-flex justify-content-center mb-5" id="searchContainer">
-    <div class="col-md-6 col-sm-8 col-10">
-        <div class="search-container">
-            <input type="text" class="form-control search-input" placeholder="Search by name. . ." @bind="nameFilter" @bind:event="oninput" />
-            <span class="material-symbols-outlined search-icon">
-                search
-            </span>
-        </div>
+<div class="dictionary-page container py-4 py-md-5">
+    <header class="dictionary-header text-center mb-4 mb-md-5">
+        <p class="dictionary-kicker mb-2">Members Directory</p>
+        <h1 class="dictionary-title mb-2">Good People Of Tandan Clan</h1>
+        <p class="dictionary-subtitle mb-0">Search and explore the individuals who shape your family tree.</p>
 
-    </div>
-</div>
-<div class="tree">
+        <div class="search-container mt-4 mx-auto">
+            <input type="text" class="form-control search-input" placeholder="Search by name..." @bind="nameFilter" @bind:event="oninput" />
+            <span class="search-icon">⌕</span>
+        </div>
+    </header>
+
     @if (familyTreeMemberlist != null && familyTreeMemberlist.Any())
     {
         <div class="family-tree">
             @foreach (var member in familyTreeMemberlist)
             {
-                <div class="family-member-card" @onclick="()=>Redirecttouserprofile(member.Id)" style="cursor:pointer">
-                    <!-- Image -->
+                <article class="family-member-card" @onclick="()=>Redirecttouserprofile(member.Id)">
                     @if (!string.IsNullOrEmpty(member.ImageSrc))
                     {
                         <img src="@member.ImageSrc" alt="@member.FullName" class="family-member-image" />
@@ -32,104 +30,137 @@
                     }
 
                     <div class="family-member-details">
-                        <h4><strong>@member.FullName</strong></h4>
-                        <p>
-                            <strong>(@member.NepDOBYear - @member.NepDeathYear)</strong>
-                        </p>
-
-                        <p><strong>Age:</strong> @member.Age</p>
+                        <h5 class="mb-1">@member.FullName</h5>
+                        <p class="life-span mb-2"><strong>@member.NepDOBYear - @member.NepDeathYear</strong></p>
+                        <p class="mb-0"><strong>Age:</strong> @member.Age</p>
                     </div>
-                </div>
+                </article>
             }
         </div>
     }
     else
     {
-        <p>Loading Family Dictionary . . .</p>
+        <div class="dictionary-empty">Loading Family Dictionary . . .</div>
     }
 </div>
+
 <style>
+    .dictionary-page {
+        max-width: 1240px;
+    }
+
+    .dictionary-header {
+        background: linear-gradient(135deg, #edf4ff 0%, #f8fbff 100%);
+        border: 1px solid #dce8fa;
+        border-radius: 1rem;
+        padding: 1.5rem 1rem;
+    }
+
+    .dictionary-kicker {
+        display: inline-block;
+        padding: .25rem .65rem;
+        border-radius: 999px;
+        background: #deebff;
+        color: #2f5dab;
+        font-size: .82rem;
+        font-weight: 600;
+    }
+
+    .dictionary-title {
+        font-size: clamp(1.5rem, 3vw, 2.3rem);
+        color: #1f2c4a;
+        font-weight: 700;
+    }
+
+    .dictionary-subtitle {
+        color: #536382;
+    }
+
     .family-tree {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 20px;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+        gap: 1rem;
     }
 
     .family-member-card {
-        border: 1px solid #ccc;
-        padding: 15px;
-        border-radius: 10px;
-        width: 250px;
+        border: 1px solid #e5ebf8;
+        padding: 1rem;
+        border-radius: .9rem;
         text-align: center;
-        box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 8px 20px rgba(30, 54, 103, 0.08);
+        background: #fff;
+        cursor: pointer;
+        transition: transform .2s ease, box-shadow .2s ease;
+    }
+
+    .family-member-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 12px 24px rgba(30, 54, 103, 0.12);
     }
 
     .family-member-image {
-        width: 150px;
-        height: 150px;
+        width: 122px;
+        height: 122px;
         border-radius: 50%;
         object-fit: cover;
-        margin-bottom: 15px;
+        margin-bottom: .9rem;
+        border: 4px solid #eef3ff;
     }
 
     .family-member-details {
-        text-align: left;
+        text-align: center;
     }
 
-        .family-member-details h4 {
-            margin: 0;
-            margin-bottom: 10px;
-        }
+    .family-member-details h5 {
+        color: #233455;
+        font-weight: 700;
+    }
+
+    .life-span {
+        color: #5b6d8d;
+    }
 
     .search-container {
-        position: relative; /* To keep the icon and input together */
+        position: relative;
         width: 100%;
-        max-width: 400px; /* Set a max-width for the search input container */
-        margin: 0 auto; /* Center the container */
+        max-width: 560px;
     }
 
     .search-input {
-        height: 50px;
+        height: 48px;
         width: 100%;
-        border-radius: 50px;
-        border: 1px solid #ced4da;
-        padding-left: 2.5rem; /* Space for the left-side icon */
-        padding-right: 2.5rem; /* Space for the right-side icon */
+        border-radius: .7rem;
+        border: 1px solid #cad6ef;
+        padding-left: .95rem;
+        padding-right: 2.2rem;
         transition: all 0.3s ease;
-        background-color: #f8f9fa;
-        box-shadow: none; /* Remove the box-shadow */
+        background-color: #fff;
+        box-shadow: none;
     }
 
         .search-input:focus {
-            border-color: #007bff;
+            border-color: #6a8fe4;
             background-color: #ffffff;
-            box-shadow: 0 0 5px rgba(0, 123, 255, 0.25);
-            outline: none; /* Remove the default outline */
+            box-shadow: 0 0 0 3px rgba(90, 124, 218, 0.16);
+            outline: none;
         }
 
     .search-icon {
         position: absolute;
-        right: 15px; /* Position the icon on the right side of the search box */
+        right: 14px;
         top: 50%;
         transform: translateY(-50%);
-        font-size: 20px;
-        color: #6c757d;
-        cursor: pointer;
-        transition: color 0.3s ease;
+        font-size: 1.05rem;
+        color: #6f81a2;
     }
 
-    .search-input:focus + .search-icon {
-        color: #007bff; /* Change icon color on focus */
-    }
-
-    .search-icon:hover {
-        color: #007bff; /* Icon color change on hover */
-    }
-
-    .search-container.search-results .search-icon {
-        left: 15px; /* Move the icon to the left side when showing results */
-        right: auto; /* Reset the right position */
+    .dictionary-empty {
+        text-align: center;
+        color: #5f7190;
+        border: 1px dashed #cbd8ef;
+        border-radius: .8rem;
+        padding: 1.1rem;
+        background: #f8fbff;
     }
 </style>
 

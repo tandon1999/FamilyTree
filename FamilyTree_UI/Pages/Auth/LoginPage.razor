@@ -3,49 +3,62 @@
 <link href="css/Login.css" rel="stylesheet" />
 
 <div class="login-container">
+    <div class="login-backdrop-shape shape-one"></div>
+    <div class="login-backdrop-shape shape-two"></div>
+
     <div class="family-tree-side">
-        <div class="tree-design">
+        <div class="brand-pill">
+            <i class="bi bi-diagram-3-fill"></i>
+            <span>FamilyTree</span>
+        </div>
+
+        <h2 class="family-tree-title">Preserve Your Legacy</h2>
+        <p class="family-tree-subtitle">Track generations, celebrate milestones, and keep family memories connected in one place.</p>
+
+        <div class="tree-design" aria-hidden="true">
             <div class="branch branch-top"></div>
             <div class="branch branch-middle"></div>
             <div class="branch branch-bottom"></div>
+            <div class="trunk"></div>
             <div class="node node-top"></div>
             <div class="node node-middle"></div>
             <div class="node node-bottom"></div>
         </div>
-        <div class="family-tree-text">
-            <h3>Our Family Legacy</h3>
-            <p>Connect and grow your family tree.</p>
-        </div>
     </div>
+
     <div class="login-box">
-        <h2 class="login-title">Sign In</h2>
+        <h2 class="login-title">Welcome Back</h2>
+        <p class="login-subtitle">Sign in to continue exploring your family timeline.</p>
 
         <div class="form-group">
             <label for="username" class="form-label">Username</label>
-            <input type="text" id="username" @bind="loginModel.UserName" class="form-control form-control-sm" />
+            <div class="input-wrap">
+                <i class="bi bi-person-circle"></i>
+                <input type="text" id="username" @bind="loginModel.UserName" class="form-control form-control-sm" placeholder="Enter your username" />
+            </div>
         </div>
 
         <div class="form-group">
             <label for="password" class="form-label">Password</label>
             <div class="password-input">
-                <input type="@(showPassword ? "text" : "password")" id="password" @bind="loginModel.Password" class="form-control form-control-sm" />
+                <i class="bi bi-shield-lock"></i>
+                <input type="@(showPassword ? "text" : "password")" id="password" @bind="loginModel.Password" class="form-control form-control-sm" placeholder="Enter your password" />
                 <button type="button" class="password-toggle" @onclick="TogglePasswordVisibility">
                     @if (showPassword)
                     {
-                        <span class="material-symbols-outlined">
-                            visibility
-                        </span>
+                        <i class="bi bi-eye"></i>
                     }
                     else
                     {
-                        <span class="material-symbols-outlined">
-                            visibility_lock
-                        </span>
+                        <i class="bi bi-eye-slash"></i>
                     }
                 </button>
             </div>
         </div>
 
-        <button type="button" class="btn btn-primary btn-sm" @onclick="HandleLogin">Login</button>
+        <button type="button" class="btn btn-primary btn-sm login-btn" @onclick="HandleLogin">
+            <i class="bi bi-box-arrow-in-right"></i>
+            <span>Login</span>
+        </button>
     </div>
 </div>

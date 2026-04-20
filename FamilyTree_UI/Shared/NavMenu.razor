@@ -2,16 +2,21 @@
 @inject ConfirmDialogService dialog
 
 <nav class="custom-navbar">
-    <div class="nav-container d-flex align-items-center justify-ontent-between w-100">
-        <a class="nav-brand" href="/" style="padding-left: 0;">
-            <img src="/TandanLogo1.png" alt="Logo" style="height: 95px;">
+    <div class="nav-container w-100">
+        <a class="nav-brand" href="/">
+            <img src="/TandanLogo1.png" alt="Tandan Family Logo" class="nav-logo">
+            <div class="brand-text">
+                <span class="brand-title">Tandan Family Tree</span>
+                <small class="brand-subtitle">Legacy • Stories • Generations</small>
+            </div>
         </a>
-        <button class="nav-toggle" @onclick="ToggleNavMenu">
+
+        <button class="nav-toggle" @onclick="ToggleNavMenu" aria-label="Toggle navigation">
             <span class="hamburger-icon">&#9776;</span>
         </button>
-        <div class="d-flex align-items-center justify-content-between flex-grow-1">
-            <div class="nav-menu @NavMenuCssClass">
-                <ul class="nav-links d-flex align-items-center mb-0 flex-wrap">
+
+        <div class="nav-menu @NavMenuCssClass">
+            <ul class="nav-links mb-0">
                     <li><NavLink href="" Match="NavLinkMatch.All">Home</NavLink></li>
                     <li><NavLink href="familytree">Family Tree</NavLink></li>
                     <li><NavLink href="Timeline">TimeLine</NavLink></li>
@@ -25,8 +30,8 @@
                     }
                     @if (!IsLoggedIn)
                     {
-                        <li>
-                            <NavLink href="login" class="d-inline-flex align-items-center text-white">
+                        <li class="auth-item">
+                            <NavLink href="login" class="auth-link login-link">
                                 <span class="me-1">Login</span>
                                 <span class="material-symbols-outlined">login</span>
                             </NavLink>
@@ -34,17 +39,14 @@
                     }
                     else
                     {
-                        <li>
-                            <NavLink @onclick="Logout" class="d-inline-flex align-items-center text-white" style="cursor:pointer">
+                        <li class="auth-item">
+                            <button class="auth-link logout-link" @onclick="Logout" type="button">
                                 <span class="me-1">Logout</span>
                                 <span class="material-symbols-outlined">Logout</span>
-                            </NavLink>
+                            </button>
                         </li>
                     }
                 </ul>
-@*                     <div id="google_translate_element" class="ms-4"></div>
- *@            </div>
-
         </div>
     </div>
 </nav>

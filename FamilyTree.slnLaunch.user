@@ -1,0 +1,15 @@
+[
+  {
+    "Name": "New Profile",
+    "Projects": [
+      {
+        "Path": "FamilyTreeApi\\FamilyTreeApi.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "FamilyTree_UI\\FamilyTree_UI.csproj",
+        "Action": "Start"
+      }
+    ]
+  }
+]

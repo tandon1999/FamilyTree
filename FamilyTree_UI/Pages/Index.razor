@@ -1,139 +1,142 @@
 ﻿@page "/"
 @using Microsoft.Extensions.Localization
 <PageTitle>Family Tree</PageTitle>
-<div class="container mt-5">
-    <div class="hero bg-light text-center py-5 mb-5">
-        <h1 class="hero-title">Every family has a story</h1>
-        <p class="hero-subtitle">This story begins in 1977, the year   <b>Parashuram Tandon</b> was born</p>
+<div class="home-page container py-4 py-md-5">
+    <section class="hero-panel mb-4 mb-md-5">
+        <div class="hero-content text-center">
+            <p class="hero-tag mb-2">Welcome to the Family Archive</p>
+            <h1 class="hero-title">Every family has a story worth preserving</h1>
+            <p class="hero-subtitle mb-4">Explore people, memories, milestones, and stories of <strong>Parashuram Tandon</strong>'s family journey.</p>
 
-        <div class="d-flex justify-content-center mb-5" id="searchContainer">
-            <div class="col-md-6 col-sm-8 col-10">
-                <div class="search-container">
-                    <input type="text" class="form-control search-input" placeholder="Search" @bind="nameFilter" @bind:event="oninput"  />
-                    <span class="material-symbols-outlined search-icon" @onclick="CheckName">
-                        search
-                    </span>
-                </div>
-
+            <div class="search-wrapper mx-auto">
+                <input type="text" class="form-control search-input" placeholder="Search family members by name" @bind="nameFilter" @bind:event="oninput" />
+                <button type="button" class="btn search-button" @onclick="CheckName">Search</button>
             </div>
         </div>
 
-        <div class="row justify-content-center search-results" id="searchResults">
-            <div class="col-md-8">
-                @if (familyTreeMemberlist != null && familyTreeMemberlist.Any())
-                {
-                    <div class="row">
-                        @foreach (var member in familyTreeMemberlist)
-                        {
-                            <div class="col-md-6 mb-4">
-                                <div class="card" @onclick="()=>Redirecttouserprofile(member.Id)" style="cursor:pointer">
-                                    <img src="@member.ImageSrc" class="card-img-top" alt="Member Image" style="max-height: 200px; object-fit: cover;" />
-                                    <div class="card-body">
-                                        <h5 class="card-title">@member.FullName</h5>
-                                        <p class="card-text">
-                                            <strong>Date of Birth:</strong> @ConvertNE.ConvertEToNWithSlash(member.DOB)<br />
-                                            <strong>Age:</strong> @member.Age<br />
-                                            <strong>Occupation:</strong> @member.OccupationType
-                                        </p>
-                                    </div>
+        @if (familyTreeMemberlist != null && familyTreeMemberlist.Any())
+        {
+            <div class="search-results-panel mt-4">
+                <h5 class="mb-3">Search Results</h5>
+                <div class="row g-3">
+                    @foreach (var member in familyTreeMemberlist)
+                    {
+                        <div class="col-md-6 col-lg-4">
+                            <div class="member-card h-100" @onclick="()=>Redirecttouserprofile(member.Id)">
+                                <img src="@member.ImageSrc" class="member-image" alt="@member.FullName" />
+                                <div class="p-3">
+                                    <h6 class="mb-2">@member.FullName</h6>
+                                    <p class="mb-1"><strong>DOB:</strong> @ConvertNE.ConvertEToNWithSlash(member.DOB)</p>
+                                    <p class="mb-1"><strong>Age:</strong> @member.Age</p>
+                                    <p class="mb-0"><strong>Occupation:</strong> @member.OccupationType</p>
                                 </div>
                             </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        }
+        else if (!string.IsNullOrWhiteSpace(nameFilter))
+        {
+            <div class="search-results-panel mt-4 text-center">
+                <p class="mb-0">No family tree members found for <strong>@nameFilter</strong>.</p>
+            </div>
+        }
+    </section>
+
+    <section class="mb-5">
+        <div class="section-header d-flex justify-content-between align-items-center mb-3">
+            <h2 class="section-title mb-0">Discover</h2>
+        </div>
+        <div class="row g-3">
+            <div class="col-12 col-md-6 col-lg-3">
+                <div class="feature-card h-100">
+                    <h5>Member Directory</h5>
+                    <p>Get to know all family members and their profiles.</p>
+                    <button class="btn btn-sm action-btn" @onclick="()=> Navigate(1)">Open Directory</button>
+                </div>
+            </div>
+            <div class="col-12 col-md-6 col-lg-3">
+                <div class="feature-card h-100">
+                    <h5>Family Tree</h5>
+                    <p>Unfold the roots and connections across generations.</p>
+                    <button class="btn btn-sm action-btn" @onclick="()=> Navigate(2)">Open Family Tree</button>
+                </div>
+            </div>
+            <div class="col-12 col-md-6 col-lg-3">
+                <div class="feature-card h-100">
+                    <h5>Timeline</h5>
+                    <p>Witness key moments and events from the past.</p>
+                    <button class="btn btn-sm action-btn" @onclick="()=> Navigate(3)">Open Timeline</button>
+                </div>
+            </div>
+            <div class="col-12 col-md-6 col-lg-3">
+                <div class="feature-card h-100">
+                    <h5>Galleries</h5>
+                    <p>Enjoy photos from treasured memories and milestones.</p>
+                    <button class="btn btn-sm action-btn" @onclick="()=> Navigate(4)">Open Galleries</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="mb-5">
+        <div class="section-header d-flex justify-content-between align-items-center mb-3">
+            <h2 class="section-title mb-0">Upcoming Anniversaries</h2>
+            <button class="btn btn-link section-link" @onclick="()=> Navigate(3)">Open Timeline →</button>
+        </div>
+        <div class="row g-3">
+            @foreach (var item in UpcommingAnniiversarylist)
+            {
+                <div class="col-12 col-sm-6 col-md-4 col-xl-2">
+                    <div class="anniversary-card h-100" @onclick="()=>Redirecttouserprofile(item.Id)">
+                        @if (!string.IsNullOrEmpty(item.ImageSrc))
+                        {
+                            <img src="@item.ImageSrc" class="anniversary-image" alt="@item.Name">
                         }
-                    </div>
-                }
-                else if (!string.IsNullOrWhiteSpace(nameFilter))
-                {
-                    <p class="mt-3">No family tree members found for "<strong>@nameFilter</strong>".</p>
-                }
-            </div>
-        </div>
-    </div>
-
-
-
-    <div class="row mb-4">
-        <div class="col-md-3 text-center get-to-know-item">
-            <h2 class="get-to-know-title">Get To Know Family Members</h2>
-            <button class="btn btn-outline-primary" @onclick="()=> Navigate(1)">Open Directory</button>
-        </div>
-        <div class="col-md-3 text-center get-to-know-item">
-            <h2 class="get-to-know-title">Unfold the Roots of Parshuram Tandan</h2>
-            <button class="btn btn-outline-primary" @onclick="()=> Navigate(2)">Open Family Tree</button>
-        </div>
-        <div class="col-md-3 text-center get-to-know-item">
-            <h2 class="get-to-know-title">Witness the Past Through Events</h2>
-            <button class="btn btn-outline-primary" @onclick="()=> Navigate(3)">Open Timeline</button>
-        </div>
-        <div class="col-md-3 text-center get-to-know-item">
-            <h2 class="get-to-know-title">Enjoy the Photos of Past & Present</h2>
-            <button class="btn btn-outline-primary" @onclick="()=> Navigate(4)">Open Galleries</button>
-        </div>
-    </div>
-
-
-    <div class="row mb-5">
-        <div class="col-12">
-            <h2 class="text-left">Upcoming Anniversaries</h2>
-            <div class="text-left mb-3">
-                <span class="text-primary fw-bold" style="cursor: pointer;" @onclick="()=> Navigate(3)">
-                    Open Timeline →
-                </span>
-            </div>
-            <div class="row">
-                @foreach (var item in UpcommingAnniiversarylist)
-                {
-                    <div class="col-md-2 mb-4">
-                        <div class="card h-100" @onclick="()=>Redirecttouserprofile(item.Id)" style="cursor:pointer">
-                            @if (!string.IsNullOrEmpty(item.ImageSrc))
-                            {
-                                <img src="@item.ImageSrc" class="card-img-top" alt="@item.Name" style="object-fit: cover; height: 150px;">
-                            }
-                            <div class="card-body d-flex flex-column">
-                                <h5 class="card-title">@item.Name</h5>
-                                <p class="card-text">@item.AnniversaryType</p>
-                                <p class="card-text"><small class="text-muted">Days Left: @item.DaysLeft</small></p>
-                            </div>
+                        <div class="p-3">
+                            <h6 class="mb-1">@item.Name</h6>
+                            <p class="mb-1">@item.AnniversaryType</p>
+                            <small class="text-muted">Days Left: @item.DaysLeft</small>
                         </div>
                     </div>
-                }
-            </div>
+                </div>
+            }
         </div>
-    </div>
+    </section>
 
-    <div class="container">
-        <h2 class="text-left mb-4">Latest Blog Posts</h2>
-        <div class="text-left mb-3">
-            <span class="text-primary fw-bold" style="cursor: pointer;" @onclick="()=> Navigate(5)">
-                More Posts →
-            </span>
+    <section>
+        <div class="section-header d-flex justify-content-between align-items-center mb-3">
+            <h2 class="section-title mb-0">Latest Blog Posts</h2>
+            <button class="btn btn-link section-link" @onclick="()=> Navigate(5)">More Posts →</button>
         </div>
-        <div class="row">
+        <div class="row g-3">
             @if (LastestBlogPostlist.Count > 0)
             {
-                <div class="col-md-6 mb-4">
-                    <div class="card h-100 shadow-lg border-0 rounded-3 position-relative" @onclick="() => GotoBlogDetails(LastestBlogPostlist[0].Id)" style="cursor:pointer;color:white;height: 350px;">
-                        <img src="@LastestBlogPostlist[0].ImageSrc" class="card-img w-100 h-100" alt="@LastestBlogPostlist[0].Title" style="object-fit: cover;">
-                        <div class="card-img-overlay d-flex flex-column justify-content-end bg-dark bg-opacity-75 text-white p-4">
-                            <p class="small mb-2">@LastestBlogPostlist[0].CreatedDate.ToString("MMMM d, yyyy")</p>
-                            <h5 class="card-title mb-3" style="color:white">@LastestBlogPostlist[0].Title</h5>
-                            <p class="small">@LastestBlogPostlist[0].TimeAgo</p>
+                <div class="col-lg-7">
+                    <div class="blog-featured" @onclick="() => GotoBlogDetails(LastestBlogPostlist[0].Id)">
+                        <img src="@LastestBlogPostlist[0].ImageSrc" alt="@LastestBlogPostlist[0].Title" class="blog-image" />
+                        <div class="blog-overlay">
+                            <p class="small mb-1">@LastestBlogPostlist[0].CreatedDate.ToString("MMMM d, yyyy")</p>
+                            <h4 class="mb-2">@LastestBlogPostlist[0].Title</h4>
+                            <p class="small mb-0">@LastestBlogPostlist[0].TimeAgo</p>
                         </div>
                     </div>
                 </div>
             }
-            @if (LastestBlogPostlist.Count >= 1)
+            @if (LastestBlogPostlist.Count > 1)
             {
-                <div class="col-md-6 mb-4">
-                    <div class="row">
+                <div class="col-lg-5">
+                    <div class="row g-3">
                         @foreach (var post in LastestBlogPostlist.Skip(1).Take(4))
                         {
-                            <div class="col-md-6 mb-3">
-                                <div class="card shadow-sm border-0 rounded-3 position-relative" @onclick="() => GotoBlogDetails(post.Id)" style="cursor:pointer;color:white;height: 200px;">
-                                    <img src="@post.ImageSrc" class="card-img w-100 h-100" alt="@post.Title" style="object-fit: cover;">
-                                    <div class="card-img-overlay d-flex flex-column justify-content-end bg-dark bg-opacity-75 text-white p-3">
-                                        <p class="small mb-1">@post.CreatedDate.ToString("MMMM d, yyyy")</p>
-                                        <h6 class="card-title mb-2 text-truncate" style="color:white">@post.Title</h6>
-                                        <p class="small">@post.TimeAgo</p>
+                            <div class="col-sm-6 col-lg-12">
+                                <div class="blog-list-item" @onclick="() => GotoBlogDetails(post.Id)">
+                                    <img src="@post.ImageSrc" alt="@post.Title" class="blog-list-image" />
+                                    <div>
+                                        <p class="small mb-1 text-muted">@post.CreatedDate.ToString("MMMM d, yyyy")</p>
+                                        <h6 class="mb-1 text-truncate">@post.Title</h6>
+                                        <p class="small mb-0 text-muted">@post.TimeAgo</p>
                                     </div>
                                 </div>
                             </div>
@@ -142,180 +145,191 @@
                 </div>
             }
         </div>
-    </div>
+    </section>
 </div>
 
 <style>
-    .search-container {
-        position: relative; /* To keep the icon and input together */
-        width: 100%;
-        max-width: 400px; /* Set a max-width for the search input container */
-        margin: 0 auto; /* Center the container */
+    .home-page {
+        max-width: 1240px;
+    }
+
+    .hero-panel {
+        background: linear-gradient(135deg, #f0f6ff 0%, #ffffff 60%);
+        border: 1px solid #e5eefc;
+        border-radius: 1rem;
+        padding: 2rem 1.25rem;
+    }
+
+    .hero-tag {
+        color: #2a5ab8;
+        font-weight: 600;
+        letter-spacing: .02em;
+    }
+
+    .hero-title {
+        font-size: clamp(1.6rem, 3vw, 2.4rem);
+        font-weight: 700;
+        color: #1d2a44;
+        margin-bottom: .75rem;
+    }
+
+    .hero-subtitle {
+        color: #4b5b78;
+        max-width: 760px;
+        margin-inline: auto;
+    }
+
+    .search-wrapper {
+        max-width: 640px;
+        display: flex;
+        gap: .75rem;
     }
 
     .search-input {
-        height: 50px;
-        width: 100%;
-        border-radius: 50px;
-        border: 1px solid #ced4da;
-        padding-left: 2.5rem; /* Space for the left-side icon */
-        padding-right: 2.5rem; /* Space for the right-side icon */
-        transition: all 0.3s ease;
-        background-color: #f8f9fa;
-        box-shadow: none; /* Remove the box-shadow */
+        min-height: 48px;
+        border-radius: .7rem;
+        border: 1px solid #d6e0f3;
     }
 
-        .search-input:focus {
-            border-color: #007bff;
-            background-color: #ffffff;
-            box-shadow: 0 0 5px rgba(0, 123, 255, 0.25);
-            outline: none; /* Remove the default outline */
+    .search-button {
+        min-width: 110px;
+        border-radius: .7rem;
+        background-color: #1f4fa9;
+        color: #fff;
+    }
+
+    .search-button:hover {
+        color: #fff;
+        background-color: #183f87;
+    }
+
+    .search-results-panel {
+        background: #fff;
+        border-radius: .9rem;
+        border: 1px solid #e9edf5;
+        padding: 1rem;
+    }
+
+    .member-card,
+    .feature-card,
+    .anniversary-card,
+    .blog-featured,
+    .blog-list-item {
+        border: 1px solid #e8edf7;
+        border-radius: .9rem;
+        overflow: hidden;
+        background: #fff;
+        transition: all .2s ease;
+    }
+
+    .member-card,
+    .anniversary-card,
+    .blog-featured,
+    .blog-list-item {
+        cursor: pointer;
+    }
+
+    .member-card:hover,
+    .feature-card:hover,
+    .anniversary-card:hover,
+    .blog-featured:hover,
+    .blog-list-item:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 25px rgba(24, 59, 126, 0.08);
+    }
+
+    .member-image,
+    .anniversary-image {
+        width: 100%;
+        height: 170px;
+        object-fit: cover;
+    }
+
+    .feature-card {
+        padding: 1rem;
+        display: flex;
+        flex-direction: column;
+        gap: .6rem;
+    }
+
+    .feature-card p {
+        color: #5a6782;
+        margin: 0;
+        flex-grow: 1;
+    }
+
+    .action-btn {
+        width: fit-content;
+        border: 1px solid #2a5ab8;
+        color: #2a5ab8;
+        border-radius: .6rem;
+        padding-inline: .8rem;
+    }
+
+    .action-btn:hover {
+        background: #2a5ab8;
+        color: #fff;
+    }
+
+    .section-title {
+        font-size: 1.4rem;
+        color: #1d2a44;
+    }
+
+    .section-link {
+        text-decoration: none;
+        color: #2a5ab8;
+        font-weight: 600;
+    }
+
+    .blog-featured {
+        position: relative;
+        min-height: 360px;
+    }
+
+    .blog-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .blog-overlay {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        padding: 1rem;
+        color: #fff;
+        background: linear-gradient(transparent 25%, rgba(10, 17, 30, 0.85) 100%);
+    }
+
+    .blog-list-item {
+        display: grid;
+        grid-template-columns: 110px 1fr;
+        gap: .75rem;
+        align-items: center;
+        padding: .75rem;
+    }
+
+    .blog-list-image {
+        width: 100%;
+        height: 90px;
+        object-fit: cover;
+        border-radius: .5rem;
+    }
+
+    @@media (max-width: 767.98px) {
+        .search-wrapper {
+            flex-direction: column;
         }
 
-    .search-icon {
-        position: absolute;
-        right: 15px; /* Position the icon on the right side of the search box */
-        top: 50%;
-        transform: translateY(-50%);
-        font-size: 20px;
-        color: #6c757d;
-        cursor: pointer;
-        transition: color 0.3s ease;
+        .search-button {
+            width: 100%;
+        }
+
+        .blog-featured {
+            min-height: 280px;
+        }
     }
-
-    .search-input:focus + .search-icon {
-        color: #007bff; /* Change icon color on focus */
-    }
-
-    .search-icon:hover {
-        color: #007bff; /* Icon color change on hover */
-    }
-
-    .search-container.search-results .search-icon {
-        left: 15px; /* Move the icon to the left side when showing results */
-        right: auto; /* Reset the right position */
-    }
-
-
-/* Card Styling */
-.card {
-    border-radius: 20px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    overflow: hidden; /* Ensure image fits within the card */
-}
-
-.card:hover {
-    transform: scale(1.05);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-}
-
-.card-img-top {
-    border-top-left-radius: 20px;
-    border-top-right-radius: 20px;
-    max-height: 200px; /* Restrict image height */
-    object-fit: cover; /* Ensure image scales properly */
-}
-
-.card-body {
-    padding: 1.25rem;
-    background-color: #fff;
-}
-
-.card-title {
-    font-weight: bold;
-    font-size: 1.35rem;
-    margin-bottom: 0.5rem;
-    color: #333;
-}
-
-.card-text {
-    font-size: 1rem;
-    color: #555;
-    line-height: 1.4;
-}
-
-/* Add spacing between cards */
-.row .col-md-6 {
-    margin-bottom: 2rem;
-}
-
-/* Add hover effect to card images */
-.card-img-top:hover {
-    filter: brightness(0.9);
-}
-
-/* Responsive design */
-/* media (max-width: 768px) {
-    .card-title {
-        font-size: 1.2rem;
-    }
-
-    .card-text {
-        font-size: 0.9rem;
-    }
-
-    .search-input {
-        height: 45px;
-        border-radius: 40px;
-    }
-} */
-
-
-.get-to-know-item {
-    background-color: #f8f9fa; /* Light background for each item */
-    padding: 20px;
-    border-radius: 15px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Soft shadow */
-    margin-bottom: 20px;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.get-to-know-item:hover {
-    transform: translateY(-10px); /* Slight lift effect */
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15); /* Enhanced shadow on hover */
-}
-
-.get-to-know-title {
-    font-size: 1.5rem;
-    font-weight: bold;
-    margin-bottom: 15px;
-    color: #343a40; /* Darker text for better readability */
-}
-
-.btn-outline-primary {
-    border-radius: 50px;
-    padding: 10px 20px;
-    font-size: 1rem;
-    transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-.btn-outline-primary:hover {
-    background-color: #007bff; /* Change to primary color on hover */
-    color: #ffffff;
-    border-color: #007bff;
-}
-
-.row.mb-5 {
-    display: flex;
-    justify-content: space-around; /* Space items evenly */
-    flex-wrap: wrap; /* Ensure it adjusts for smaller screens */
-    gap: 20px; /* Add gap between columns */
-}
-
-/* Responsive design */
-/* media (max-width: 768px) {
-    .get-to-know-item {
-        margin-bottom: 15px;
-    }
-    
-    .get-to-know-title {
-        font-size: 1.25rem;
-    }
-
-    .btn-outline-primary {
-        font-size: 0.9rem;
-    }
-} */
-
 </style>

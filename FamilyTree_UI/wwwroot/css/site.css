@@ -3,6 +3,24 @@
 html, body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     background-color:whitesmoke; 
+    overflow-x: hidden;
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+img,
+video,
+canvas,
+svg {
+    max-width: 100%;
+    height: auto;
+}
+
+.table-responsive {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
 }
 
 h1:focus {
@@ -85,3 +103,11 @@ a, .btn-link {
     .back-to-top:hover {
         background-color: #0056b3;
     }
+
+@media (max-width: 991.98px) {
+    .container,
+    .container-fluid {
+        padding-left: 0.85rem;
+        padding-right: 0.85rem;
+    }
+}

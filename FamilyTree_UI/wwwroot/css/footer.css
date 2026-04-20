@@ -1,108 +1,147 @@
-﻿@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
-
-body {
-    line-height: 1.5;
-    font-family: 'Poppins', sans-serif;
+﻿.app-footer {
+    background: linear-gradient(135deg, #1a2a48 0%, #243a63 50%, #2b4778 100%);
+    color: #dfe9ff;
+    position: relative;
+    border-top: 1px solid rgba(206, 221, 248, 0.2);
 }
 
-* {
+.footer-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 2.25rem 1rem 1rem;
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: 1.35fr 1fr 1fr;
+    gap: 1.2rem;
+}
+
+.footer-col h4 {
+    font-size: 1rem;
+    color: #ffffff;
+    margin-bottom: .9rem;
+    font-weight: 700;
+}
+
+.footer-brand-col {
+    max-width: 420px;
+}
+
+.footer-logo {
+    height: 74px;
+    width: auto;
+    margin-bottom: .9rem;
+}
+
+.footer-brand-text,
+.footer-note {
+    color: #c2d1f1;
+    line-height: 1.6;
+    font-size: .92rem;
+}
+
+.footer-col ul {
+    list-style: none;
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
 }
 
-.container {
-    max-width: 1170px;
-    margin: auto;
+.footer-col ul li {
+    margin-bottom: .55rem;
 }
 
-.row {
+.footer-col ul li a {
+    color: #dfe9ff;
+    text-decoration: none;
+    font-size: .93rem;
+    transition: color .2s ease, transform .2s ease;
+    display: inline-block;
+}
+
+.footer-col ul li a:hover {
+    color: #8fbcff;
+    transform: translateX(3px);
+}
+
+.social-links {
     display: flex;
-    flex-wrap: wrap;
+    align-items: center;
+    gap: .55rem;
+    margin-bottom: .85rem;
 }
 
-ul {
-    list-style: none;
+.social-links a {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    color: #fff;
+    border: 1px solid rgba(220, 231, 252, 0.38);
+    background: rgba(255, 255, 255, 0.08);
+    transition: all .2s ease;
 }
 
-.footer {
-    background-color: #494D5F;
-    color: #EAE6F2;
-    padding: 70px 0;
+.social-links a:hover {
+    background: #ffffff;
+    color: #26406f;
 }
 
-.footer-col {
-    width: 25%;
-    padding: 0 15px;
+.footer-bottom {
+    border-top: 1px solid rgba(206, 221, 248, 0.2);
+    margin-top: 1.25rem;
+    padding-top: .85rem;
+    color: #bdd0f6;
 }
 
-    .footer-col h4 {
-        font-size: 18px;
-        color: #ffffff;
-        text-transform: capitalize;
-        margin-bottom: 35px;
-        font-weight: 500;
-        position: relative;
+.back-to-top {
+    position: absolute;
+    right: 1.1rem;
+    top: -18px;
+    width: 44px;
+    height: 44px;
+    border: none;
+    border-radius: 50%;
+    background: #ffffff;
+    color: #1f3b6c;
+    box-shadow: 0 8px 18px rgba(8, 25, 53, 0.3);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+}
+
+.back-to-top .material-symbols-outlined {
+    font-size: 1.35rem;
+    line-height: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.back-to-top:hover {
+    background: #edf3ff;
+}
+
+@media (max-width: 991px) {
+    .footer-grid {
+        grid-template-columns: 1fr 1fr;
     }
 
-        .footer-col h4::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            bottom: -10px;
-            background-color: #e91e63;
-            height: 2px;
-            box-sizing: border-box;
-            width: 50px;
-        }
-
-    .footer-col ul li:not(:last-child) {
-        margin-bottom: 10px;
-    }
-
-    .footer-col ul li a {
-        font-size: 16px;
-        text-transform: capitalize;
-        color: #C97B63;
-        text-decoration: none;
-        font-weight: 300;
-        display: block;
-        transition: all 0.3s ease;
-    }
-
-        .footer-col ul li a:hover {
-            color: #C4C4C4;
-            padding-left: 8px;
-        }
-
-    .footer-col .social-links a {
-        display: inline-block;
-        height: 40px;
-        width: 40px;
-        background-color: rgba(255,255,255,0.2);
-        margin: 0 10px 10px 0;
-        text-align: center;
-        line-height: 40px;
-        border-radius: 50%;
-        color: #ffffff;
-        transition: all 0.5s ease;
-    }
-
-        .footer-col .social-links a:hover {
-            color: #24262b;
-            background-color: #ffffff;
-        }
-
-/*responsive*/
-@media(max-width: 767px) {
-    .footer-col {
-        width: 50%;
-        margin-bottom: 30px;
+    .footer-brand-col {
+        grid-column: 1 / -1;
     }
 }
 
-@media(max-width: 574px) {
-    .footer-col {
-        width: 100%;
+@media (max-width: 576px) {
+    .footer-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .back-to-top {
+        right: .8rem;
     }
 }

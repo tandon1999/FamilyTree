@@ -85,9 +85,32 @@ main {
     align-items: center;
 }
 
+.app-body {
+    padding: 1.5rem;
+    min-height: calc(100vh - 110px);
+}
+
 .custom-toast-wrapper {
     z-index: 9999;
     position: fixed;
     top: 20px;
     right: 20px;
+}
+
+@media (max-width: 991.98px) {
+    .app-body {
+        padding: 1rem;
+    }
+
+    .custom-toast-wrapper {
+        top: 12px;
+        right: 12px;
+        left: 12px;
+    }
+}
+
+@media (min-width: 992px) and (max-width: 1199.98px) {
+    .app-body {
+        padding: 1.25rem;
+    }
 }

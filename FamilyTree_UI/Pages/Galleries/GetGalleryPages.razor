@@ -3,27 +3,40 @@
 
 @using FamilyTree_UI.Shared.Component
 @inherits LayoutComponentBase
-<h1 class="text-center">Present & Past Through Camera Lens</h1>
+
 <link href="css/Getgallery.css" rel="stylesheet" />
 
-<div class="gallery-grid">
+<div class="gallery-page container py-4 py-md-5">
+    <section class="gallery-hero mb-4 mb-md-5">
+        <p class="gallery-kicker mb-2">Memory Collection</p>
+        <h1 class="gallery-title mb-2">Present & Past Through Camera Lens</h1>
+        <p class="gallery-subtitle mb-0">A visual archive of moments, people and milestones from the Tandan family story.</p>
+    </section>
+
     @if (gallerySetupslist != null && gallerySetupslist.Count > 0)
     {
-        @foreach (var image in gallerySetupslist)
-        {
-            <div class="image-card">
-                <img src="@image.ImageSrc" alt="@image.PhotoName" class="gallery-image" />
-                <button class="image-overlay-button">
-                    <p>@ConvertNE.ConvertEToNWithSlash(@image.DateofPhoto)</p>
-                    <p>@image.PhotoName</p>
-                    <p>@image.Description</p>
-                </button>
-            </div>
-        }
+        <div class="gallery-grid">
+            @foreach (var image in gallerySetupslist)
+            {
+                <article class="image-card">
+                    <img src="@image.ImageSrc" alt="@image.PhotoName" class="gallery-image" />
+                    <div class="image-overlay">
+                        <div class="overlay-content">
+                            <small class="overlay-date">@ConvertNE.ConvertEToNWithSlash(@image.DateofPhoto)</small>
+                            <h5 class="overlay-title">@image.PhotoName</h5>
+                            <p class="overlay-description mb-0">@image.Description</p>
+                        </div>
+                    </div>
+                </article>
+            }
+        </div>
     }
     else
     {
-        <p>Loading Galleries . . .</p>
+        <div class="gallery-empty-state">
+            <h5 class="mb-1">No gallery items available</h5>
+            <p class="mb-0">New memories will appear here once they are added.</p>
+        </div>
     }
 </div>
 

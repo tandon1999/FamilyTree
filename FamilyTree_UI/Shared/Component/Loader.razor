@@ -4,8 +4,24 @@
 @if (isVisible)
 {
     <div class="loader-overlay">
-        <div class="loader-container">
-            <div class="loader"></div>
+        <div class="loader-container" role="status" aria-live="polite" aria-label="Loading">
+            <div class="network-loader" aria-hidden="true">
+                <span class="connector connector-v-main"></span>
+                <span class="connector connector-h"></span>
+                <span class="connector connector-v-left"></span>
+                <span class="connector connector-v-mid"></span>
+                <span class="connector connector-v-right"></span>
+
+                <span class="flow flow-main"></span>
+                <span class="flow flow-left"></span>
+                <span class="flow flow-mid"></span>
+                <span class="flow flow-right"></span>
+
+                <span class="node node-top"></span>
+                <span class="node node-left"></span>
+                <span class="node node-mid"></span>
+                <span class="node node-right"></span>
+            </div>
         </div>
     </div>
 
