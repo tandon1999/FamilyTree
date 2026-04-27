@@ -12,6 +12,7 @@ namespace FamilyTree_UI.Pages.FamilySetups
         [Inject] public IFamilyTreeMemberManager _familyTreeMemberManager { get; set; } = default!;
         public FamilyTreeMemberVModel familyTreeMembervmodel { get; set; } = new();
         public string Imagesrc { get; set; }
+        private int _pendingImageCount;
         string nameFilter = string.Empty;
         public IQueryable<FamilyTreeMemberVModel>? _gridData { get; set; }
 
@@ -27,9 +28,6 @@ namespace FamilyTree_UI.Pages.FamilySetups
             catch (Exception ex)
             {
                 _toastservice.ShowWarning(ex.Message);
-            }
-            finally
-            {
                 _loader.HideLoader();
             }
         }
@@ -55,12 +53,34 @@ namespace FamilyTree_UI.Pages.FamilySetups
                     _gridData = response.Data.AsQueryable();
                 }
 
+                _pendingImageCount = _gridData?.Count(x => !string.IsNullOrWhiteSpace(x.ImageSrc)) ?? 0;
+                if (_pendingImageCount == 0)
+                {
+                    _loader.HideLoader();
+                }
+
             }
             catch (Exception ex)
             {
                 _toastservice.ShowWarning(ex.Message);
+                _loader.HideLoader();
             }
         }
+
+        private void HandleImageLoadComplete()
+        {
+            if (_pendingImageCount <= 0)
+            {
+                return;
+            }
+
+            _pendingImageCount--;
+            if (_pendingImageCount == 0)
+            {
+                _loader.HideLoader();
+            }
+        }
+
         public async Task Redirecttouserprofile(int Id)
         {
             _navigationManager.NavigateTo($"/UserProfile/{Id}");

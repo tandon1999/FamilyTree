@@ -12,6 +12,7 @@ namespace FamilyTree_UI.Pages.Blogs
         [Inject] public IBlogsManager _blogsmanager { get; set; } = default!;
         public List<BlogsPostVModel> blogsPostlist { get; set; } = new();
         private string uploadedImageUrl;
+        private int _pendingImageCount;
         protected override async Task OnInitializedAsync()
         {
             _loader.ShowLoader();
@@ -22,9 +23,6 @@ namespace FamilyTree_UI.Pages.Blogs
             catch (Exception ex)
             {
                 _toastservice.ShowWarning(ex.Message);
-            }
-            finally
-            {
                 _loader.HideLoader();
             }
         }
@@ -45,10 +43,31 @@ namespace FamilyTree_UI.Pages.Blogs
                     }
                     blogsPostlist = response.Data;
                 }
+
+                _pendingImageCount = blogsPostlist.Count(x => !string.IsNullOrWhiteSpace(x.ImageSrc));
+                if (_pendingImageCount == 0)
+                {
+                    _loader.HideLoader();
+                }
             }
             catch (Exception ex)
             {
                 _toastservice.ShowError(ex.Message);
+                _loader.HideLoader();
+            }
+        }
+
+        private void HandleImageLoadComplete()
+        {
+            if (_pendingImageCount <= 0)
+            {
+                return;
+            }
+
+            _pendingImageCount--;
+            if (_pendingImageCount == 0)
+            {
+                _loader.HideLoader();
             }
         }
 

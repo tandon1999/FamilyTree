@@ -19,7 +19,7 @@
             @foreach (var image in gallerySetupslist)
             {
                 <article class="image-card">
-                    <img src="@image.ImageSrc" alt="@image.PhotoName" class="gallery-image" />
+                    <img src="@image.ImageSrc" alt="@image.PhotoName" class="gallery-image" @onload="(() => HandleImageLoadComplete())" @onerror="(() => HandleImageLoadComplete())" />
                     <div class="image-overlay">
                         <div class="overlay-content">
                             <small class="overlay-date">@ConvertNE.ConvertEToNWithSlash(@image.DateofPhoto)</small>
@@ -29,13 +29,6 @@
                     </div>
                 </article>
             }
-        </div>
-    }
-    else
-    {
-        <div class="gallery-empty-state">
-            <h5 class="mb-1">No gallery items available</h5>
-            <p class="mb-0">New memories will appear here once they are added.</p>
         </div>
     }
 </div>

@@ -16,7 +16,7 @@
                 <div class="timeline-event">
                     <article class="timeline-event-content" @onclick="()=>Redirecttouserprofile(member.Id)">
                         <div class="event-image">
-                            <img src="@member.ImageSrc" alt="@member.FullName" />
+                            <img src="@member.ImageSrc" alt="@member.FullName" @onload="(() => HandleImageLoadComplete())" @onerror="(() => HandleImageLoadComplete())" />
                         </div>
                         <div class="event-details">
                             <h5 class="mb-1 @(member.Type == 1 ? "name-birth" : member.Type == 2 ? "name-death" : "")">@member.FullName</h5>
@@ -25,10 +25,6 @@
                     </article>
                 </div>
             }
-        }
-        else
-        {
-            <div class="timeline-empty">Loading Family Timeline . . .</div>
         }
     </div>
 </div>

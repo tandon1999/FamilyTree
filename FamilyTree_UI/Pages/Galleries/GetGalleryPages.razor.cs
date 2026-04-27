@@ -10,6 +10,7 @@ namespace FamilyTree_UI.Pages.Galleries
     {
         [Inject] public ISetupPagesManager _setuppagesmanager { get; set; } = default!;
         public List<GallerySetupVModel> gallerySetupslist { get; set; } = new();
+        private int _pendingImageCount;
         
         protected override async Task OnInitializedAsync()
         {
@@ -21,11 +22,7 @@ namespace FamilyTree_UI.Pages.Galleries
             catch (Exception ex)
             {
                 _toastservice.ShowWarning(ex.Message);
-            }
-            finally
-            {
                 _loader.HideLoader();
-                StateHasChanged();
             }
         }
 
@@ -45,10 +42,31 @@ namespace FamilyTree_UI.Pages.Galleries
                     }
                     gallerySetupslist = response.Data;
                 }
+
+                _pendingImageCount = gallerySetupslist.Count(x => !string.IsNullOrWhiteSpace(x.ImageSrc));
+                if (_pendingImageCount == 0)
+                {
+                    _loader.HideLoader();
+                }
             }
             catch (Exception ex)
             {
                 _toastservice.ShowWarning(ex.Message);
+                _loader.HideLoader();
+            }
+        }
+
+        private void HandleImageLoadComplete()
+        {
+            if (_pendingImageCount <= 0)
+            {
+                return;
+            }
+
+            _pendingImageCount--;
+            if (_pendingImageCount == 0)
+            {
+                _loader.HideLoader();
             }
         }
 

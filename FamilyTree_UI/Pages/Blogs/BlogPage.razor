@@ -15,7 +15,7 @@
             {
                 <div class="blog-card">
                     <div class="image-container">
-                        <img src="@blog.ImageSrc" alt="@blog.Title" class="blog-image" />
+                        <img src="@blog.ImageSrc" alt="@blog.Title" class="blog-image" @onload="(() => HandleImageLoadComplete())" @onerror="(() => HandleImageLoadComplete())" />
                     </div>
 
                     <div class="content">

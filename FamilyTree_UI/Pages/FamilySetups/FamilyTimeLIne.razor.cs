@@ -10,6 +10,7 @@ namespace FamilyTree_UI.Pages.FamilySetups
     public partial class FamilyTimeLIne
     {
         public List<TimeLineViewModels> familyTreeMemberlist = new List<TimeLineViewModels>();
+        private int _pendingImageCount;
        // [Inject] public IToastService _toastservice { get; set; } = default!;
         [Inject] public IFamilyTreeMemberManager _familyTreeMemberManager { get; set; } = default!;
         protected override async Task OnInitializedAsync()
@@ -22,9 +23,6 @@ namespace FamilyTree_UI.Pages.FamilySetups
             catch (Exception ex)
             {
                 _toastservice.ShowWarning(ex.Message);
-            }
-            finally
-            {
                 _loader.HideLoader();
             }
         }
@@ -49,12 +47,34 @@ namespace FamilyTree_UI.Pages.FamilySetups
                     }
                     familyTreeMemberlist = response.Data;
                 }
+
+                _pendingImageCount = familyTreeMemberlist.Count(x => !string.IsNullOrWhiteSpace(x.ImageSrc));
+                if (_pendingImageCount == 0)
+                {
+                    _loader.HideLoader();
+                }
             }
             catch (Exception ex)
             {
                 _toastservice.ShowWarning(ex.Message);
+                _loader.HideLoader();
             }
         }
+
+        private void HandleImageLoadComplete()
+        {
+            if (_pendingImageCount <= 0)
+            {
+                return;
+            }
+
+            _pendingImageCount--;
+            if (_pendingImageCount == 0)
+            {
+                _loader.HideLoader();
+            }
+        }
+
         public async Task Redirecttouserprofile(int Id)
         {
             _navigationManager.NavigateTo($"/UserProfile/{Id}");

@@ -22,7 +22,7 @@
                 <article class="family-member-card" @onclick="()=>Redirecttouserprofile(member.Id)">
                     @if (!string.IsNullOrEmpty(member.ImageSrc))
                     {
-                        <img src="@member.ImageSrc" alt="@member.FullName" class="family-member-image" />
+                        <img src="@member.ImageSrc" alt="@member.FullName" class="family-member-image" @onload="(() => HandleImageLoadComplete())" @onerror="(() => HandleImageLoadComplete())" />
                     }
                     else
                     {
@@ -37,10 +37,6 @@
                 </article>
             }
         </div>
-    }
-    else
-    {
-        <div class="dictionary-empty">Loading Family Dictionary . . .</div>
     }
 </div>
 

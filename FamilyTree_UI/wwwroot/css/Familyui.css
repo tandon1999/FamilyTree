@@ -4,8 +4,9 @@
     flex-direction: column;
     align-items: center;
     padding: 20px;
-    max-height: 80vh; 
-    overflow-y: auto; 
+    width: 100%;
+    max-height: none;
+    overflow: visible;
 }
 
 .generation-row {
@@ -13,6 +14,7 @@
     flex-direction: column;
     align-items: center;
     margin-bottom: 20px;
+    margin-left: var(--generation-indent, 0);
     padding: 10px;
     border-radius: 8px;
     width: 90%;
@@ -96,10 +98,23 @@
 
 
 .connector {
-    width: 2px;
-    height: 50px;
-    background-color: #ddd;
+    position: relative;
+    width: 3px;
+    height: 52px;
+    background: linear-gradient(180deg, #d5deef 0%, #9ab0d7 100%);
+    border-radius: 999px;
     margin-top: 10px;
+}
+
+.connector::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: -10px;
+    transform: translateX(-50%);
+    border-left: 7px solid transparent;
+    border-right: 7px solid transparent;
+    border-top: 10px solid #9ab0d7;
 }
 
 @keyframes spin {
@@ -131,6 +146,7 @@
 
     .generation-row {
         width: 100%;
+        margin-left: 0;
         padding: 8px;
         margin-bottom: 12px;
     }

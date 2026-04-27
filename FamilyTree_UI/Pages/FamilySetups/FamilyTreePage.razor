@@ -9,7 +9,7 @@
             var generations = familyTreeMemberlist.GroupBy(m => m.GenerationId).OrderBy(g => g.Key).ToList();
         @foreach (var generation in generations)
         {
-            <div class="generation-row" style="@GetGenerationColor(generation.Key); margin-left: @(generation.Key * 100)px;">
+            <div class="generation-row" style="@GetGenerationColor(generation.Key); --generation-indent: @(Math.Min(generation.Key * 72, 240))px;">
                 <div class="generation-label">@GetGenerationType(generation.Key)</div>
                 <div class="members">
                     @foreach (var member in generation)
