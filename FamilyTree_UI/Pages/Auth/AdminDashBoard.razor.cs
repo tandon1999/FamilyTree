@@ -275,14 +275,14 @@ namespace FamilyTree_UI.Pages.Auth
         {
             return key switch
             {
-                "TotalFamilyMember" => "#F08080", // Light Coral
-                "AverageLifespan" => "#87CEFA", // Light Sky Blue
-                "LongestLivingIndividual" => "#ADFF2F", // Green Yellow (a softer vibrant green)
-                "Death" => "#CD5C5C", // Indian Red (a muted red)
-                "Living" => "#98FB98", // Pale Green (a gentle green)
-                "Female" => "#FFB6C1", // Light Pink (softer pink)
-                "Male" => "#6495ED", // Cornflower Blue (a medium, less intense blue)
-                _ => "#E6E6FA" // Lavender (a soft, light purple)
+                "TotalFamilyMember" => "#E8EDF6", // Mist blue-gray
+                "AverageLifespan" => "#E4EEF9", // Soft steel blue
+                "LongestLivingIndividual" => "#E7F3EA", // Soft sage
+                "Death" => "#F5E7E8", // Dusty rose tint
+                "Living" => "#E5F4EE", // Mint tint
+                "Female" => "#F2EAF3", // Soft mauve tint
+                "Male" => "#E6EDF8", // Muted blue tint
+                _ => "#EEF1F7" // Neutral light slate
             };
         }
         private async Task Navigate()

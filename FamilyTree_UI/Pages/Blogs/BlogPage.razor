@@ -3,10 +3,12 @@
 
 @using Microsoft.Extensions.Localization
 <link href="css/blogpost.css" rel="stylesheet" />
-<div class="blog-section">
-    <div class="blog-header text-center">
-        <h1>Stories Penned By <span class="highlight">Our Family Members</span></h1>
-    </div>
+<div class="blog-page container py-4 py-md-5">
+    <section class="blog-hero mb-4 mb-md-5">
+        <p class="blog-kicker mb-2">Family Writings</p>
+        <h1 class="blog-hero-title mb-2">Stories Penned By Our Family Members</h1>
+        <p class="blog-hero-subtitle mb-0">Read memories, reflections, and stories written across generations of the Tandan family.</p>
+    </section>
 
     <div class="blog-grid">
         @if (blogsPostlist != null && blogsPostlist.Count > 0)

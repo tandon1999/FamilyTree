@@ -11,9 +11,21 @@
         {
             <div class="generation-row" style="@GetGenerationColor(generation.Key); --generation-indent: @(Math.Min(generation.Key * 72, 240))px;">
                 <div class="generation-label">@GetGenerationType(generation.Key)</div>
-                <div class="members">
-                    @foreach (var member in generation)
+                @{
+                    var generationMembers = generation
+                        .OrderBy(x => (x.Identification ?? string.Empty).Trim().Equals("Self", StringComparison.OrdinalIgnoreCase) ? 0 :
+                                      ((x.Identification ?? string.Empty).Trim().Equals("Wife", StringComparison.OrdinalIgnoreCase)
+                                      || (x.Identification ?? string.Empty).Trim().Equals("Husband", StringComparison.OrdinalIgnoreCase)) ? 1 : 2)
+                        .ThenBy(x => x.Id)
+                        .ToList();
+                    var hasSelfAndSpouse = generationMembers.Any(x => (x.Identification ?? string.Empty).Trim().Equals("Self", StringComparison.OrdinalIgnoreCase))
+                        && generationMembers.Any(x => (x.Identification ?? string.Empty).Trim().Equals("Wife", StringComparison.OrdinalIgnoreCase)
+                        || (x.Identification ?? string.Empty).Trim().Equals("Husband", StringComparison.OrdinalIgnoreCase));
+                }
+                <div class="members @(hasSelfAndSpouse ? "spouse-row" : string.Empty)">
+                    @for (var memberIndex = 0; memberIndex < generationMembers.Count; memberIndex++)
                     {
+                        var member = generationMembers[memberIndex];
                         @* <div class="member-container @GetMemberAlignment(member.GenerationId)" style="background-color: @GetMemberColor(member.GenerationId);">
                             <div class="member-image">
                                 @if (!string.IsNullOrEmpty(member.ImageSrc))
@@ -70,6 +82,11 @@
                                 </span>
                             }
                         </div>
+
+                        @if (memberIndex < generationMembers.Count - 1)
+                        {
+                            <div class="member-flow-connector" aria-hidden="true"></div>
+                        }
 
                     }
                 </div>
