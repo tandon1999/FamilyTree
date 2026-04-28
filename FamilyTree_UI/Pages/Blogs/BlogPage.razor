@@ -18,11 +18,16 @@
                 <div class="blog-card">
                     <div class="image-container">
                         <img src="@blog.ImageSrc" alt="@blog.Title" class="blog-image" @onload="(() => HandleImageLoadComplete())" @onerror="(() => HandleImageLoadComplete())" />
+                        <span class="image-badge">Family Story</span>
                     </div>
 
                     <div class="content">
                         <div class="metadata">
-                            <span>@ConvertNE.ConvertEToNWithSlash(@blog.CreatedDate)</span> | <span>Tandan Family</span>
+                            <span class="meta-date">@ConvertNE.ConvertEToNWithSlash(@blog.CreatedDate)</span>
+                            <span class="meta-dot">•</span>
+                            <span class="meta-author">Tandan Family</span>
+                            <span class="meta-dot">•</span>
+                            <span class="meta-read">@GetReadTimeText(blog.Content)</span>
                         </div>
                         <h2 class="blog-title">@blog.Title</h2>
                         @if (blog.Content.Length > 200)
@@ -33,7 +38,7 @@
                         {
                             <p class="blog-excerpt">@blog.Content</p>
                         }
-                        <span class="read-more" @onclick="()=>GotoBlogDetails(blog.Id)" style="cursor:pointer">Read More</span>
+                        <span class="read-more" @onclick="()=>GotoBlogDetails(blog.Id)">Read More</span>
                     </div>
                 </div>
             }

@@ -18,9 +18,10 @@
         <div class="gallery-grid">
             @foreach (var image in gallerySetupslist)
             {
-                <article class="image-card">
+                <article class="image-card @GetCategoryClass(image.CategoryName)">
                     <img src="@image.ImageSrc" alt="@image.PhotoName" class="gallery-image" @onload="(() => HandleImageLoadComplete())" @onerror="(() => HandleImageLoadComplete())" />
                     <div class="image-overlay">
+                        <div class="overlay-pill">@GetCategoryLabel(image.CategoryName)</div>
                         <div class="overlay-content">
                             <small class="overlay-date">@ConvertNE.ConvertEToNWithSlash(@image.DateofPhoto)</small>
                             <h5 class="overlay-title">@image.PhotoName</h5>

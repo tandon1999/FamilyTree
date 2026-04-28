@@ -82,5 +82,28 @@ namespace FamilyTree_UI.Pages.Galleries
             image.IsDetailsVisible = false;
         }
 
+        private string GetCategoryClass(string? categoryName)
+        {
+            if (string.IsNullOrWhiteSpace(categoryName))
+            {
+                return "category-default";
+            }
+
+            var key = categoryName.Trim().ToLowerInvariant();
+            return key switch
+            {
+                "dashain" => "category-dashain",
+                "tihar" => "category-tihar",
+                "marriage" => "category-marriage",
+                "others" => "category-others",
+                _ => "category-default"
+            };
+        }
+
+        private string GetCategoryLabel(string? categoryName)
+        {
+            return string.IsNullOrWhiteSpace(categoryName) ? "Moments" : categoryName.Trim();
+        }
+
     }
 }

@@ -4,17 +4,33 @@
 <link href="css/blog.css" rel="stylesheet" />
 @if (blog != null)
 {
-    <div class="blog-details-section">
-        <div class="blog-details-container">
-            <div class="image-container">
-                <img src="@Imagesrc" alt="@blog.Title" class="blog-details-image" />
-            </div>
-            <div class="blog-content">
-                <h1>@blog.Title</h1>
-                <p class="metadata">@ConvertNE.ConvertEToNWithSlash(@blog.CreatedDate) | By Tandan Family</p>
-                <p>@blog.Content</p>
-                <a href="/blog" class="back-link">Back to Blog</a>
-            </div>
+    <div class="blog-details-page">
+        <div class="blog-details-shell">
+            <section class="blog-details-hero">
+                <div class="hero-media">
+                    <img src="@Imagesrc" alt="@blog.Title" class="hero-image" loading="lazy" />
+                </div>
+                <div class="hero-content">
+                    <div class="meta-row">
+                        <span class="meta-pill">@ConvertNE.ConvertEToNWithSlash(@blog.CreatedDate)</span>
+                        <span class="meta-sep">•</span>
+                        <span class="meta-pill">By Tandan Family</span>
+                        <span class="meta-sep">•</span>
+                        <span class="meta-pill">@GetReadTimeText()</span>
+                    </div>
+                    <h1 class="blog-title">@blog.Title</h1>
+                    <div class="hero-actions">
+                        <a href="/blog" class="action-btn">Back to Blog</a>
+                        <a href="#story" class="action-btn ghost" @onclick="ScrollToStory" @onclick:preventDefault="true">Read Story</a>
+                    </div>
+                </div>
+            </section>
+
+            <section class="blog-details-body" id="story">
+                <div class="content-card">
+                    <p class="story-text">@blog.Content</p>
+                </div>
+            </section>
         </div>
     </div>
 }

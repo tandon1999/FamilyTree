@@ -5,6 +5,7 @@ using FamilyTree_UI.Models;
 using FamilyTree_UI.Shared.Services;
 using FamilyTree_UI.ViewModels;
 using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 
 namespace FamilyTree_UI.Pages.Blogs
 {
@@ -53,6 +54,23 @@ namespace FamilyTree_UI.Pages.Blogs
             {
                 _toastservice.ShowError(ex.Message);
             }
+        }
+
+        public string GetReadTimeText()
+        {
+            if (string.IsNullOrWhiteSpace(blog?.Content))
+            {
+                return "Quick read";
+            }
+
+            var wordCount = blog.Content.Split(' ', StringSplitOptions.RemoveEmptyEntries).Length;
+            var minutes = Math.Max(1, (int)Math.Ceiling(wordCount / 180.0));
+            return $"{minutes} min read";
+        }
+
+        private async Task ScrollToStory()
+        {
+            await _js.InvokeVoidAsync("scrollToElement", "story");
         }
     }
 }

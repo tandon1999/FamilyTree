@@ -83,5 +83,17 @@ namespace FamilyTree_UI.Pages.Blogs
                 await _js.InvokeVoidAsync("googleTranslateElementInit");
             }
         }
+
+        private string GetReadTimeText(string? content)
+        {
+            if (string.IsNullOrWhiteSpace(content))
+            {
+                return "Quick read";
+            }
+
+            var wordCount = content.Split(' ', StringSplitOptions.RemoveEmptyEntries).Length;
+            var minutes = Math.Max(1, (int)Math.Ceiling(wordCount / 180.0));
+            return $"{minutes} min read";
+        }
     }
 }
