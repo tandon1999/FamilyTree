@@ -44,7 +44,7 @@
         }
     </section>
 
-    <section class="mb-5">
+    <section class="mb-5 discover-section">
         <div class="section-header d-flex justify-content-between align-items-center mb-3">
             <h2 class="section-title mb-0">Discover</h2>
         </div>
@@ -80,7 +80,7 @@
         </div>
     </section>
 
-    <section class="mb-5">
+    <section class="mb-5 anniversary-section">
         <div class="section-header d-flex justify-content-between align-items-center mb-3">
             <h2 class="section-title mb-0">Upcoming Anniversaries</h2>
             <button class="btn btn-link section-link" @onclick="()=> Navigate(3)">Open Timeline →</button>
@@ -105,8 +105,8 @@
         </div>
     </section>
 
-    <section>
-        <div class="section-header d-flex justify-content-between align-items-center mb-3">
+    <section class="latest-blog-section">
+        <div class="section-header latest-blog-header d-flex justify-content-between align-items-center mb-3">
             <h2 class="section-title mb-0">Latest Blog Posts</h2>
             <button class="btn btn-link section-link" @onclick="()=> Navigate(5)">More Posts →</button>
         </div>
@@ -117,9 +117,10 @@
                     <div class="blog-featured" @onclick="() => GotoBlogDetails(LastestBlogPostlist[0].Id)">
                         <img src="@LastestBlogPostlist[0].ImageSrc" alt="@LastestBlogPostlist[0].Title" class="blog-image" />
                         <div class="blog-overlay">
-                            <p class="small mb-1">@LastestBlogPostlist[0].CreatedDate.ToString("MMMM d, yyyy")</p>
-                            <h4 class="mb-2">@LastestBlogPostlist[0].Title</h4>
-                            <p class="small mb-0">@LastestBlogPostlist[0].TimeAgo</p>
+                            <span class="blog-featured-pill">Featured Story</span>
+                            <p class="blog-meta mb-1">@LastestBlogPostlist[0].CreatedDate.ToString("MMMM d, yyyy")</p>
+                            <h4 class="blog-featured-title mb-2">@LastestBlogPostlist[0].Title</h4>
+                            <p class="blog-meta mb-0">@LastestBlogPostlist[0].TimeAgo</p>
                         </div>
                     </div>
                 </div>
@@ -133,10 +134,11 @@
                             <div class="col-sm-6 col-lg-12">
                                 <div class="blog-list-item" @onclick="() => GotoBlogDetails(post.Id)">
                                     <img src="@post.ImageSrc" alt="@post.Title" class="blog-list-image" />
-                                    <div>
-                                        <p class="small mb-1 text-muted">@post.CreatedDate.ToString("MMMM d, yyyy")</p>
-                                        <h6 class="mb-1 text-truncate">@post.Title</h6>
-                                        <p class="small mb-0 text-muted">@post.TimeAgo</p>
+                                    <div class="blog-list-content">
+                                        <span class="blog-list-pill">Recent</span>
+                                        <p class="blog-list-date mb-1">@post.CreatedDate.ToString("MMMM d, yyyy")</p>
+                                        <h6 class="blog-list-title mb-1 text-truncate">@post.Title</h6>
+                                        <p class="blog-list-time mb-0">@post.TimeAgo</p>
                                     </div>
                                 </div>
                             </div>
@@ -246,24 +248,59 @@
     }
 
     .feature-card {
-        padding: 1rem;
+        position: relative;
+        padding: 1.2rem;
         display: flex;
         flex-direction: column;
-        gap: .6rem;
+        gap: .65rem;
+        background: linear-gradient(135deg, #ffffff 0%, #f2f6ff 60%, #eef2ff 100%);
+        border: 1px solid rgba(32, 55, 96, 0.12);
+        box-shadow: 0 14px 28px rgba(20, 34, 64, 0.08);
+        overflow: hidden;
+    }
+
+    .feature-card::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(circle at top right, rgba(255, 210, 160, 0.35), rgba(255, 255, 255, 0));
+        opacity: 0;
+        transition: opacity .25s ease;
+    }
+
+    .feature-card > * {
+        position: relative;
+        z-index: 1;
+    }
+
+    .feature-card h5 {
+        font-weight: 700;
+        color: #1d2a44;
+        margin-bottom: .15rem;
+        min-height: 28px;
     }
 
     .feature-card p {
         color: #5a6782;
         margin: 0;
         flex-grow: 1;
+        min-height: 56px;
+    }
+
+    .feature-card:hover::before {
+        opacity: 1;
     }
 
     .action-btn {
         width: fit-content;
-        border: 1px solid #2a5ab8;
-        color: #2a5ab8;
-        border-radius: .6rem;
-        padding-inline: .8rem;
+        border: 1px solid rgba(33, 74, 150, 0.6);
+        color: #1f4fa9;
+        border-radius: 999px;
+        padding: .35rem .9rem;
+        font-weight: 600;
+        background: rgba(31, 79, 169, 0.08);
+        margin-top: auto;
+        align-self: flex-start;
     }
 
     .action-btn:hover {
@@ -282,15 +319,59 @@
         font-weight: 600;
     }
 
+    .discover-section .section-title,
+    .anniversary-section .section-title {
+        font-weight: 700;
+        letter-spacing: 0.01em;
+    }
+
+    .discover-section .row,
+    .anniversary-section .row {
+        position: relative;
+    }
+
+    .latest-blog-section {
+        padding: 1.4rem;
+        border-radius: 1.2rem;
+        background: radial-gradient(circle at top left, rgba(255, 220, 190, 0.35), rgba(255, 255, 255, 0)) ,
+                    linear-gradient(135deg, #ffffff 0%, #f4f7ff 60%, #eef2ff 100%);
+        border: 1px solid rgba(28, 45, 80, 0.08);
+        box-shadow: 0 16px 40px rgba(20, 30, 55, 0.08);
+    }
+
+    .latest-blog-header .section-title {
+        font-weight: 700;
+        font-size: clamp(1.3rem, 2.4vw, 1.7rem);
+    }
+
+    .latest-blog-header .section-link {
+        padding: 0.35rem 0.8rem;
+        border-radius: 999px;
+        background: rgba(31, 79, 169, 0.1);
+        color: #1f4fa9;
+    }
+
+    .latest-blog-header .section-link:hover {
+        background: rgba(31, 79, 169, 0.18);
+        color: #163e8e;
+    }
+
     .blog-featured {
         position: relative;
         min-height: 360px;
+        border-radius: 1.2rem;
+        box-shadow: 0 20px 40px rgba(15, 24, 48, 0.2);
     }
 
     .blog-image {
         width: 100%;
         height: 100%;
         object-fit: cover;
+        transition: transform 0.5s ease;
+    }
+
+    .blog-featured:hover .blog-image {
+        transform: scale(1.04);
     }
 
     .blog-overlay {
@@ -299,9 +380,32 @@
         display: flex;
         flex-direction: column;
         justify-content: flex-end;
-        padding: 1rem;
+        gap: .4rem;
+        padding: 1.2rem 1.3rem;
         color: #fff;
-        background: linear-gradient(transparent 25%, rgba(10, 17, 30, 0.85) 100%);
+        background: linear-gradient(transparent 15%, rgba(10, 17, 30, 0.92) 100%);
+    }
+
+    .blog-featured-pill {
+        align-self: flex-start;
+        padding: 0.35rem 0.8rem;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.18);
+        border: 1px solid rgba(255, 255, 255, 0.35);
+        font-size: 0.72rem;
+        font-weight: 600;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+    }
+
+    .blog-featured-title {
+        font-size: clamp(1.3rem, 2.3vw, 1.8rem);
+        font-weight: 700;
+    }
+
+    .blog-meta {
+        font-size: 0.85rem;
+        opacity: 0.85;
     }
 
     .blog-list-item {
@@ -309,7 +413,9 @@
         grid-template-columns: 110px 1fr;
         gap: .75rem;
         align-items: center;
-        padding: .75rem;
+        padding: .85rem;
+        border-radius: 1rem;
+        background: #fff;
     }
 
     .blog-list-image {
@@ -317,6 +423,94 @@
         height: 90px;
         object-fit: cover;
         border-radius: .5rem;
+    }
+
+    .anniversary-section {
+        padding: 1.2rem;
+        border-radius: 1.2rem;
+        background: linear-gradient(135deg, #ffffff 0%, #f6f7fb 55%, #eef1fb 100%);
+        border: 1px solid rgba(30, 45, 75, 0.08);
+        box-shadow: 0 12px 30px rgba(20, 30, 55, 0.08);
+    }
+
+    .anniversary-card {
+        border-radius: 1rem;
+        overflow: hidden;
+        border: 1px solid rgba(29, 42, 74, 0.1);
+        box-shadow: 0 12px 25px rgba(20, 30, 55, 0.1);
+        background: #fff;
+    }
+
+    .anniversary-card .p-3 {
+        display: flex;
+        flex-direction: column;
+        gap: 0.35rem;
+    }
+
+    .anniversary-card h6 {
+        min-height: 44px;
+        line-height: 1.25;
+    }
+
+    .anniversary-card .p-3 {
+        background: linear-gradient(180deg, #ffffff 0%, #f9faff 100%);
+    }
+
+    .anniversary-card h6 {
+        font-weight: 700;
+        color: #1d2a44;
+    }
+
+    .anniversary-card p {
+        color: #5a6b8c;
+        margin-bottom: 0;
+        min-height: 24px;
+    }
+
+    .anniversary-card small {
+        display: inline-flex;
+        align-items: center;
+        padding: 0.2rem 0.6rem;
+        border-radius: 999px;
+        background: rgba(31, 79, 169, 0.1);
+        color: #1f4fa9 !important;
+        font-weight: 600;
+        margin-top: auto;
+    }
+
+    .anniversary-image {
+        height: 160px;
+        object-fit: cover;
+        width: 100%;
+    }
+
+    .blog-list-content {
+        display: flex;
+        flex-direction: column;
+        gap: .2rem;
+    }
+
+    .blog-list-pill {
+        align-self: flex-start;
+        padding: 0.2rem 0.6rem;
+        border-radius: 999px;
+        font-size: 0.68rem;
+        font-weight: 600;
+        color: #1f4fa9;
+        background: rgba(31, 79, 169, 0.1);
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+    }
+
+    .blog-list-date,
+    .blog-list-time {
+        font-size: 0.82rem;
+        color: #607094;
+    }
+
+    .blog-list-title {
+        font-weight: 700;
+        color: #1d2a44;
     }
 
     @@media (max-width: 767.98px) {
@@ -330,6 +524,10 @@
 
         .blog-featured {
             min-height: 280px;
+        }
+
+        .latest-blog-section {
+            padding: 1rem;
         }
     }
 </style>
