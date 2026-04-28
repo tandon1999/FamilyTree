@@ -157,6 +157,10 @@
     gap: 24px;
 }
 
+#story {
+    scroll-margin-top: 96px;
+}
+
 .content-card {
     background: rgba(255, 255, 255, 0.9);
     border-radius: 24px;
@@ -171,6 +175,8 @@
     line-height: 1.85;
     color: #2a3347;
     white-space: pre-line;
+    text-align: justify;
+    text-justify: inter-word;
 }
 
 .story-text::first-letter {

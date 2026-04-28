@@ -8,7 +8,11 @@ window.scrollToElement = function (elementId) {
         return;
     }
 
-    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    const header = document.querySelector('.custom-navbar');
+    const offset = header ? header.offsetHeight + 12 : 0;
+    const top = target.getBoundingClientRect().top + window.pageYOffset - offset;
+
+    window.scrollTo({ top: Math.max(top, 0), behavior: 'smooth' });
 };
 window.onscroll = function () {
     const button = document.querySelector('.back-to-top');
