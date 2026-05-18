@@ -29,14 +29,17 @@ namespace FamilyTreeApi.Service.Implementation
                 if (model.imageUpload != null)
                 {
                     var newFolderName = "TandanImage";
-                    var newFolderPath = Path.Combine("D:\\", newFolderName);
+                    var newFolderPath = Path.Combine(Directory.GetCurrentDirectory(), "uploads", newFolderName);
+
+                    if (!Directory.Exists(newFolderPath))
+                    {
+                        Directory.CreateDirectory(newFolderPath);
+                    }
+
                     var filedata = await _fileuploadservice.UploadFileAsync(model.imageUpload.FileByte, model.imageUpload.FileName, newFolderPath);
                     model.ImagePath = filedata.ToString();
                 }
-                else
-                {
-                
-                }
+
                 FamilyTreeParam param = new();
                 param = _mapper.Map<FamilyTreeParam>(model);
                 param.Flag = 'C';
